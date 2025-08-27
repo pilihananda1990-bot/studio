@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState } from 'react';
@@ -62,12 +61,6 @@ export default function WalletPage() {
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
            <div className="text-center">
             <CompletionAnimation />
-            <h1 className="mt-8 text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
-              Redemption Successful!
-            </h1>
-            <p className="mt-4 max-w-md text-muted-foreground">
-              Your points balance has been updated.
-            </p>
           </div>
         </div>
       )}

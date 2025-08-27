@@ -40,15 +40,15 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-md p-0">
-           <div className="p-6">
-              <DialogTitle className="text-center text-2xl">Redeem Your Points</DialogTitle>
-              <DialogDescription className="text-center mt-2">
-                Your current balance is {userPoints.toLocaleString()} points. Choose from the options below.
-              </DialogDescription>
-            </div>
-            <Separator />
-            <ScrollArea className="max-h-[60vh]">
-              <div className="p-6 space-y-4">
+            <ScrollArea className="max-h-[75vh]">
+              <div className="p-6">
+                <DialogTitle className="text-center text-2xl">Redeem Your Points</DialogTitle>
+                <DialogDescription className="text-center mt-2 mb-4">
+                  Your current balance is {userPoints.toLocaleString()} points. Choose from the options below.
+                </DialogDescription>
+                 <Separator />
+              </div>
+              <div className="px-6 pb-6 space-y-4">
                 {redemptionCategories.map((category) => (
                   <div key={category.id}>
                     <h3 className="text-lg font-semibold mb-3">{category.name}</h3>
@@ -91,4 +91,3 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
     </>
   );
 }
-
