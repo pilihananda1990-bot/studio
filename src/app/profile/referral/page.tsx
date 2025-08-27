@@ -29,6 +29,14 @@ export default function ReferralPage() {
     });
   };
 
+  const shareFallback = () => {
+    handleCopy();
+    toast({
+      title: 'Sharing not available',
+      description: 'Referral code has been copied to your clipboard instead.',
+    });
+  };
+
   const handleShare = async () => {
     const shareData = {
       title: 'Join me on EcoCollect!',
@@ -40,14 +48,12 @@ export default function ReferralPage() {
         await navigator.share(shareData);
       } catch (err) {
         console.error('Share failed:', err);
+        // Fallback if sharing is programmatically denied
+        shareFallback();
       }
     } else {
       // Fallback for browsers that don't support the Web Share API
-      handleCopy();
-      toast({
-        title: 'Sharing not supported',
-        description: 'Referral code has been copied to your clipboard instead.',
-      });
+      shareFallback();
     }
   };
 
