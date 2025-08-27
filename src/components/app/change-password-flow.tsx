@@ -200,7 +200,8 @@ export function ChangePasswordFlow() {
                   name="newPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>New Password</FormLabel>                      <FormControl>
+                      <FormLabel>New Password</FormLabel>
+                      <FormControl>
                          <Input type="password" {...field} />
                       </FormControl>
                       <FormMessage />
