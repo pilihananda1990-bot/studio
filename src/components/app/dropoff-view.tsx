@@ -4,6 +4,7 @@
 
 import { Button } from '@/components/ui/button';
 import { MapPin, Clock, Navigation } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const dropOffLocations = [
   {
@@ -46,7 +47,6 @@ export function DropOffView() {
 
   return (
     <div className="p-4 space-y-4">
-        <h2 className="text-xl font-bold">Drop Off Locations</h2>
         {dropOffLocations.map((location) => (
         <div key={location.id} className="p-3 bg-muted/50 rounded-lg">
             <h3 className="font-semibold flex items-center gap-2">
