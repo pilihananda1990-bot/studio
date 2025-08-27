@@ -46,57 +46,57 @@ export function DropOffView() {
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-background">
-        <div className="flex-grow relative w-full">
-            <Image
-                src="https://picsum.photos/seed/map-dark/1920/1080"
-                alt="Map placeholder"
-                fill
-                className="object-cover"
-                data-ai-hint="dark street map"
-            />
-            <div className="absolute inset-0 bg-black/10" />
+    <ScrollArea className="h-full w-full bg-background">
+      <div className="flex flex-col h-full w-full">
+          <div className="h-96 relative w-full shrink-0">
+              <Image
+                  src="https://picsum.photos/seed/map-dark/1920/1080"
+                  alt="Map placeholder"
+                  fill
+                  className="object-cover"
+                  data-ai-hint="dark street map"
+              />
+              <div className="absolute inset-0 bg-black/10" />
 
-            {/* Pins for drop-off locations */}
-            <div className="absolute top-1/2 left-1/4">
-                <MapPin className="w-8 h-8 text-destructive" />
-            </div>
-            <div className="absolute top-1/3 left-2/3">
-                <MapPin className="w-8 h-8 text-destructive" />
-            </div>
-            <div className="absolute top-2/3 left-1/2">
-                <MapPin className="w-8 h-8 text-destructive" />
-            </div>
-             <div className="absolute top-1/2 left-3/4">
-                <MapPin className="w-8 h-8 text-destructive" />
-            </div>
-        </div>
+              {/* Pins for drop-off locations */}
+              <div className="absolute top-1/2 left-1/4">
+                  <MapPin className="w-8 h-8 text-destructive" />
+              </div>
+              <div className="absolute top-1/3 left-2/3">
+                  <MapPin className="w-8 h-8 text-destructive" />
+              </div>
+              <div className="absolute top-2/3 left-1/2">
+                  <MapPin className="w-8 h-8 text-destructive" />
+              </div>
+              <div className="absolute top-1/2 left-3/4">
+                  <MapPin className="w-8 h-8 text-destructive" />
+              </div>
+          </div>
 
-        <div className="flex-shrink-0 p-6 border-t">
-            <h2 className="text-xl font-bold mb-4">Drop Off Locations</h2>
-           <ScrollArea className="h-48">
-             <div className="space-y-4 pr-4">
-                {dropOffLocations.map((location) => (
-                <div key={location.id} className="p-3 bg-muted/50 rounded-lg">
-                    <h3 className="font-semibold flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-primary" /> {location.name}
-                    </h3>
-                    <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
-                    <Clock className="w-4 h-4" /> {location.hours}
-                    </p>
-                    <Button
-                    size="sm"
-                    className="w-full mt-3"
-                    onClick={() => handleNavigate(location.lat, location.lng)}
-                    >
-                    <Navigation className="mr-2 h-4 w-4" />
-                    Navigate
-                    </Button>
-                </div>
-                ))}
-            </div>
-           </ScrollArea>
-        </div>
-    </div>
+          <div className="p-6">
+              <h2 className="text-xl font-bold mb-4">Drop Off Locations</h2>
+              <div className="space-y-4">
+                  {dropOffLocations.map((location) => (
+                  <div key={location.id} className="p-3 bg-muted/50 rounded-lg">
+                      <h3 className="font-semibold flex items-center gap-2">
+                      <MapPin className="w-4 h-4 text-primary" /> {location.name}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
+                      <Clock className="w-4 h-4" /> {location.hours}
+                      </p>
+                      <Button
+                      size="sm"
+                      className="w-full mt-3"
+                      onClick={() => handleNavigate(location.lat, location.lng)}
+                      >
+                      <Navigation className="mr-2 h-4 w-4" />
+                      Navigate
+                      </Button>
+                  </div>
+                  ))}
+              </div>
+          </div>
+      </div>
+    </ScrollArea>
   );
 }
