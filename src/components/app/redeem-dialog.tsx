@@ -5,10 +5,11 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star } from 'lucide-react';
+import { Star, ArrowLeft } from 'lucide-react';
 import { redemptionCategories } from '@/lib/data';
 import type { RedemptionOption } from '@/lib/types';
 import { RedeemConfirmation } from './redeem-confirmation';
+import { Button } from '../ui/button';
 
 type RedeemDialogProps = {
   isOpen: boolean;
@@ -31,12 +32,22 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
       onClose();
     }
   };
+  
+  const handleNoOpClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+  }
 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-w-md">
           <DialogHeader>
+            <div className="flex items-center mb-2">
+                 <Button variant="ghost" className="text-muted-foreground" onClick={handleNoOpClick}>
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back to Profile
+                 </Button>
+            </div>
             <DialogTitle>Redeem Your Points</DialogTitle>
             <DialogDescription>
               Choose from the options below to redeem your points. Your current balance is {userPoints.toLocaleString()} points.
@@ -80,4 +91,3 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
     </>
   );
 }
-
