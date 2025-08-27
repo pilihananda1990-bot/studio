@@ -28,24 +28,24 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
   const handleConfirm = () => {
     if (selectedItem) {
       onRedeem(selectedItem.points, selectedItem.name);
-      setSelectedItem(null);
-      onClose();
+      setSelectedItem(null); // This closes the confirmation dialog
+      onClose(); // This closes the main redemption dialog
     }
   };
-  
-  const handleNoOpClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-  }
+
+  const handleCancelConfirmation = () => {
+    setSelectedItem(null); // This simply closes the confirmation dialog
+  };
 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md" hideCloseButton={true}>
           <DialogHeader>
             <div className="flex items-center mb-2">
-                 <Button variant="ghost" className="text-muted-foreground" onClick={handleNoOpClick}>
+                 <Button variant="ghost" className="text-muted-foreground" onClick={onClose}>
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Profile
+                    Back to Wallet
                  </Button>
             </div>
             <DialogTitle>Redeem Your Points</DialogTitle>
@@ -83,7 +83,7 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
       
       <RedeemConfirmation
         isOpen={!!selectedItem}
-        onClose={() => setSelectedItem(null)}
+        onClose={handleCancelConfirmation}
         item={selectedItem}
         userPoints={userPoints}
         onConfirm={handleConfirm}
