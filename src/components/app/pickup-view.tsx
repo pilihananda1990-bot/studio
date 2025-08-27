@@ -2,10 +2,10 @@
 'use client';
 
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Phone } from 'lucide-react';
+import { MessageCircle, Phone, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 export function PickupView() {
@@ -51,35 +51,40 @@ export function PickupView() {
       <div className="flex-shrink-0">
         <Card className="rounded-t-lg rounded-b-none border-t-2 border-x-0 border-b-0">
           <CardHeader className="pb-4">
+             <div className="flex justify-between items-center">
+                 <div>
+                    <p className="text-sm text-muted-foreground">ETA</p>
+                    <p className="font-bold text-2xl text-primary">{order.eta}</p>
+                </div>
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="icon" className="rounded-full h-12 w-12">
+                        <MessageCircle />
+                         <span className="sr-only">Message Driver</span>
+                    </Button>
+                     <Button variant="outline" size="icon" className="rounded-full h-12 w-12">
+                        <Phone />
+                         <span className="sr-only">Call Driver</span>
+                    </Button>
+                </div>
+            </div>
+          </CardHeader>
+           <Separator/>
+          <CardContent className="pt-4">
             <div className="flex items-center space-x-4">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={driver.avatar} alt={driver.name} />
                 <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="flex-1">
-                <p className="font-bold text-lg">{driver.name} <span className="font-normal text-muted-foreground">★ {driver.rating}</span></p>
-                <p className="text-muted-foreground">
-                  {driver.vehicle} &middot; {driver.plate}
-                </p>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent className="pt-0">
-             <Separator className="my-4" />
-            <div className="flex justify-between items-center">
-                 <div>
-                    <p className="text-sm text-muted-foreground">ETA</p>
-                    <p className="font-bold text-2xl text-primary">{order.eta}</p>
+                <p className="font-bold text-lg">{driver.name}</p>
+                 <div className="flex items-center gap-1 text-muted-foreground">
+                   <Star className="w-4 h-4 fill-yellow-400 text-yellow-400"/> 
+                   <span>{driver.rating}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon">
-                        <MessageCircle />
-                         <span className="sr-only">Message Driver</span>
-                    </Button>
-                     <Button variant="outline" size="icon">
-                        <Phone />
-                         <span className="sr-only">Call Driver</span>
-                    </Button>
+              </div>
+               <div className="text-right">
+                    <p className="font-bold text-lg">{driver.plate}</p>
+                    <p className="text-sm text-muted-foreground">{driver.vehicle}</p>
                 </div>
             </div>
           </CardContent>
