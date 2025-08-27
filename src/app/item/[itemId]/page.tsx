@@ -3,7 +3,7 @@
 import { useState, use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { getItemById } from '@/lib/data';
 import { AppHeader } from '@/components/app/header';
 import { Button } from '@/components/ui/button';
@@ -12,11 +12,12 @@ import { Slider } from '@/components/ui/slider';
 import { ArrowLeft, Weight } from 'lucide-react';
 
 type Props = {
-  params: { itemId: string };
+  params: Promise<{ itemId: string }>;
 };
 
 export default function ItemDetailPage({ params }: Props) {
-  const item = getItemById(params.itemId);
+  const { itemId } = use(params);
+  const item = getItemById(itemId);
   const [weight, setWeight] = useState(5); // Default weight 5kg
 
   if (!item) {
