@@ -45,8 +45,7 @@ export function PickupView() {
         </div>
       </div>
       
-      <Card className="rounded-t-lg rounded-b-none border-t-2 border-x-0 border-b-0">
-        <CardContent className="pt-6">
+      <div className="p-6 border-t">
           <div className="flex justify-between items-center mb-4">
               <p className="text-sm font-medium">{order.status}</p>
               <p className="text-lg font-bold">{order.eta}</p>
@@ -78,8 +77,7 @@ export function PickupView() {
                   </Button>
               </div>
           </div>
-        </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

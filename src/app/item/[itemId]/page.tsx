@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useState, use } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, useSearchParams } from 'next/navigation';
 import { getItemById } from '@/lib/data/items';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -12,12 +12,11 @@ import { ArrowLeft, Weight } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 
 type Props = {
-  params: Promise<{ itemId: string }>;
+  params: { itemId: string };
 };
 
 export default function ItemDetailPage({ params }: Props) {
-  const { itemId } = use(params);
-  const item = getItemById(itemId);
+  const item = getItemById(params.itemId);
   const [weight, setWeight] = useState(5); // Default weight 5kg
 
   if (!item) {

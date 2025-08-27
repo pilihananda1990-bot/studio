@@ -18,7 +18,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, KeyRound, Mail, Smartphone, ArrowLeft } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import Link from 'next/link';
 
 const verificationSchema = z.object({
@@ -122,30 +121,30 @@ export function ChangePasswordFlow() {
   };
   
   const Header = ({ title, description }: { title: string, description: string }) => (
-    <CardHeader className="relative">
-       <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2 disabled:opacity-0" disabled={currentStep === 'success' || currentStep === 'selection'}>
+    <div className="relative mb-6 text-center">
+       <Button variant="ghost" onClick={goBack} className="absolute left-0 top-1/2 -translate-y-1/2 px-2 disabled:opacity-0" disabled={currentStep === 'success' || currentStep === 'selection'}>
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back
       </Button>
        {currentStep === 'selection' && (
-         <Button asChild variant="ghost" className="absolute left-2 top-2 px-2">
+         <Button asChild variant="ghost" className="absolute left-0 top-1/2 -translate-y-1/2 px-2">
             <Link href="/profile/security">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Link>
           </Button>
        )}
-      <CardTitle className="pt-8 text-center">{title}</CardTitle>
-      <CardDescription className="text-center">{description}</CardDescription>
-    </CardHeader>
+      <h1 className="text-2xl font-bold">{title}</h1>
+      <p className="text-muted-foreground mt-1">{description}</p>
+    </div>
   );
 
 
   if (currentStep === 'selection') {
     return (
-       <Card>
+       <div>
           <Header title="Change Password" description="Choose a method to verify your identity." />
-          <CardContent className="space-y-4">
+          <div className="space-y-4">
              <Button onClick={() => handleMethodSelection('email')} disabled={isSubmitting} className="w-full justify-start">
                 {isSubmitting && otpMethod === 'email' ? <Loader2 className="mr-2 animate-spin" /> : <Mail className="mr-2" />}
                 Send OTP via Email
@@ -154,16 +153,16 @@ export function ChangePasswordFlow() {
                 {isSubmitting && otpMethod === 'sms' ? <Loader2 className="mr-2 animate-spin" /> : <Smartphone className="mr-2" />}
                 Send OTP via SMS
              </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
     );
   }
 
   if (currentStep === 'verification') {
     return (
-      <Card>
+      <div>
         <Header title="Enter Verification Code" description={`Enter the 6-digit code we sent to your ${otpMethod}. (Hint: it's 123456)`} />
-         <CardContent>
+         <div>
             <Form {...verificationForm}>
               <form onSubmit={verificationForm.handleSubmit(handleVerificationSubmit)} className="space-y-4">
                 <FormField
@@ -187,16 +186,16 @@ export function ChangePasswordFlow() {
                 </div>
               </form>
             </Form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   if (currentStep === 'change_password') {
     return (
-       <Card>
+       <div>
         <Header title="Set Your New Password" description="Please enter your current and new passwords."/>
-        <CardContent>
+        <div>
              <Form {...changePasswordForm}>
               <form onSubmit={changePasswordForm.handleSubmit(handleChangePasswordSubmit)} className="space-y-4">
                  <FormField
@@ -246,22 +245,20 @@ export function ChangePasswordFlow() {
                 </div>
               </form>
             </Form>
-        </CardContent>
-       </Card>
+        </div>
+       </div>
     );
   }
 
   if (currentStep === 'success') {
     return (
-      <Card>
-        <CardContent className="p-6 space-y-4 text-center">
+      <div className="p-6 space-y-4 text-center border rounded-lg">
             <KeyRound className="h-12 w-12 text-green-600 mx-auto"/>
             <h3 className="text-lg font-bold">Password Changed!</h3>
             <p className="text-sm text-muted-foreground">
               Your password has been successfully updated. Redirecting...
             </p>
-        </CardContent>
-      </Card>
+      </div>
     );
   }
 
