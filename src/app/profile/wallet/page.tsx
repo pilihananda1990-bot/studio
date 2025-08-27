@@ -5,24 +5,25 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Star, Gift, ArrowLeft } from 'lucide-react';
-import { RedeemDialog } from '@/components/app/redeem-dialog';
 import { transactionHistory as initialHistory, userPoints as initialPoints } from '@/lib/data/wallet';
 import type { Transaction } from '@/lib/types';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { CompletionAnimation } from '@/components/app/completion-animation';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function WalletPage() {
-  const [isRedeemDialogOpen, setIsRedeemDialogOpen] = useState(false);
+  const router = useRouter();
   const [userPoints, setUserPoints] = useState(initialPoints);
   const [transactionHistory, setTransactionHistory] = useState<Transaction[]>(initialHistory);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const { toast } = useToast();
 
+  // This function would be updated if redemption happens on a separate page
+  // For now, it's kept for potential future use or if the flow changes.
   const handleRedemption = (pointsToDeduct: number, itemName: string) => {
      if (userPoints >= pointsToDeduct) {
-      setIsRedeemDialogOpen(false);
       setShowSuccessAnimation(true);
       
       setTimeout(() => {
@@ -88,7 +89,7 @@ export default function WalletPage() {
                   <span className="text-lg text-muted-foreground">points</span>
                 </div>
             </div>
-            <Button size="lg" onClick={() => setIsRedeemDialogOpen(true)}>
+            <Button size="lg" onClick={() => router.push('/profile/wallet/redeem')}>
               <Gift className="mr-2"/>
               Redeem Points
             </Button>
@@ -119,12 +120,6 @@ export default function WalletPage() {
             </div>
           </div>
       </div>
-      <RedeemDialog 
-        isOpen={isRedeemDialogOpen}
-        onClose={() => setIsRedeemDialogOpen(false)}
-        userPoints={userPoints}
-        onRedeem={handleRedemption}
-      />
     </>
   );
 }
