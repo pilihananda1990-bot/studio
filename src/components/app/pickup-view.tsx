@@ -49,8 +49,6 @@ export function PickupView() {
         </div>
       </div>
       
-      <Separator />
-
       <div className="p-4 flex-shrink-0 bg-background">
          <Card>
             <CardContent className="pt-6">
