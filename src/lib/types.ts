@@ -39,3 +39,23 @@ export type Village = {
   subdistrictId: string;
   name: string;
 };
+
+export type Transaction = {
+  id: string;
+  date: string;
+  description: string;
+  points: number;
+};
+
+export type RedemptionOption = {
+  id: string;
+  name: string;
+  points: number;
+  icon: string; // URL or path to icon
+};
+
+export type RedemptionCategory = {
+  id: string;
+  name: string;
+  items: RedemptionOption[];
+};
