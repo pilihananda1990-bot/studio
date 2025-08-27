@@ -2,11 +2,12 @@
 'use client';
 
 import Image from 'next/image';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Phone, Star } from 'lucide-react';
+import { MessageCircle, Phone, Star, MapPin, Flag } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function PickupView() {
   const driver = {
@@ -20,6 +21,9 @@ export function PickupView() {
   const order = {
     status: 'Driver on the way',
     eta: '15 minutes',
+    distance: '3.2 km away',
+    pickupAddress: '123 Main Street, Greenville, 12345',
+    dropoffAddress: '456 Oak Avenue, Greenville, 12345',
   };
 
   return (
@@ -48,48 +52,60 @@ export function PickupView() {
         </div>
       </div>
       
-      <div className="flex-shrink-0">
-        <Card className="rounded-t-lg rounded-b-none border-t-2 border-x-0 border-b-0">
-          <CardHeader className="pb-4">
-             <div className="flex justify-between items-center">
-                 <div>
-                    <p className="text-sm text-muted-foreground">ETA</p>
-                    <p className="font-bold text-2xl text-primary">{order.eta}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" className="rounded-full h-12 w-12">
-                        <MessageCircle />
-                         <span className="sr-only">Message Driver</span>
-                    </Button>
-                     <Button variant="outline" size="icon" className="rounded-full h-12 w-12">
-                        <Phone />
-                         <span className="sr-only">Call Driver</span>
-                    </Button>
-                </div>
-            </div>
-          </CardHeader>
-           <Separator/>
-          <CardContent className="pt-4">
-            <div className="flex items-center space-x-4">
-              <Avatar className="h-16 w-16">
-                <AvatarImage src={driver.avatar} alt={driver.name} />
-                <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <p className="font-bold text-lg">{driver.name}</p>
-                 <div className="flex items-center gap-1 text-muted-foreground">
-                   <Star className="w-4 h-4 fill-yellow-400 text-yellow-400"/> 
-                   <span>{driver.rating}</span>
-                </div>
-              </div>
-               <div className="text-right">
-                    <p className="font-bold text-lg">{driver.plate}</p>
-                    <p className="text-sm text-muted-foreground">{driver.vehicle}</p>
-                </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Separator />
+
+      <ScrollArea className="flex-shrink-0 h-48 md:h-56">
+         <div className="p-4 space-y-4">
+            <Card>
+                <CardContent className="pt-6">
+                    <div className="flex items-center space-x-4">
+                        <Avatar className="h-16 w-16">
+                            <AvatarImage src={driver.avatar} alt={driver.name} />
+                            <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1">
+                            <p className="font-bold text-lg">{driver.name}</p>
+                            <div className="flex items-center gap-1 text-muted-foreground">
+                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400"/> 
+                            <span>{driver.rating}</span>
+                            </div>
+                            <p className="text-sm text-muted-foreground">{driver.vehicle} &middot; {driver.plate}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+                                <MessageCircle />
+                                <span className="sr-only">Message Driver</span>
+                            </Button>
+                            <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+                                <Phone />
+                                <span className="sr-only">Call Driver</span>
+                            </Button>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardContent className="pt-6">
+                    <div className="flex items-start gap-4">
+                        <MapPin className="w-5 h-5 text-primary mt-1"/>
+                        <div>
+                            <p className="font-semibold">Pickup</p>
+                            <p className="text-muted-foreground">{order.pickupAddress}</p>
+                        </div>
+                    </div>
+                    <Separator className="my-4"/>
+                    <div className="flex items-start gap-4">
+                        <Flag className="w-5 h-5 text-muted-foreground mt-1"/>
+                        <div>
+                            <p className="font-semibold">Drop-off</p>
+                            <p className="text-muted-foreground">{order.dropoffAddress}</p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+      </ScrollArea>
     </div>
   );
 }
