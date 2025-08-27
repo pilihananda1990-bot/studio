@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { getItemById } from '@/lib/data';
-import { AppHeader } from '@/components/app/header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Home, Landmark, Loader2, MapPin, User } from 'lucide-react';
@@ -89,7 +88,6 @@ export default function ConfirmationPage() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <AppHeader />
       <main className="flex-1 container mx-auto px-4 py-8 md:px-6 md:py-12">
         <Button asChild variant="ghost" className="mb-4">
           <Link href={`/item/${item.id}`}>

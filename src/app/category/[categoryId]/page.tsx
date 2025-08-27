@@ -2,10 +2,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getCategoryById, getItemsByCategoryId } from '@/lib/data';
-import { AppHeader } from '@/components/app/header';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type Props = {
   params: { categoryId: string };
@@ -21,7 +20,6 @@ export default function CategoryPage({ params }: Props) {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <AppHeader />
       <main className="flex-1 container mx-auto px-4 py-8 md:px-6 md:py-12">
         <div className="mb-8">
           <Button asChild variant="ghost" className="mb-4">
