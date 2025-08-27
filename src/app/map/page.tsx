@@ -12,26 +12,26 @@ import Link from 'next/link';
 
 export default function MapPage() {
   return (
-    <div className="flex h-full w-full flex-col bg-background">
-       <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-10">
-         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-            <div className="flex items-center gap-4">
-                <Button asChild variant="ghost" size="icon" className="-ml-2">
-                    <Link href="/">
-                    <ArrowLeft />
-                    <span className="sr-only">Back</span>
-                    </Link>
-                </Button>
-                <h1 className="text-lg font-semibold truncate">Live Tracking</h1>
-            </div>
-             <Button variant="ghost" size="icon">
-                <Share2 />
-                <span className="sr-only">Share</span>
+    <div className="relative flex h-full w-full flex-col bg-background">
+      <header className="absolute top-0 left-0 right-0 z-10 bg-background/80 backdrop-blur-sm">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+          <div className="flex items-center gap-4">
+            <Button asChild variant="ghost" size="icon" className="-ml-2">
+              <Link href="/">
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+              </Link>
             </Button>
+            <h1 className="text-lg font-semibold truncate">Live Tracking</h1>
+          </div>
+          <Button variant="ghost" size="icon">
+            <Share2 />
+            <span className="sr-only">Share</span>
+          </Button>
         </div>
-       </header>
+      </header>
 
-      <div className="flex-grow relative w-full h-96">
+      <div className="flex-grow relative w-full h-full">
         <Image
           src="https://picsum.photos/seed/map/1920/1080"
           alt="Map placeholder"
@@ -39,35 +39,37 @@ export default function MapPage() {
           className="object-cover"
           data-ai-hint="street map"
         />
-         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <div className="relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="relative">
             <div className="w-4 h-4 bg-primary rounded-full animate-ping" />
             <div className="absolute top-0 left-0 w-4 h-4 bg-primary rounded-full" />
-            </div>
+          </div>
         </div>
         <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2">
-            <div className="relative">
+          <div className="relative">
             <Image src="/images/car.svg" alt="Driver's car" width={32} height={32} />
-            </div>
+          </div>
         </div>
       </div>
 
-      <Tabs defaultValue="pickup" className="relative flex-1 flex flex-col">
-        <div className="flex justify-center py-4 border-b">
-          <TabsList>
-            <TabsTrigger value="pickup">Pickup</TabsTrigger>
-            <TabsTrigger value="dropoff">Drop Off</TabsTrigger>
-          </TabsList>
-        </div>
-        <ScrollArea className="flex-1">
-          <TabsContent value="pickup" className="m-0">
-            <PickupView />
-          </TabsContent>
-          <TabsContent value="dropoff" className="m-0">
-            <DropOffView />
-          </TabsContent>
-        </ScrollArea>
-      </Tabs>
+      <div className="absolute bottom-0 left-0 right-0 h-[45%]">
+        <Tabs defaultValue="pickup" className="relative flex-1 flex flex-col h-full bg-background rounded-t-2xl shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)]">
+          <div className="flex justify-center py-4 border-b">
+            <TabsList>
+              <TabsTrigger value="pickup">Pickup</TabsTrigger>
+              <TabsTrigger value="dropoff">Drop Off</TabsTrigger>
+            </TabsList>
+          </div>
+          <ScrollArea className="flex-1">
+            <TabsContent value="pickup" className="m-0">
+              <PickupView />
+            </TabsContent>
+            <TabsContent value="dropoff" className="m-0">
+              <DropOffView />
+            </TabsContent>
+          </ScrollArea>
+        </Tabs>
+      </div>
     </div>
   );
 }
