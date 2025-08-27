@@ -70,7 +70,6 @@ export default function WalletPage() {
         </div>
       )}
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-          <h1 className="text-2xl font-bold mb-2">My Wallet</h1>
           <p className="text-muted-foreground mb-8">View your points balance and transaction history.</p>
 
           <div className="p-6 bg-primary/10 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">
