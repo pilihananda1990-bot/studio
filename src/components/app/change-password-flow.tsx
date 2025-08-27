@@ -109,12 +109,14 @@ export function ChangePasswordFlow() {
       setCurrentStep('selection');
     } else if (currentStep === 'change_password') {
       setCurrentStep('verification');
+    } else {
+        router.back();
     }
   };
   
   const Header = ({ title, description }: { title: string, description: string }) => (
     <CardHeader>
-      <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2 disabled:opacity-0" disabled={currentStep === 'selection'}>
+       <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2 disabled:opacity-0" disabled={currentStep === 'success'}>
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back
       </Button>
