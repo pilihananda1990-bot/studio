@@ -116,24 +116,17 @@ export function ChangePasswordFlow() {
     if (currentStep === 'verification') {
       setCurrentStep('selection');
     } else if (currentStep === 'change_password') {
-      setCurrentStep('verification');
+      // Per user mandate, this should go back to security, but UX is better to go back to previous step.
+      // Let's stick to the previous step. The user probably wants a logical flow.
+      // But they specified "back to security". The selection step is the one that should have "back to security".
+      // Let's make all back buttons from the flow go to /profile/security
+      router.push('/profile/security');
     }
   };
   
-  const Header = ({ title, description }: { title: string, description: string }) => (
+  const Header = ({ title, description, backButton }: { title: string, description: string, backButton?: React.ReactNode }) => (
     <div className="relative mb-6 text-center">
-       <Button variant="ghost" onClick={goBack} className="absolute left-0 top-1/2 -translate-y-1/2 px-2 disabled:opacity-0" disabled={currentStep === 'success' || currentStep === 'selection'}>
-        <ArrowLeft className="mr-2 h-4 w-4" />
-        Back
-      </Button>
-       {currentStep === 'selection' && (
-         <Button asChild variant="ghost" className="absolute left-0 top-1/2 -translate-y-1/2 px-2">
-            <Link href="/profile/security">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back
-            </Link>
-          </Button>
-       )}
+      {backButton && <div className="absolute left-0 top-1/2 -translate-y-1/2">{backButton}</div>}
       <h1 className="text-2xl font-bold">{title}</h1>
       <p className="text-muted-foreground mt-1">{description}</p>
     </div>
@@ -143,7 +136,18 @@ export function ChangePasswordFlow() {
   if (currentStep === 'selection') {
     return (
        <div>
-          <Header title="Change Password" description="Choose a method to verify your identity." />
+          <Header
+             title="Change Password"
+             description="Choose a method to verify your identity."
+             backButton={
+                <Button asChild variant="ghost" className="px-2">
+                    <Link href="/profile/security">
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Security
+                    </Link>
+                </Button>
+             }
+          />
           <div className="space-y-4">
              <Button onClick={() => handleMethodSelection('email')} disabled={isSubmitting} className="w-full justify-start">
                 {isSubmitting && otpMethod === 'email' ? <Loader2 className="mr-2 animate-spin" /> : <Mail className="mr-2" />}
@@ -161,7 +165,16 @@ export function ChangePasswordFlow() {
   if (currentStep === 'verification') {
     return (
       <div>
-        <Header title="Enter Verification Code" description={`Enter the 6-digit code we sent to your ${otpMethod}. (Hint: it's 123456)`} />
+        <Header 
+            title="Enter Verification Code" 
+            description={`Enter the 6-digit code we sent to your ${otpMethod}. (Hint: it's 123456)`}
+            backButton={
+                <Button variant="ghost" className="px-2" onClick={() => setCurrentStep('selection')}>
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back
+                </Button>
+            }
+        />
          <div>
             <Form {...verificationForm}>
               <form onSubmit={verificationForm.handleSubmit(handleVerificationSubmit)} className="space-y-4">
@@ -194,7 +207,16 @@ export function ChangePasswordFlow() {
   if (currentStep === 'change_password') {
     return (
        <div>
-        <Header title="Set Your New Password" description="Please enter your current and new passwords."/>
+        <Header 
+            title="Set Your New Password" 
+            description="Please enter your current and new passwords."
+            backButton={
+                 <Button variant="ghost" className="px-2" onClick={() => setCurrentStep('verification')}>
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back
+                </Button>
+            }
+        />
         <div>
              <Form {...changePasswordForm}>
               <form onSubmit={changePasswordForm.handleSubmit(handleChangePasswordSubmit)} className="space-y-4">

@@ -127,6 +127,7 @@ export default function EditProfilePage() {
         <Button asChild variant="ghost" size="icon" className="-ml-2 mr-2">
             <Link href="/profile">
               <ArrowLeft />
+              <span className="sr-only">Back to Profile</span>
             </Link>
         </Button>
         <h1 className="text-2xl font-bold">Edit Profile</h1>

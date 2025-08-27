@@ -43,7 +43,7 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
           <DialogHeader>
             <Button variant="ghost" className="absolute left-4 top-4 px-2 text-muted-foreground" onClick={onClose}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Wallet
+                Wallet
             </Button>
             <DialogTitle className="pt-12 text-center">Redeem Your Points</DialogTitle>
             <DialogDescription className="text-center">
