@@ -9,9 +9,11 @@ import { getItemById } from '@/lib/data';
 import { AppHeader } from '@/components/app/header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft, Home, Landmark, MapPin, User } from 'lucide-react';
+import { ArrowLeft, Home, Landmark, Loader2, MapPin, User } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const addressSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -23,6 +25,8 @@ const addressSchema = z.object({
 export default function ConfirmationPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const itemId = searchParams.get('itemId');
   const weight = searchParams.get('weight');
@@ -57,13 +61,28 @@ export default function ConfirmationPage() {
   });
 
   async function onSubmit(values: z.infer<typeof addressSchema>) {
-    console.log("Scheduling pickup for:", {
-      itemId: item?.id,
-      weight,
-      address: values,
-    });
-    
-    router.push('/completion');
+    setIsSubmitting(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      console.log("Scheduling pickup for:", {
+        itemId: item?.id,
+        weight,
+        address: values,
+      });
+      
+      router.push('/completion');
+    } catch (error) {
+      console.error("Submission error:", error);
+      toast({
+        variant: "destructive",
+        title: "Submission Failed",
+        description: "There was a problem scheduling your pickup. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const estimatedPoints = (item.pricePerKg * parseFloat(weight)).toFixed(2);
@@ -73,7 +92,7 @@ export default function ConfirmationPage() {
       <AppHeader />
       <main className="flex-1 container mx-auto px-4 py-8 md:px-6 md:py-12">
         <Button asChild variant="ghost" className="mb-4">
-          <Link href={`/item/${itemId}`}>
+          <Link href={`/item/${item.id}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Item
           </Link>
@@ -160,8 +179,15 @@ export default function ConfirmationPage() {
                          )}
                        />
                      </div>
-                     <Button type="submit" size="lg" className="w-full mt-6 bg-primary hover:bg-primary/90">
-                        Confirm Pickup Request
+                     <Button type="submit" size="lg" className="w-full mt-6 bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Scheduling...
+                          </>
+                        ) : (
+                          'Confirm Pickup Request'
+                        )}
                      </Button>
                    </form>
                  </Form>
