@@ -44,28 +44,26 @@ export function DropOffView() {
   };
 
   return (
-      <div className="p-6">
-          <h2 className="text-xl font-bold mb-4">Drop Off Locations</h2>
-          <div className="space-y-4">
-              {dropOffLocations.map((location) => (
-              <div key={location.id} className="p-3 bg-muted/50 rounded-lg">
-                  <h3 className="font-semibold flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-primary" /> {location.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
-                  <Clock className="w-4 h-4" /> {location.hours}
-                  </p>
-                  <Button
-                  size="sm"
-                  className="w-full mt-3"
-                  onClick={() => handleNavigate(location.lat, location.lng)}
-                  >
-                  <Navigation className="mr-2 h-4 w-4" />
-                  Navigate
-                  </Button>
-              </div>
-              ))}
-          </div>
-      </div>
+    <div className="space-y-4 p-6">
+        <h2 className="text-xl font-bold">Drop Off Locations</h2>
+        {dropOffLocations.map((location) => (
+        <div key={location.id} className="p-3 bg-muted/50 rounded-lg">
+            <h3 className="font-semibold flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-primary" /> {location.name}
+            </h3>
+            <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
+            <Clock className="w-4 h-4" /> {location.hours}
+            </p>
+            <Button
+            size="sm"
+            className="w-full mt-3"
+            onClick={() => handleNavigate(location.lat, location.lng)}
+            >
+            <Navigation className="mr-2 h-4 w-4" />
+            Navigate
+            </Button>
+        </div>
+        ))}
+    </div>
   );
 }

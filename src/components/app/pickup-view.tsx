@@ -53,111 +53,116 @@ export function PickupView() {
 
   return (
     <>
-      <div className="w-full bg-background p-6 space-y-6">
-        {/* ETA and Address */}
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-muted-foreground">Estimated Arrival</p>
-            <p className="text-lg font-bold">{isPickupCompleted ? "Arrived" : order.eta}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-muted-foreground">Your Location</p>
-            <p className="font-semibold">{order.address}</p>
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* Driver Information */}
-        <div className="flex items-center space-x-4">
-          <Avatar className="h-16 w-16">
-            <AvatarImage src={driver.avatar} alt={driver.name} />
-            <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1">
-            <div className="flex items-center gap-2">
-              <p className="font-bold text-lg">{driver.name}</p>
-              <div className="flex items-center gap-1 text-muted-foreground">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span>{driver.rating}</span>
-              </div>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              {driver.vehicle} &middot; {driver.plate}
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
-              <MessageCircle />
-              <span className="sr-only">Message Driver</span>
-            </Button>
-            <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
-              <Phone />
-              <span className="sr-only">Call Driver</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Tracking Timeline */}
-        <div className="pt-2">
-          <div className="flex justify-between items-center">
-            {trackingSteps.map((step, index) => (
-              <React.Fragment key={step.id}>
-                <div className="flex flex-col items-center text-center">
-                  <div
-                    className={cn(
-                      'h-6 w-6 rounded-full flex items-center justify-center border-2 z-10 transition-colors duration-300',
-                      index < currentStep ? 'bg-primary border-primary text-primary-foreground' : 'bg-muted border-border'
-                    )}
-                  >
-                    {index < currentStep && <CheckCircle className="w-4 h-4" />}
-                  </div>
-                  <p
-                    className={cn(
-                      'text-xs mt-1 transition-colors duration-300',
-                       index < currentStep ? 'font-semibold text-primary' : 'text-muted-foreground'
-                    )}
-                  >
-                    {step.title}
-                  </p>
-                </div>
-                {index < trackingSteps.length - 1 && (
-                  <div className={cn(
-                      'flex-1 h-0.5 -mt-4 mx-2',
-                      index < currentStep - 1 ? 'bg-primary' : 'bg-border'
-                    )} 
-                  />
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* Order Details */}
+      {/* ETA and Address */}
+      <div className="flex justify-between items-center p-6 pb-0">
         <div>
-          <h3 className="text-lg font-semibold mb-2">Order Details</h3>
-          <Button variant="outline" className="w-full justify-between">
-            <span>Review Order Items</span>
-            <Package />
+          <p className="text-sm text-muted-foreground">Estimated Arrival</p>
+          <p className="text-lg font-bold">{isPickupCompleted ? "Arrived" : order.eta}</p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-muted-foreground">Your Location</p>
+          <p className="font-semibold">{order.address}</p>
+        </div>
+      </div>
+
+      <div className="px-6">
+        <Separator className="my-6" />
+      </div>
+      
+
+      {/* Driver Information */}
+      <div className="flex items-center space-x-4 px-6">
+        <Avatar className="h-16 w-16">
+          <AvatarImage src={driver.avatar} alt={driver.name} />
+          <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
+        </Avatar>
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <p className="font-bold text-lg">{driver.name}</p>
+            <div className="flex items-center gap-1 text-muted-foreground">
+              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+              <span>{driver.rating}</span>
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            {driver.vehicle} &middot; {driver.plate}
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+            <MessageCircle />
+            <span className="sr-only">Message Driver</span>
+          </Button>
+          <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+            <Phone />
+            <span className="sr-only">Call Driver</span>
           </Button>
         </div>
-
-        {isPickupCompleted && (
-          <>
-            <Separator />
-            <div className="text-center space-y-2">
-              <h3 className="text-lg font-semibold">Pickup Complete!</h3>
-              <p className="text-muted-foreground">Thank you for helping the environment.</p>
-              <Button onClick={() => setIsRatingOpen(true)} className="mt-2">
-                <Star className="mr-2" />
-                Rate Driver
-              </Button>
-            </div>
-          </>
-        )}
       </div>
+
+      {/* Tracking Timeline */}
+      <div className="pt-8 px-6">
+        <div className="flex justify-between items-center">
+          {trackingSteps.map((step, index) => (
+            <React.Fragment key={step.id}>
+              <div className="flex flex-col items-center text-center">
+                <div
+                  className={cn(
+                    'h-6 w-6 rounded-full flex items-center justify-center border-2 z-10 transition-colors duration-300',
+                    index < currentStep ? 'bg-primary border-primary text-primary-foreground' : 'bg-muted border-border'
+                  )}
+                >
+                  {index < currentStep && <CheckCircle className="w-4 h-4" />}
+                </div>
+                <p
+                  className={cn(
+                    'text-xs mt-1 transition-colors duration-300',
+                      index < currentStep ? 'font-semibold text-primary' : 'text-muted-foreground'
+                  )}
+                >
+                  {step.title}
+                </p>
+              </div>
+              {index < trackingSteps.length - 1 && (
+                <div className={cn(
+                    'flex-1 h-0.5 -mt-4 mx-2',
+                    index < currentStep - 1 ? 'bg-primary' : 'bg-border'
+                  )} 
+                />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+      
+      <div className="px-6">
+          <Separator className="my-6" />
+      </div>
+
+      {/* Order Details */}
+      <div className="px-6">
+        <h3 className="text-lg font-semibold mb-2">Order Details</h3>
+        <Button variant="outline" className="w-full justify-between">
+          <span>Review Order Items</span>
+          <Package />
+        </Button>
+      </div>
+
+      {isPickupCompleted && (
+        <>
+          <div className="px-6">
+            <Separator className="my-6" />
+          </div>
+          <div className="text-center space-y-2 px-6 pb-6">
+            <h3 className="text-lg font-semibold">Pickup Complete!</h3>
+            <p className="text-muted-foreground">Thank you for helping the environment.</p>
+            <Button onClick={() => setIsRatingOpen(true)} className="mt-2">
+              <Star className="mr-2" />
+              Rate Driver
+            </Button>
+          </div>
+        </>
+      )}
 
       <RatingOverlay isOpen={isRatingOpen} onOpenChange={setIsRatingOpen} />
     </>
