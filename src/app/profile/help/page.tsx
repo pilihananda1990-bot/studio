@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Search, Mail, MessageCircle, Paperclip, Loader2 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { PageHeader } from '@/components/app/page-header';
 
 const faqItems = [
   {
@@ -81,117 +82,114 @@ export default function HelpPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <div className="max-w-3xl mx-auto space-y-12">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Help & Feedback</h1>
-          <p className="text-muted-foreground mt-2">
-            Find answers to your questions or get in touch with our support team.
-          </p>
+    <div>
+      <PageHeader title="Help & Feedback" backHref="/profile" backText="Profile" />
+      <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        <div className="max-w-3xl mx-auto space-y-12">
+          
+          <section>
+            <h2 className="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
+            <div className="relative mb-6">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search FAQs..."
+                className="pl-10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <Accordion type="single" collapsible className="w-full">
+              {filteredFaqs.length > 0 ? (
+                filteredFaqs.map((item, index) => (
+                  <AccordionItem value={`item-${index}`} key={index}>
+                    <AccordionTrigger>{item.question}</AccordionTrigger>
+                    <AccordionContent>{item.answer}</AccordionContent>
+                  </AccordionItem>
+                ))
+              ) : (
+                <p className="text-muted-foreground text-center py-4">No matching FAQs found.</p>
+              )}
+            </Accordion>
+          </section>
+
+          <Separator />
+
+          <section>
+            <h2 className="text-xl font-semibold mb-2">Contact Support</h2>
+            <p className="text-muted-foreground mb-4">Still need help? Reach out to us.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Button variant="outline" onClick={handleEmailSupport}>
+                  <Mail className="mr-2"/> Email Support
+                </Button>
+                <Button variant="outline" onClick={handleWhatsAppSupport}>
+                  <MessageCircle className="mr-2"/> WhatsApp Support
+                </Button>
+            </div>
+          </section>
+          
+          <Separator />
+
+          <section>
+            <h2 className="text-xl font-semibold mb-2">Submit Feedback or Report a Bug</h2>
+            <p className="text-muted-foreground mb-4">We value your input. Let us know how we can improve.</p>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Subject</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., Pickup button not working" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Please describe the issue in detail..."
+                          className="min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                  <FormItem>
+                    <FormLabel>Attachment (Optional)</FormLabel>
+                    <FormControl>
+                        <Button variant="outline" className="w-full" asChild>
+                            <label htmlFor="file-upload">
+                                <Paperclip className="mr-2"/> Attach a screenshot or file
+                                <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                            </label>
+                        </Button>
+                    </FormControl>
+                  </FormItem>
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    'Submit Feedback'
+                  )}
+                </Button>
+              </form>
+            </Form>
+          </section>
         </div>
-        
-        <section>
-          <h2 className="text-xl font-semibold mb-4">Frequently Asked Questions</h2>
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search FAQs..."
-              className="pl-10"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <Accordion type="single" collapsible className="w-full">
-            {filteredFaqs.length > 0 ? (
-              filteredFaqs.map((item, index) => (
-                <AccordionItem value={`item-${index}`} key={index}>
-                  <AccordionTrigger>{item.question}</AccordionTrigger>
-                  <AccordionContent>{item.answer}</AccordionContent>
-                </AccordionItem>
-              ))
-            ) : (
-              <p className="text-muted-foreground text-center py-4">No matching FAQs found.</p>
-            )}
-          </Accordion>
-        </section>
-
-        <Separator />
-
-        <section>
-           <h2 className="text-xl font-semibold mb-2">Contact Support</h2>
-           <p className="text-muted-foreground mb-4">Still need help? Reach out to us.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Button variant="outline" onClick={handleEmailSupport}>
-                <Mail className="mr-2"/> Email Support
-              </Button>
-              <Button variant="outline" onClick={handleWhatsAppSupport}>
-                <MessageCircle className="mr-2"/> WhatsApp Support
-              </Button>
-          </div>
-        </section>
-        
-        <Separator />
-
-        <section>
-          <h2 className="text-xl font-semibold mb-2">Submit Feedback or Report a Bug</h2>
-          <p className="text-muted-foreground mb-4">We value your input. Let us know how we can improve.</p>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="subject"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Subject</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., Pickup button not working" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Please describe the issue in detail..."
-                        className="min-h-[120px]"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-                <FormItem>
-                  <FormLabel>Attachment (Optional)</FormLabel>
-                  <FormControl>
-                      <Button variant="outline" className="w-full" asChild>
-                          <label htmlFor="file-upload">
-                              <Paperclip className="mr-2"/> Attach a screenshot or file
-                              <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                          </label>
-                      </Button>
-                  </FormControl>
-                </FormItem>
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  'Submit Feedback'
-                )}
-              </Button>
-            </form>
-          </Form>
-        </section>
       </div>
     </div>
   );

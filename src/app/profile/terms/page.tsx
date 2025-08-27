@@ -1,5 +1,6 @@
 
 import { Separator } from '@/components/ui/separator';
+import { PageHeader } from '@/components/app/page-header';
 
 const termsContent = [
   {
@@ -65,26 +66,25 @@ const termsContent = [
 
 export default function TermsPage() {
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-        <h1 className="text-3xl font-bold">Terms & Conditions</h1>
-        
-        <Separator className="my-6" />
-
-        <div className="prose max-w-none dark:prose-invert">
-          {termsContent.slice(1).map((item, index) => {
-            if (item.type === 'heading') {
-              if (item.level === 2) {
-                return <h2 key={index} className="text-2xl font-bold mt-6 mb-2">{item.text}</h2>;
-              }
-              if (item.level === 3) {
-                return <h3 key={index} className="text-xl font-semibold mt-4 mb-2">{item.text}</h3>;
-              }
-            }
-            if (item.type === 'paragraph') {
-              return <p key={index} className="text-base leading-relaxed text-muted-foreground">{item.text}</p>;
-            }
-            return null;
-          })}
+    <div>
+        <PageHeader title="Terms & Conditions" backHref="/profile" backText="Profile" />
+        <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+            <div className="prose max-w-none dark:prose-invert">
+            {termsContent.slice(1).map((item, index) => {
+                if (item.type === 'heading') {
+                if (item.level === 2) {
+                    return <h2 key={index} className="text-2xl font-bold mt-6 mb-2">{item.text}</h2>;
+                }
+                if (item.level === 3) {
+                    return <h3 key={index} className="text-xl font-semibold mt-4 mb-2">{item.text}</h3>;
+                }
+                }
+                if (item.type === 'paragraph') {
+                return <p key={index} className="text-base leading-relaxed text-muted-foreground">{item.text}</p>;
+                }
+                return null;
+            })}
+            </div>
         </div>
     </div>
   );
