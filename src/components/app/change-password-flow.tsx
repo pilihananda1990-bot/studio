@@ -19,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, KeyRound, Mail, Smartphone, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import Link from 'next/link';
 
 const verificationSchema = z.object({
   verificationCode: z
@@ -115,11 +116,19 @@ export function ChangePasswordFlow() {
   };
   
   const Header = ({ title, description }: { title: string, description: string }) => (
-    <CardHeader>
-       <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2 disabled:opacity-0" disabled={currentStep === 'success'}>
+    <CardHeader className="relative">
+       <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2 disabled:opacity-0" disabled={currentStep === 'success' || currentStep === 'selection'}>
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back
       </Button>
+       {currentStep === 'selection' && (
+         <Button asChild variant="ghost" className="absolute left-2 top-2 px-2">
+            <Link href="/profile/security">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back
+            </Link>
+          </Button>
+       )}
       <CardTitle className="pt-8 text-center">{title}</CardTitle>
       <CardDescription className="text-center">{description}</CardDescription>
     </CardHeader>
