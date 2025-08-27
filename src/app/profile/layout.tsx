@@ -1,5 +1,4 @@
 
-import { AppHeader } from '@/components/app/header';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';

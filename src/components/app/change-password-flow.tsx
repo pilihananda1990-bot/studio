@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -49,6 +50,7 @@ export function ChangePasswordFlow() {
   const [otpMethod, setOtpMethod] = useState<OtpMethod>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const verificationForm = useForm<z.infer<typeof verificationSchema>>({
     resolver: zodResolver(verificationSchema),
@@ -60,7 +62,6 @@ export function ChangePasswordFlow() {
   const handleMethodSelection = async (method: OtpMethod) => {
     setIsSubmitting(true);
     setOtpMethod(method);
-    // Simulate sending an OTP
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast({
       title: 'Verification Code Sent',
@@ -72,7 +73,6 @@ export function ChangePasswordFlow() {
 
   const handleVerificationSubmit = async (values: z.infer<typeof verificationSchema>) => {
     setIsSubmitting(true);
-    // Simulate verifying the code
     await new Promise((resolve) => setTimeout(resolve, 1000));
     if (values.verificationCode !== '123456') {
        toast({
@@ -93,7 +93,6 @@ export function ChangePasswordFlow() {
 
   const handleChangePasswordSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
     setIsSubmitting(true);
-    // Simulate changing the password
     await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log('Password change data:', values);
     toast({
@@ -102,13 +101,7 @@ export function ChangePasswordFlow() {
     });
     setIsSubmitting(false);
     setCurrentStep('success');
-  };
-
-  const handleResetFlow = () => {
-    verificationForm.reset();
-    changePasswordForm.reset();
-    setOtpMethod(null);
-    setCurrentStep('selection');
+    setTimeout(() => router.push('/profile/security'), 2000);
   };
 
   const goBack = () => {
@@ -118,16 +111,23 @@ export function ChangePasswordFlow() {
       setCurrentStep('verification');
     }
   };
+  
+  const Header = ({ title, description }: { title: string, description: string }) => (
+    <CardHeader>
+      <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2 disabled:opacity-0" disabled={currentStep === 'selection'}>
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Back
+      </Button>
+      <CardTitle className="pt-8 text-center">{title}</CardTitle>
+      <CardDescription className="text-center">{description}</CardDescription>
+    </CardHeader>
+  );
+
 
   if (currentStep === 'selection') {
     return (
        <Card>
-          <CardHeader>
-            <CardTitle>Change Password</CardTitle>
-            <CardDescription>
-              Choose a method to verify your identity before changing your password.
-            </CardDescription>
-          </CardHeader>
+          <Header title="Change Password" description="Choose a method to verify your identity." />
           <CardContent className="space-y-4">
              <Button onClick={() => handleMethodSelection('email')} disabled={isSubmitting} className="w-full justify-start">
                 {isSubmitting && otpMethod === 'email' ? <Loader2 className="mr-2 animate-spin" /> : <Mail className="mr-2" />}
@@ -145,16 +145,7 @@ export function ChangePasswordFlow() {
   if (currentStep === 'verification') {
     return (
       <Card>
-        <CardHeader>
-          <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
-          </Button>
-          <CardTitle className="pt-8">Enter Verification Code</CardTitle>
-          <CardDescription>
-            Enter the 6-digit code we sent to your {otpMethod}. (Hint: it's 123456)
-          </CardDescription>
-        </CardHeader>
+        <Header title="Enter Verification Code" description={`Enter the 6-digit code we sent to your ${otpMethod}. (Hint: it's 123456)`} />
          <CardContent>
             <Form {...verificationForm}>
               <form onSubmit={verificationForm.handleSubmit(handleVerificationSubmit)} className="space-y-4">
@@ -176,7 +167,6 @@ export function ChangePasswordFlow() {
                     {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
                     Verify
                   </Button>
-                   <Button variant="link" onClick={() => setCurrentStep('selection')}>Cancel</Button>
                 </div>
               </form>
             </Form>
@@ -188,14 +178,7 @@ export function ChangePasswordFlow() {
   if (currentStep === 'change_password') {
     return (
        <Card>
-        <CardHeader>
-             <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
-             </Button>
-            <CardTitle className="pt-8">Set Your New Password</CardTitle>
-            <CardDescription>Please enter your current and new passwords.</CardDescription>
-        </CardHeader>
+        <Header title="Set Your New Password" description="Please enter your current and new passwords."/>
         <CardContent>
              <Form {...changePasswordForm}>
               <form onSubmit={changePasswordForm.handleSubmit(handleChangePasswordSubmit)} className="space-y-4">
@@ -243,7 +226,6 @@ export function ChangePasswordFlow() {
                     {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
                     Save New Password
                   </Button>
-                   <Button variant="link" onClick={handleResetFlow}>Cancel</Button>
                 </div>
               </form>
             </Form>
@@ -257,11 +239,10 @@ export function ChangePasswordFlow() {
       <Card>
         <CardContent className="p-6 space-y-4 text-center">
             <KeyRound className="h-12 w-12 text-green-600 mx-auto"/>
-            <h3 className="text-lg font-bold text-green-800 dark:text-green-300">Password Changed!</h3>
-            <p className="text-sm text-green-700 dark:text-green-400">
-              Your password has been successfully updated.
+            <h3 className="text-lg font-bold">Password Changed!</h3>
+            <p className="text-sm text-muted-foreground">
+              Your password has been successfully updated. Redirecting...
             </p>
-            <Button onClick={handleResetFlow}>Start Over</Button>
         </CardContent>
       </Card>
     );
