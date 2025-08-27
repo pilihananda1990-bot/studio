@@ -21,7 +21,7 @@ export function PickupView() {
   };
 
   return (
-    <div className="relative h-[calc(100vh-80px)] w-full">
+    <div className="relative h-full w-full">
       <Image
         src="https://picsum.photos/seed/map/1920/1080"
         alt="Map placeholder"
@@ -38,14 +38,13 @@ export function PickupView() {
           <div className="absolute top-0 left-0 w-4 h-4 bg-primary rounded-full" />
         </div>
       </div>
-      
+
       {/* Driver's location pin */}
-       <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2">
+      <div className="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2">
         <div className="relative">
-           <Image src="/car.svg" alt="Driver's car" width={32} height={32} />
+          <Image src="/car.svg" alt="Driver's car" width={32} height={32} />
         </div>
       </div>
-
 
       <div className="absolute bottom-0 left-0 right-0 p-4">
         <Card className="max-w-md mx-auto">
@@ -60,7 +59,9 @@ export function PickupView() {
               </Avatar>
               <div className="flex-1">
                 <p className="font-semibold text-lg">{driver.name}</p>
-                <p className="text-muted-foreground">License Plate: {driver.plate}</p>
+                <p className="text-muted-foreground">
+                  License Plate: {driver.plate}
+                </p>
               </div>
             </div>
             <Separator className="my-4" />
