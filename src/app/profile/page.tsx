@@ -1,11 +1,8 @@
 
 'use client';
-import { ProfileView } from '@/components/app/profile-view';
 
+// This page remains as a client component but will now be primarily for routing.
+// The actual view is handled by the layout.
 export default function ProfilePage() {
-  return (
-    <>
-      <ProfileView />
-    </>
-  );
+  return null;
 }
