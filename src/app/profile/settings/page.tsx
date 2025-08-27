@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useTheme } from '@/components/app/theme-provider';
-import { Sun, Moon, Laptop } from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { Sun, Moon } from 'lucide-react';
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
@@ -48,7 +48,7 @@ export default function SettingsPage() {
             <RadioGroup
               value={theme}
               onValueChange={setTheme}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-4"
             >
               <Label htmlFor="light" className="p-4 border rounded-lg cursor-pointer flex flex-col items-center gap-2 [&:has([data-state=checked])]:border-primary">
                 <RadioGroupItem value="light" id="light" className="sr-only" />
@@ -59,11 +59,6 @@ export default function SettingsPage() {
                 <RadioGroupItem value="dark" id="dark" className="sr-only" />
                 <Moon className="h-8 w-8" />
                 <span>Dark</span>
-              </Label>
-              <Label htmlFor="system" className="p-4 border rounded-lg cursor-pointer flex flex-col items-center gap-2 [&:has([data-state=checked])]:border-primary">
-                <RadioGroupItem value="system" id="system" className="sr-only" />
-                <Laptop className="h-8 w-8" />
-                <span>System</span>
               </Label>
             </RadioGroup>
           </CardContent>

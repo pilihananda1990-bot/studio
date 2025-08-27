@@ -32,8 +32,7 @@ export default function RootLayout({
       <body className="font-body antialiased h-full bg-background flex flex-col">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
           disableTransitionOnChange
         >
           <AppHeader />
