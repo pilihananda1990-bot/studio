@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -17,9 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, KeyRound, Mail, Smartphone, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { PageHeader } from './page-header';
+import { Loader2, KeyRound, Mail, Smartphone } from 'lucide-react';
 
 const verificationSchema = z.object({
   verificationCode: z
@@ -116,8 +115,6 @@ export function ChangePasswordFlow() {
   if (currentStep === 'selection') {
     return (
        <div>
-          <PageHeader title="Change Password" backHref="/profile/security" backText="Security" />
-          <div className="mt-8">
             <p className="text-muted-foreground text-center mb-6">Choose a method to verify your identity.</p>
             <div className="space-y-4">
                <Button onClick={() => handleMethodSelection('email')} disabled={isSubmitting} className="w-full justify-start">
@@ -129,7 +126,6 @@ export function ChangePasswordFlow() {
                   Send OTP via SMS
                </Button>
             </div>
-          </div>
         </div>
     );
   }
@@ -137,7 +133,6 @@ export function ChangePasswordFlow() {
   if (currentStep === 'verification') {
     return (
       <div>
-        <PageHeader title="Enter Verification Code" backHref="/profile/security" backText="Security" />
          <div className="mt-8">
             <p className="text-muted-foreground text-center mb-6">{`Enter the 6-digit code we sent to your ${otpMethod}. (Hint: it's 123456)`}</p>
             <Form {...verificationForm}>
@@ -174,7 +169,6 @@ export function ChangePasswordFlow() {
   if (currentStep === 'change_password') {
     return (
        <div>
-        <PageHeader title="Set New Password" backHref="/profile/security" backText="Security" />
         <div className="mt-8">
             <p className="text-muted-foreground text-center mb-6">Please enter your current and new passwords.</p>
              <Form {...changePasswordForm}>

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -11,6 +12,7 @@ import type { Transaction } from '@/lib/types';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { CompletionAnimation } from '@/components/app/completion-animation';
+import { PageHeader } from '@/components/app/page-header';
 
 export default function WalletPage() {
   const [isRedeemDialogOpen, setIsRedeemDialogOpen] = useState(false);
@@ -56,6 +58,7 @@ export default function WalletPage() {
 
   return (
     <>
+       <PageHeader title="My Wallet" backHref="/profile" />
       {showSuccessAnimation && (
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
            <div className="text-center">

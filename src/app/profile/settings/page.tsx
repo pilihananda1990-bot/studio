@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Label } from '@/components/ui/label';
@@ -14,7 +15,7 @@ export default function SettingsPage() {
 
   return (
     <div>
-        <PageHeader title="Settings" backHref="/profile" backText="Profile" />
+        <PageHeader title="Settings" backHref="/profile" />
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
         <div className="grid gap-8 max-w-2xl mx-auto">
             <section>

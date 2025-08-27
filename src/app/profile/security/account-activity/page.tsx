@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Separator } from '@/components/ui/separator';
@@ -32,7 +33,7 @@ const activityLogs = [
 export default function AccountActivityPage() {
   return (
     <div>
-      <PageHeader title="Account Activity" backHref="/profile/security" backText="Security" />
+      <PageHeader title="Account Activity" backHref="/profile/security" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
         <div className="max-w-2xl mx-auto">
           <p className="text-muted-foreground mb-8">

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -16,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {
   Select,
@@ -28,7 +29,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { getProvinces, getCities, getSubdistricts, getVillages } from '@/lib/data/locations';
 import type { City, Subdistrict, Village } from '@/lib/types';
-import Link from 'next/link';
+import { PageHeader } from '@/components/app/page-header';
 
 
 const profileFormSchema = z.object({
@@ -122,177 +123,171 @@ export default function EditProfilePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <div className="flex items-center mb-6">
-        <Button asChild variant="ghost" size="icon" className="-ml-2 mr-2">
-            <Link href="/profile">
-              <ArrowLeft />
-              <span className="sr-only">Back to Profile</span>
-            </Link>
-        </Button>
-        <h1 className="text-2xl font-bold">Edit Profile</h1>
-      </div>
-      <p className="text-muted-foreground mb-8">
-        Update your personal information here. Click save when you're done.
-      </p>
+    <>
+      <PageHeader title="Edit Profile" backHref="/profile" />
+      <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        <p className="text-muted-foreground mb-8">
+          Update your personal information here. Click save when you're done.
+        </p>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-6">
-            <FormField
-              control={form.control}
-              name="fullName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="you@example.com" {...field} readOnly />
-                  </FormControl>
-                  <FormDescription>
-                    Your email address is not editable.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Phone Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="123-456-7890" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="province"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Province</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a province" />
-                        </SelectTrigger>
-                      </FormControl>
-                    <SelectContent>
-                      {getProvinces().map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="space-y-6">
               <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>City/District</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value} disabled={cities.length === 0}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a city" />
-                        </SelectTrigger>
-                      </FormControl>
-                    <SelectContent>
-                      {cities.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="subdistrict"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sub-district</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value} disabled={subdistricts.length === 0}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a sub-district" />
-                        </SelectTrigger>
-                      </FormControl>
-                    <SelectContent>
-                      {subdistricts.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="village"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Village</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value} disabled={villages.length === 0}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a village" />
-                        </SelectTrigger>
-                      </FormControl>
-                    <SelectContent>
-                      {villages.map(v => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="fullAddress"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Address</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="e.g., Street Name, House Number, RT/RW"
-                      {...field}
-                    />
-                  </FormControl>
+                control={form.control}
+                name="fullName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="you@example.com" {...field} readOnly />
+                    </FormControl>
                     <FormDescription>
-                    Please provide details like street name, house number, and RT/RW.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="mt-8">
-            <Button type="submit" disabled={isSubmitting || !form.formState.isDirty}>
-              {isSubmitting && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Save Changes
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+                      Your email address is not editable.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="123-456-7890" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="province"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Province</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a province" />
+                          </SelectTrigger>
+                        </FormControl>
+                      <SelectContent>
+                        {getProvinces().map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+                <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City/District</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={cities.length === 0}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a city" />
+                          </SelectTrigger>
+                        </FormControl>
+                      <SelectContent>
+                        {cities.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="subdistrict"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sub-district</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={subdistricts.length === 0}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a sub-district" />
+                          </SelectTrigger>
+                        </FormControl>
+                      <SelectContent>
+                        {subdistricts.map(s => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="village"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Village</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value} disabled={villages.length === 0}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a village" />
+                          </SelectTrigger>
+                        </FormControl>
+                      <SelectContent>
+                        {villages.map(v => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="fullAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Address</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="e.g., Street Name, House Number, RT/RW"
+                        {...field}
+                      />
+                    </FormControl>
+                      <FormDescription>
+                      Please provide details like street name, house number, and RT/RW.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="mt-8">
+              <Button type="submit" disabled={isSubmitting || !form.formState.isDirty}>
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Save Changes
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </>
   );
 }

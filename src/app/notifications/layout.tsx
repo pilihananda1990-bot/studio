@@ -9,7 +9,7 @@ export default function NotificationLayout({
 }) {
   return (
     <div>
-      <PageHeader title="Notifications" backHref="/" backText="Home" />
+      <PageHeader title="Notifications" backHref="/" />
       {children}
     </div>
   );

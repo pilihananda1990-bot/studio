@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -83,7 +84,7 @@ export default function HelpPage() {
 
   return (
     <div>
-      <PageHeader title="Help & Feedback" backHref="/profile" backText="Profile" />
+      <PageHeader title="Help & Feedback" backHref="/profile" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
         <div className="max-w-3xl mx-auto space-y-12">
           

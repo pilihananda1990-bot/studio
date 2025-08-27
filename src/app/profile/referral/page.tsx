@@ -1,14 +1,15 @@
 
+
 'use client';
 
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Copy, Share2, CheckCircle, Clock, ArrowLeft } from 'lucide-react';
+import { Copy, Share2, CheckCircle, Clock } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { REFERRAL_CODE } from '@/lib/constants';
-import Link from 'next/link';
+import { PageHeader } from '@/components/app/page-header';
 
 const invitationHistory = [
   { name: 'John Doe', date: '2024-05-20', status: 'Successful' },
@@ -38,7 +39,7 @@ export default function ReferralPage() {
   const handleShare = async () => {
     const shareData = {
       title: 'Join me on EcoCollect!',
-      text: `Join me on EcoCollect and let's make a difference! Use my referral code: ${REFERRAL_CODE}`,
+      text: `Join me on EcoCollect and let\'s make a difference! Use my referral code: ${REFERRAL_CODE}`,
       url: window.location.origin,
     };
     if (navigator.share) {
@@ -56,67 +57,63 @@ export default function ReferralPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-       <Button asChild variant="ghost" className="-ml-4 mb-4">
-            <Link href="/profile">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Profile
-            </Link>
-        </Button>
-
-        <div className="text-center">
-            <h1 className="text-2xl font-bold">Invite Friends, Earn Points!</h1>
-            <p className="text-muted-foreground mt-1">Share your code with friends. You both get bonus points when they join.</p>
-        </div>
-        
-        <div className="relative w-full h-48 my-8 rounded-lg overflow-hidden">
-            <Image 
-            src="https://picsum.photos/seed/referral/800/300"
-            alt="Refer a friend illustration"
-            fill
-            className="object-cover"
-            data-ai-hint="people community environment"
-        />
-        </div>
-        
-        <div className="flex flex-col items-center gap-6">
-          <div className="w-full max-w-sm">
-            <p className="text-center text-sm text-muted-foreground mb-2">Your unique referral code</p>
-            <div className="flex items-center gap-2">
-              <Input 
-                readOnly 
-                value={REFERRAL_CODE} 
-                className="text-center font-bold text-lg tracking-wider h-12"
-              />
-              <Button size="icon" variant="outline" onClick={handleCopy} aria-label="Copy code">
-                <Copy className="h-5 w-5" />
-              </Button>
+    <div>
+        <PageHeader title="Refer a Friend" backHref="/profile" />
+        <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+            <div className="text-center">
+                <h1 className="text-2xl font-bold">Invite Friends, Earn Points!</h1>
+                <p className="text-muted-foreground mt-1">Share your code with friends. You both get bonus points when they join.</p>
             </div>
-          </div>
-          <Button size="lg" className="w-full max-w-sm" onClick={handleShare}>
-            <Share2 className="mr-2 h-5 w-5" />
-            Share Your Code
-          </Button>
-
-          <Separator className="my-4 w-full" />
-          
-          <div className="w-full text-left">
-            <h3 className="text-lg font-semibold mb-4">Invitation History</h3>
-              <div className="space-y-4">
-              {invitationHistory.map((invite, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
-                  <div>
-                    <p className="font-medium">{invite.name}</p>
-                    <p className="text-sm text-muted-foreground">Invited on {new Date(invite.date).toLocaleDateString()}</p>
-                  </div>
-                  <div className={`flex items-center gap-2 text-sm font-medium ${invite.status === 'Successful' ? 'text-green-600' : 'text-yellow-600'}`}>
-                    {invite.status === 'Successful' ? <CheckCircle className="h-4 w-4" /> : <Clock className="h-4 w-4" />}
-                    <span>{invite.status}</span>
-                  </div>
+            
+            <div className="relative w-full h-48 my-8 rounded-lg overflow-hidden">
+                <Image 
+                src="https://picsum.photos/seed/referral/800/300"
+                alt="Refer a friend illustration"
+                fill
+                className="object-cover"
+                data-ai-hint="people community environment"
+            />
+            </div>
+            
+            <div className="flex flex-col items-center gap-6">
+            <div className="w-full max-w-sm">
+                <p className="text-center text-sm text-muted-foreground mb-2">Your unique referral code</p>
+                <div className="flex items-center gap-2">
+                <Input 
+                    readOnly 
+                    value={REFERRAL_CODE} 
+                    className="text-center font-bold text-lg tracking-wider h-12"
+                />
+                <Button size="icon" variant="outline" onClick={handleCopy} aria-label="Copy code">
+                    <Copy className="h-5 w-5" />
+                </Button>
                 </div>
-              ))}
             </div>
-          </div>
+            <Button size="lg" className="w-full max-w-sm" onClick={handleShare}>
+                <Share2 className="mr-2 h-5 w-5" />
+                Share Your Code
+            </Button>
+
+            <Separator className="my-4 w-full" />
+            
+            <div className="w-full text-left">
+                <h3 className="text-lg font-semibold mb-4">Invitation History</h3>
+                <div className="space-y-4">
+                {invitationHistory.map((invite, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
+                    <div>
+                        <p className="font-medium">{invite.name}</p>
+                        <p className="text-sm text-muted-foreground">Invited on {new Date(invite.date).toLocaleDateString()}</p>
+                    </div>
+                    <div className={`flex items-center gap-2 text-sm font-medium ${invite.status === 'Successful' ? 'text-green-600' : 'text-yellow-600'}`}>
+                        {invite.status === 'Successful' ? <CheckCircle className="h-4 w-4" /> : <Clock className="h-4 w-4" />}
+                        <span>{invite.status}</span>
+                    </div>
+                    </div>
+                ))}
+                </div>
+            </div>
+            </div>
         </div>
     </div>
   );

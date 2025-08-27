@@ -1,4 +1,5 @@
 
+
 import { Separator } from '@/components/ui/separator';
 import { PageHeader } from '@/components/app/page-header';
 
@@ -67,7 +68,7 @@ const termsContent = [
 export default function TermsPage() {
   return (
     <div>
-        <PageHeader title="Terms & Conditions" backHref="/profile" backText="Profile" />
+        <PageHeader title="Terms & Conditions" backHref="/profile" />
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
             <div className="prose max-w-none dark:prose-invert">
             {termsContent.slice(1).map((item, index) => {

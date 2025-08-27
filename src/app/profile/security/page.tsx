@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import {
@@ -28,7 +29,7 @@ const securityItems = [
 export default function SecurityPage() {
   return (
     <div>
-      <PageHeader title="Security Settings" backHref="/profile" backText="Profile" />
+      <PageHeader title="Security Settings" backHref="/profile" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
         <p className="text-muted-foreground mt-1">
           Manage your account's security settings and view recent activity.
