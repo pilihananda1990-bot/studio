@@ -16,19 +16,17 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ShieldCheck, KeyRound } from 'lucide-react';
+import { Loader2, ShieldCheck, KeyRound, Mail, Smartphone } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
-// Schemas for each step
-const stepOneSchema = z.object({}); // No fields needed for the initial step
-
-const stepTwoSchema = z.object({
+const verificationSchema = z.object({
   verificationCode: z
     .string()
     .min(6, { message: 'Code must be 6 digits.' })
     .max(6, { message: 'Code must be 6 digits.' }),
 });
 
-const stepThreeSchema = z
+const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1, { message: 'Current password is required.' }),
     newPassword: z
@@ -43,34 +41,36 @@ const stepThreeSchema = z
     path: ['confirmNewPassword'],
   });
 
-type Step = 1 | 2 | 3 | 4; // 1: Initial, 2: Verify Code, 3: Change Password, 4: Success
+type Step = 'selection' | 'verification' | 'change_password' | 'success';
+type OtpMethod = 'email' | 'sms' | null;
 
 export function ChangePasswordFlow() {
-  const [currentStep, setCurrentStep] = useState<Step>(1);
+  const [currentStep, setCurrentStep] = useState<Step>('selection');
+  const [otpMethod, setOtpMethod] = useState<OtpMethod>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const formStep1 = useForm();
-  const formStep2 = useForm<z.infer<typeof stepTwoSchema>>({
-    resolver: zodResolver(stepTwoSchema),
+  const verificationForm = useForm<z.infer<typeof verificationSchema>>({
+    resolver: zodResolver(verificationSchema),
   });
-  const formStep3 = useForm<z.infer<typeof stepThreeSchema>>({
-    resolver: zodResolver(stepThreeSchema),
+  const changePasswordForm = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
   });
 
-  const handleStep1Submit = async () => {
+  const handleMethodSelection = async (method: OtpMethod) => {
     setIsSubmitting(true);
-    // Simulate sending a verification code
+    setOtpMethod(method);
+    // Simulate sending an OTP
     await new Promise((resolve) => setTimeout(resolve, 1000));
     toast({
       title: 'Verification Code Sent',
-      description: 'A 6-digit code has been sent to your registered device.',
+      description: `A 6-digit code has been sent to your registered ${method}.`,
     });
     setIsSubmitting(false);
-    setCurrentStep(2);
+    setCurrentStep('verification');
   };
 
-  const handleStep2Submit = async (values: z.infer<typeof stepTwoSchema>) => {
+  const handleVerificationSubmit = async (values: z.infer<typeof verificationSchema>) => {
     setIsSubmitting(true);
     // Simulate verifying the code
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -85,148 +85,161 @@ export function ChangePasswordFlow() {
         title: 'Verification Successful',
         description: 'You can now change your password.',
       });
-      setCurrentStep(3);
+      setCurrentStep('change_password');
     }
     setIsSubmitting(false);
   };
 
-  const handleStep3Submit = async (values: z.infer<typeof stepThreeSchema>) => {
+  const handleChangePasswordSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
     setIsSubmitting(true);
-     // Simulate changing the password
+    // Simulate changing the password
     await new Promise((resolve) => setTimeout(resolve, 1000));
     console.log('Password change data:', values);
-     toast({
+    toast({
       title: 'Password Changed Successfully',
       description: 'Your password has been updated.',
     });
     setIsSubmitting(false);
-    setCurrentStep(4);
+    setCurrentStep('success');
   };
 
   const handleResetFlow = () => {
-    formStep2.reset();
-    formStep3.reset();
-    setCurrentStep(1);
+    verificationForm.reset();
+    changePasswordForm.reset();
+    setOtpMethod(null);
+    setCurrentStep('selection');
   };
 
-  if (currentStep === 1) {
+  if (currentStep === 'selection') {
     return (
-      <div className="space-y-4">
-        <h3 className="font-medium">Change Password</h3>
-        <p className="text-sm text-muted-foreground">
-          For your security, we need to verify your identity before you can change your password.
-        </p>
-        <Button onClick={handleStep1Submit} disabled={isSubmitting}>
-          {isSubmitting ? (
-            <Loader2 className="mr-2 animate-spin" />
-          ) : (
-            <ShieldCheck className="mr-2" />
-          )}
-          Start Verification
-        </Button>
-      </div>
+       <Card>
+          <CardHeader>
+            <CardTitle>Change Password</CardTitle>
+            <CardDescription>
+              Choose a method to verify your identity before changing your password.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+             <Button onClick={() => handleMethodSelection('email')} disabled={isSubmitting} className="w-full justify-start">
+                {isSubmitting && otpMethod === 'email' ? <Loader2 className="mr-2 animate-spin" /> : <Mail className="mr-2" />}
+                Send OTP via Email
+             </Button>
+             <Button onClick={() => handleMethodSelection('sms')} disabled={isSubmitting} className="w-full justify-start">
+                {isSubmitting && otpMethod === 'sms' ? <Loader2 className="mr-2 animate-spin" /> : <Smartphone className="mr-2" />}
+                Send OTP via SMS
+             </Button>
+          </CardContent>
+        </Card>
     );
   }
 
-  if (currentStep === 2) {
+  if (currentStep === 'verification') {
     return (
-      <div className="space-y-4">
-        <h3 className="font-medium">Enter Verification Code</h3>
-        <p className="text-sm text-muted-foreground">
-          Enter the 6-digit code we sent to your device. (Hint: it's 123456)
-        </p>
-        <Form {...formStep2}>
-          <form onSubmit={formStep2.handleSubmit(handleStep2Submit)} className="space-y-4">
-            <FormField
-              control={formStep2.control}
-              name="verificationCode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Verification Code</FormLabel>
-                  <FormControl>
-                    <Input placeholder="123456" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex gap-2">
-               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
-                Verify
-              </Button>
-              <Button variant="link" onClick={handleResetFlow}>Cancel</Button>
-            </div>
-          </form>
-        </Form>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Enter Verification Code</CardTitle>
+          <CardDescription>
+            Enter the 6-digit code we sent to your {otpMethod}. (Hint: it's 123456)
+          </CardDescription>
+        </CardHeader>
+         <CardContent>
+            <Form {...verificationForm}>
+              <form onSubmit={verificationForm.handleSubmit(handleVerificationSubmit)} className="space-y-4">
+                <FormField
+                  control={verificationForm.control}
+                  name="verificationCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Verification Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="123456" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex gap-2 items-center">
+                   <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
+                    Verify
+                  </Button>
+                  <Button variant="link" onClick={handleResetFlow}>Cancel</Button>
+                </div>
+              </form>
+            </Form>
+        </CardContent>
+      </Card>
     );
   }
 
-  if (currentStep === 3) {
+  if (currentStep === 'change_password') {
     return (
-       <div className="space-y-4">
-        <h3 className="font-medium">Set Your New Password</h3>
-         <Form {...formStep3}>
-          <form onSubmit={formStep3.handleSubmit(handleStep3Submit)} className="space-y-4">
-             <FormField
-              control={formStep3.control}
-              name="currentPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Current Password</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={formStep3.control}
-              name="newPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>New Password</FormLabel>
-                  <FormControl>
-                     <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-             <FormField
-              control={formStep3.control}
-              name="confirmNewPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm New Password</FormLabel>
-                  <FormControl>
-                     <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex gap-2">
-               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
-                Save New Password
-              </Button>
-               <Button variant="link" onClick={handleResetFlow}>Cancel</Button>
-            </div>
-          </form>
-        </Form>
-      </div>
+       <Card>
+        <CardHeader>
+            <CardTitle>Set Your New Password</CardTitle>
+            <CardDescription>Please enter your current and new passwords.</CardDescription>
+        </CardHeader>
+        <CardContent>
+             <Form {...changePasswordForm}>
+              <form onSubmit={changePasswordForm.handleSubmit(handleChangePasswordSubmit)} className="space-y-4">
+                 <FormField
+                  control={changePasswordForm.control}
+                  name="currentPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Current Password</FormLabel>
+                      <FormControl>
+                        <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={changePasswordForm.control}
+                  name="newPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>New Password</FormLabel>                      <FormControl>
+                         <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                 <FormField
+                  control={changePasswordForm.control}
+                  name="confirmNewPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirm New Password</FormLabel>
+                      <FormControl>
+                         <Input type="password" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex gap-2">
+                   <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
+                    Save New Password
+                  </Button>
+                   <Button variant="link" onClick={handleResetFlow}>Cancel</Button>
+                </div>
+              </form>
+            </Form>
+        </CardContent>
+       </Card>
     );
   }
 
-  if (currentStep === 4) {
+  if (currentStep === 'success') {
     return (
-      <div className="space-y-4 text-center p-4 bg-green-50 rounded-lg border border-green-200">
+      <div className="space-y-4 text-center p-4 bg-green-50 rounded-lg border border-green-200 dark:bg-green-950 dark:border-green-800">
         <KeyRound className="h-12 w-12 text-green-600 mx-auto"/>
-        <h3 className="text-lg font-bold text-green-800">Password Changed!</h3>
-        <p className="text-sm text-green-700">
+        <h3 className="text-lg font-bold text-green-800 dark:text-green-300">Password Changed!</h3>
+        <p className="text-sm text-green-700 dark:text-green-400">
           Your password has been successfully updated.
         </p>
         <Button onClick={handleResetFlow}>Start Over</Button>

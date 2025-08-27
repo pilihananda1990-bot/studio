@@ -13,18 +13,8 @@ import {
 export default function SecurityPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <div className="grid gap-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Security Settings</CardTitle>
-            <CardDescription>
-              Manage your password and account security.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChangePasswordFlow />
-          </CardContent>
-        </Card>
+      <div className="grid gap-8 max-w-2xl mx-auto">
+        <ChangePasswordFlow />
         
         <Card>
           <CardHeader>
