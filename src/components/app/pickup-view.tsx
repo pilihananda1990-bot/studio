@@ -52,9 +52,9 @@ export function PickupView() {
   }, []);
 
   return (
-    <>
+    <div className="p-6">
       {/* ETA and Address */}
-      <div className="flex justify-between items-center p-6 pb-0">
+      <div className="flex justify-between items-center">
         <div>
           <p className="text-sm text-muted-foreground">Estimated Arrival</p>
           <p className="text-lg font-bold">{isPickupCompleted ? "Arrived" : order.eta}</p>
@@ -65,13 +65,10 @@ export function PickupView() {
         </div>
       </div>
 
-      <div className="px-6">
-        <Separator className="my-6" />
-      </div>
-      
+      <Separator className="my-6" />
 
       {/* Driver Information */}
-      <div className="flex items-center space-x-4 px-6">
+      <div className="flex items-center space-x-4">
         <Avatar className="h-16 w-16">
           <AvatarImage src={driver.avatar} alt={driver.name} />
           <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
@@ -101,7 +98,7 @@ export function PickupView() {
       </div>
 
       {/* Tracking Timeline */}
-      <div className="pt-8 px-6">
+      <div className="pt-8">
         <div className="flex justify-between items-center">
           {trackingSteps.map((step, index) => (
             <React.Fragment key={step.id}>
@@ -135,12 +132,10 @@ export function PickupView() {
         </div>
       </div>
       
-      <div className="px-6">
-          <Separator className="my-6" />
-      </div>
+      <Separator className="my-6" />
 
       {/* Order Details */}
-      <div className="px-6">
+      <div>
         <h3 className="text-lg font-semibold mb-2">Order Details</h3>
         <Button variant="outline" className="w-full justify-between">
           <span>Review Order Items</span>
@@ -150,10 +145,8 @@ export function PickupView() {
 
       {isPickupCompleted && (
         <>
-          <div className="px-6">
-            <Separator className="my-6" />
-          </div>
-          <div className="text-center space-y-2 px-6 pb-6">
+          <Separator className="my-6" />
+          <div className="text-center space-y-2">
             <h3 className="text-lg font-semibold">Pickup Complete!</h3>
             <p className="text-muted-foreground">Thank you for helping the environment.</p>
             <Button onClick={() => setIsRatingOpen(true)} className="mt-2">
@@ -165,6 +158,6 @@ export function PickupView() {
       )}
 
       <RatingOverlay isOpen={isRatingOpen} onOpenChange={setIsRatingOpen} />
-    </>
+    </div>
   );
 }
