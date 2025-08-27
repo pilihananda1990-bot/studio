@@ -31,7 +31,7 @@ export function RedeemConfirmation({ isOpen, onClose, item, userPoints, onConfir
             <p className="font-semibold text-lg">{item.name}</p>
             <div className="flex items-center gap-2 mt-2 text-primary">
                 <Star className="w-5 h-5"/>
-                <span className="font-bold text-xl">{item.points.toLocaleString()}</span>
+                <span className="font-bold text-xl">{item.points.toLocaleString('en-US')}</span>
                 <span>points</span>
             </div>
              {!hasEnoughPoints && (

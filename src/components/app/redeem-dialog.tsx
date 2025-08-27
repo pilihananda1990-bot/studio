@@ -44,7 +44,7 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
               <div className="p-6">
                 <DialogTitle className="text-center text-2xl">Redeem Your Points</DialogTitle>
                 <DialogDescription className="text-center mt-2 mb-4">
-                  Your current balance is {userPoints.toLocaleString()} points. Choose from the options below.
+                  Your current balance is {userPoints.toLocaleString('en-US')} points. Choose from the options below.
                 </DialogDescription>
                  <Separator />
               </div>
@@ -66,7 +66,7 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
                                 <p className="font-medium">{item.name}</p>
                                 <div className="flex items-center gap-1 mt-1 text-primary">
                                   <Star className="w-4 h-4" />
-                                  <span className="font-bold">{item.points.toLocaleString()}</span>
+                                  <span className="font-bold">{item.points.toLocaleString('en-US')}</span>
                                 </div>
                               </div>
                           </div>

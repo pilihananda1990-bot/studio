@@ -84,7 +84,7 @@ export default function WalletPage() {
                 <p className="text-sm text-muted-foreground">Your Balance</p>
                 <div className="flex items-center gap-2 mt-1">
                   <Star className="w-8 h-8 text-yellow-400 fill-yellow-400" />
-                  <p className="text-4xl font-bold">{userPoints.toLocaleString()}</p>
+                  <p className="text-4xl font-bold">{userPoints.toLocaleString('en-US')}</p>
                   <span className="text-lg text-muted-foreground">points</span>
                 </div>
             </div>
@@ -109,7 +109,7 @@ export default function WalletPage() {
                       </p>
                     </div>
                       <p className={`font-bold text-lg ${transaction.points > 0 ? 'text-green-500' : 'text-destructive'}`}>
-                      {transaction.points > 0 ? '+' : ''}{transaction.points.toLocaleString()}
+                      {transaction.points > 0 ? '+' : ''}{transaction.points.toLocaleString('en-US')}
                     </p>
                   </div>
                 ))
