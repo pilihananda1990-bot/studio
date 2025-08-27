@@ -2,12 +2,11 @@
 'use client';
 
 import Image from 'next/image';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Phone, Star, MapPin, Flag } from 'lucide-react';
+import { MessageCircle, Phone, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 export function PickupView() {
   const driver = {
@@ -22,8 +21,6 @@ export function PickupView() {
     status: 'Driver on the way',
     eta: '15 minutes',
     distance: '3.2 km away',
-    pickupAddress: '123 Main Street, Greenville, 12345',
-    dropoffAddress: '456 Oak Avenue, Greenville, 12345',
   };
 
   return (
