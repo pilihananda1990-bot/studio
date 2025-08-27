@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, ShieldCheck, KeyRound, Mail, Smartphone } from 'lucide-react';
+import { Loader2, KeyRound, Mail, Smartphone, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 
 const verificationSchema = z.object({
@@ -88,6 +88,7 @@ export function ChangePasswordFlow() {
       setCurrentStep('change_password');
     }
     setIsSubmitting(false);
+    verificationForm.reset();
   };
 
   const handleChangePasswordSubmit = async (values: z.infer<typeof changePasswordSchema>) => {
@@ -108,6 +109,14 @@ export function ChangePasswordFlow() {
     changePasswordForm.reset();
     setOtpMethod(null);
     setCurrentStep('selection');
+  };
+
+  const goBack = () => {
+    if (currentStep === 'verification') {
+      setCurrentStep('selection');
+    } else if (currentStep === 'change_password') {
+      setCurrentStep('verification');
+    }
   };
 
   if (currentStep === 'selection') {
@@ -137,7 +146,11 @@ export function ChangePasswordFlow() {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Enter Verification Code</CardTitle>
+          <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back
+          </Button>
+          <CardTitle className="pt-8">Enter Verification Code</CardTitle>
           <CardDescription>
             Enter the 6-digit code we sent to your {otpMethod}. (Hint: it's 123456)
           </CardDescription>
@@ -163,7 +176,7 @@ export function ChangePasswordFlow() {
                     {isSubmitting && <Loader2 className="mr-2 animate-spin" />}
                     Verify
                   </Button>
-                  <Button variant="link" onClick={handleResetFlow}>Cancel</Button>
+                   <Button variant="link" onClick={() => setCurrentStep('selection')}>Cancel</Button>
                 </div>
               </form>
             </Form>
@@ -176,7 +189,11 @@ export function ChangePasswordFlow() {
     return (
        <Card>
         <CardHeader>
-            <CardTitle>Set Your New Password</CardTitle>
+             <Button variant="ghost" onClick={goBack} className="absolute left-2 top-2 px-2">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Back
+             </Button>
+            <CardTitle className="pt-8">Set Your New Password</CardTitle>
             <CardDescription>Please enter your current and new passwords.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -237,14 +254,16 @@ export function ChangePasswordFlow() {
 
   if (currentStep === 'success') {
     return (
-      <div className="space-y-4 text-center p-4 bg-green-50 rounded-lg border border-green-200 dark:bg-green-950 dark:border-green-800">
-        <KeyRound className="h-12 w-12 text-green-600 mx-auto"/>
-        <h3 className="text-lg font-bold text-green-800 dark:text-green-300">Password Changed!</h3>
-        <p className="text-sm text-green-700 dark:text-green-400">
-          Your password has been successfully updated.
-        </p>
-        <Button onClick={handleResetFlow}>Start Over</Button>
-      </div>
+      <Card>
+        <CardContent className="p-6 space-y-4 text-center">
+            <KeyRound className="h-12 w-12 text-green-600 mx-auto"/>
+            <h3 className="text-lg font-bold text-green-800 dark:text-green-300">Password Changed!</h3>
+            <p className="text-sm text-green-700 dark:text-green-400">
+              Your password has been successfully updated.
+            </p>
+            <Button onClick={handleResetFlow}>Start Over</Button>
+        </CardContent>
+      </Card>
     );
   }
 
