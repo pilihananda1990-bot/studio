@@ -59,3 +59,13 @@ export type RedemptionCategory = {
   name: string;
   items: RedemptionOption[];
 };
+
+export type Notification = {
+  id: string;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  timestamp: string;
+  read: boolean;
+  href: string;
+};
