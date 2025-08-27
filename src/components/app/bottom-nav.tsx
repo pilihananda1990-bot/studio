@@ -15,8 +15,20 @@ const navItems = [
 export function BottomNav() {
   const pathname = usePathname();
 
+  // The navigation should be hidden on sub-routes of the main sections for a cleaner UX
+  const isSubRoute = navItems.some(item => item.href !== '/' && pathname.startsWith(item.href) && pathname !== item.href);
+  const isHome = pathname === '/';
+
+  // Determine if the path is a main navigation path
+  const isMainPath = navItems.some(item => item.href === pathname);
+  
+  // Hide on all sub-routes except for the root home page
+  if (!isMainPath) {
+    return null;
+  }
+
   return (
-    <nav className="fixed bottom-0 left-0 right-0 h-20 bg-background border-t z-20 md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 h-16 bg-background border-t z-20 md:hidden">
       <div className="container mx-auto h-full">
         <div className="flex justify-around items-center h-full">
           {navItems.map(({ href, label, icon: Icon }) => {
