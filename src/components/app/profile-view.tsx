@@ -10,6 +10,8 @@ import {
   Wallet,
   Settings,
   FileText,
+  Gift,
+  Pen,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
@@ -30,7 +32,7 @@ import {
 
 const menuItems = [
   { icon: Wallet, label: 'Wallet', href: '/profile/wallet' },
-  { icon: User, label: 'Referral', href: '/profile/referral' },
+  { icon: Gift, label: 'Referral', href: '/profile/referral' },
   { icon: Settings, label: 'Settings', href: '/profile/settings' },
   { icon: Shield, label: 'Security', href: '/profile/security' },
   { icon: HelpCircle, label: 'Help & Feedback', href: '/profile/help' },
@@ -57,12 +59,15 @@ export function ProfileView() {
                 <AvatarImage src="https://i.pravatar.cc/150?u=profile" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
-              <div>
+              <div className='flex-1'>
                 <h2 className="text-2xl font-bold">Eco-Warrior</h2>
                 <p className="text-muted-foreground">@ecowarrior</p>
               </div>
-              <Button asChild variant="outline" className="ml-auto">
-                <Link href="/profile/edit">Edit Profile</Link>
+              <Button asChild variant="ghost" size="icon" className="rounded-full">
+                <Link href="/profile/edit">
+                  <Pen className="h-5 w-5"/>
+                  <span className="sr-only">Edit Profile</span>
+                </Link>
               </Button>
             </div>
 
