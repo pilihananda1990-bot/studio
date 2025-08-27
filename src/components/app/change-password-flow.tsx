@@ -55,9 +55,17 @@ export function ChangePasswordFlow() {
 
   const verificationForm = useForm<z.infer<typeof verificationSchema>>({
     resolver: zodResolver(verificationSchema),
+    defaultValues: {
+      verificationCode: '',
+    },
   });
   const changePasswordForm = useForm<z.infer<typeof changePasswordSchema>>({
     resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      currentPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
+    },
   });
 
   const handleMethodSelection = async (method: OtpMethod) => {
@@ -110,8 +118,6 @@ export function ChangePasswordFlow() {
       setCurrentStep('selection');
     } else if (currentStep === 'change_password') {
       setCurrentStep('verification');
-    } else {
-        router.back();
     }
   };
   
