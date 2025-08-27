@@ -1,36 +1,35 @@
 
-'use client';
-
-import { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getItemById } from '@/lib/data/items';
 import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { ArrowLeft, Weight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { ItemInteraction } from '@/components/app/item-interaction';
 
 type Props = {
   params: { itemId: string };
 };
 
+// Note: This is now a Server Component to allow for `React.use(params)`.
 export default function ItemDetailPage({ params }: Props) {
-  const { itemId } = params;
+  // MANDATE: Use React.use() to access the params object
+  const unwrappedParams = React.use(params);
+  const itemId = unwrappedParams.itemId;
+  
   const item = getItemById(itemId);
-  const [weight, setWeight] = useState(5); // Default weight 5kg
 
   if (!item) {
     notFound();
   }
-  
-  const estimatedPoints = (item.pricePerKg * weight).toFixed(2);
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <main className="flex-1">
         <div className="relative w-full h-64 md:h-80">
-            <Image
+          <Image
             src={item.image}
             alt={item.name}
             fill
@@ -41,10 +40,10 @@ export default function ItemDetailPage({ params }: Props) {
         
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
             <Button asChild variant="ghost" className="mb-4 -ml-4">
-            <Link href={`/category/${item.categoryId}`}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to {item.categoryId.charAt(0).toUpperCase() + item.categoryId.slice(1)}
-            </Link>
+              <Link href={`/category/${item.categoryId}`}>
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to {item.categoryId.charAt(0).toUpperCase() + item.categoryId.slice(1)}
+              </Link>
             </Button>
             
             <div className="flex flex-col gap-4">
@@ -55,37 +54,8 @@ export default function ItemDetailPage({ params }: Props) {
 
               <Separator className="my-4" />
               
-              <div className="grid gap-6">
-                  <div>
-                    <h3 className="text-lg font-medium">Estimated Weight</h3>
-                    <div className="flex items-center gap-4 mt-2">
-                        <Weight className="h-6 w-6 text-muted-foreground" />
-                        <Slider
-                        defaultValue={[weight]}
-                        max={50}
-                        min={1}
-                        step={1}
-                        onValueChange={(value) => setWeight(value[0])}
-                        />
-                        <span className="font-bold text-lg w-24 text-center">{weight} kg</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">Adjust the slider to estimate the weight of your items.</p>
-                  </div>
-                  <div className="flex justify-between items-center bg-primary/10 p-4 rounded-lg">
-                    <h3 className="text-lg font-medium">Price / kg</h3>
-                    <p className="text-2xl font-bold text-primary">${item.pricePerKg.toFixed(2)}</p>
-                  </div>
-                  <div className="flex justify-between items-center bg-accent/50 p-4 rounded-lg">
-                    <h3 className="text-lg font-medium">Estimated Points</h3>
-                    <p className="text-2xl font-bold text-accent-foreground">${estimatedPoints}</p>
-                  </div>
-              </div>
-
-              <div className="mt-4">
-                <Button asChild size="lg" className="w-full bg-primary hover:bg-primary/90">
-                  <Link href={`/confirmation?itemId=${item.id}&weight=${weight}`}>Schedule Pickup</Link>
-                </Button>
-              </div>
+              {/* Client-side components are now isolated */}
+              <ItemInteraction item={item} />
             </div>
         </div>
       </main>
