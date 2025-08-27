@@ -12,9 +12,9 @@ type Props = {
   params: { categoryId: string };
 };
 
-export default function CategoryPage({ params }: Props) {
-  const category = getCategoryById(params.categoryId);
-  const items = getItemsByCategoryId(params.categoryId);
+export default function CategoryPage({ params: { categoryId } }: Props) {
+  const category = getCategoryById(categoryId);
+  const items = getItemsByCategoryId(categoryId);
 
   if (!category) {
     notFound();
