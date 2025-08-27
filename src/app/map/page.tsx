@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { DropOffView } from '@/components/app/dropoff-view';
 import { PickupView } from '@/components/app/pickup-view';
 import Image from 'next/image';
-import { PageHeader } from '@/components/app/page-header';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
