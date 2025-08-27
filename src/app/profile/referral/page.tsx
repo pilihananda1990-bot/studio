@@ -2,13 +2,13 @@
 'use client';
 
 import Image from 'next/image';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Copy, Share2, CheckCircle, Clock } from 'lucide-react';
+import { Copy, Share2, CheckCircle, Clock, ArrowLeft } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { REFERRAL_CODE } from '@/lib/constants';
+import Link from 'next/link';
 
 const invitationHistory = [
   { name: 'John Doe', date: '2024-05-20', status: 'Successful' },
@@ -57,21 +57,29 @@ export default function ReferralPage() {
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <Card>
-        <CardHeader className="text-center">
-          <div className="relative w-full h-48 mb-4">
-             <Image 
-                src="https://picsum.photos/seed/referral/800/300"
-                alt="Refer a friend illustration"
-                fill
-                className="object-cover rounded-t-lg"
-                data-ai-hint="people community environment"
-            />
-          </div>
-          <CardTitle className="text-2xl">Invite Friends, Earn Points!</CardTitle>
-          <CardDescription>Share your code with friends. You both get bonus points when they join.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center gap-6">
+       <Button asChild variant="ghost" className="-ml-4 mb-4">
+            <Link href="/profile">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Profile
+            </Link>
+        </Button>
+
+        <div className="text-center">
+            <h1 className="text-2xl font-bold">Invite Friends, Earn Points!</h1>
+            <p className="text-muted-foreground mt-1">Share your code with friends. You both get bonus points when they join.</p>
+        </div>
+        
+        <div className="relative w-full h-48 my-8 rounded-lg overflow-hidden">
+            <Image 
+            src="https://picsum.photos/seed/referral/800/300"
+            alt="Refer a friend illustration"
+            fill
+            className="object-cover"
+            data-ai-hint="people community environment"
+        />
+        </div>
+        
+        <div className="flex flex-col items-center gap-6">
           <div className="w-full max-w-sm">
             <p className="text-center text-sm text-muted-foreground mb-2">Your unique referral code</p>
             <div className="flex items-center gap-2">
@@ -94,7 +102,7 @@ export default function ReferralPage() {
           
           <div className="w-full text-left">
             <h3 className="text-lg font-semibold mb-4">Invitation History</h3>
-             <div className="space-y-4">
+              <div className="space-y-4">
               {invitationHistory.map((invite, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
                   <div>
@@ -109,8 +117,7 @@ export default function ReferralPage() {
               ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
     </div>
   );
 }

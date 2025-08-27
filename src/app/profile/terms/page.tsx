@@ -1,5 +1,5 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 
 const termsContent = [
   {
@@ -66,11 +66,11 @@ const termsContent = [
 export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-3xl">Terms & Conditions</CardTitle>
-        </CardHeader>
-        <CardContent className="prose max-w-none dark:prose-invert">
+        <h1 className="text-3xl font-bold">Terms & Conditions</h1>
+        
+        <Separator className="my-6" />
+
+        <div className="prose max-w-none dark:prose-invert">
           {termsContent.slice(1).map((item, index) => {
             if (item.type === 'heading') {
               if (item.level === 2) {
@@ -85,8 +85,7 @@ export default function TermsPage() {
             }
             return null;
           })}
-        </CardContent>
-      </Card>
+        </div>
     </div>
   );
 }

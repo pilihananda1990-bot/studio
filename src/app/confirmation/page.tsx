@@ -8,12 +8,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { getItemById } from '@/lib/data/items';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft, Home, Landmark, Loader2, MapPin, User } from 'lucide-react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { Separator } from '@/components/ui/separator';
 
 const addressSchema = z.object({
   fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
@@ -90,7 +90,7 @@ export default function ConfirmationPage() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
       <main className="flex-1 container mx-auto px-4 py-8 md:px-6 md:py-12">
-        <Button asChild variant="ghost" className="mb-4">
+        <Button asChild variant="ghost" className="mb-4 -ml-4">
           <Link href={`/item/${item.id}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Item
@@ -98,13 +98,13 @@ export default function ConfirmationPage() {
         </Button>
 
         <div className="max-w-2xl mx-auto">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-2xl">Confirm Your Pickup</CardTitle>
-              <CardDescription>Please review the details and provide your pickup address.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="p-4 bg-muted/50 rounded-lg">
+            <h1 className="text-2xl font-bold">Confirm Your Pickup</h1>
+            <p className="text-muted-foreground mt-1">Please review the details and provide your pickup address.</p>
+           
+           <Separator className="my-6" />
+
+            <div className="grid gap-6">
+              <div className="p-4 bg-muted rounded-lg">
                 <h3 className="font-semibold mb-2">Item Summary</h3>
                 <div className="flex justify-between items-center">
                   <span>Item:</span>
@@ -191,8 +191,7 @@ export default function ConfirmationPage() {
                    </form>
                  </Form>
               </div>
-            </CardContent>
-          </Card>
+            </div>
         </div>
       </main>
     </div>

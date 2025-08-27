@@ -6,7 +6,6 @@ import {
   HelpCircle,
   LogOut,
   Shield,
-  User,
   Wallet,
   Settings,
   FileText,
@@ -15,7 +14,6 @@ import {
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { useState } from 'react';
 import {
@@ -29,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Separator } from '@/components/ui/separator';
 
 const menuItems = [
   { icon: Wallet, label: 'Wallet', href: '/profile/wallet' },
@@ -51,31 +50,31 @@ export default function ProfilePage() {
 
   return (
     <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center gap-4">
-            <Avatar className="h-20 w-20">
-              <AvatarImage src="https://i.pravatar.cc/150?u=profile" />
-              <AvatarFallback>U</AvatarFallback>
-            </Avatar>
-            <div className='flex-1'>
-              <h2 className="text-2xl font-bold">Eco-Warrior</h2>
-              <p className="text-muted-foreground">@ecowarrior</p>
-            </div>
-            <Button asChild variant="ghost" size="icon" className="rounded-full">
-              <Link href="/profile/edit">
-                <Pen className="h-5 w-5"/>
-                <span className="sr-only">Edit Profile</span>
-              </Link>
-            </Button>
+        <div className="flex items-center gap-4">
+          <Avatar className="h-20 w-20">
+            <AvatarImage src="https://i.pravatar.cc/150?u=profile" />
+            <AvatarFallback>U</AvatarFallback>
+          </Avatar>
+          <div className='flex-1'>
+            <h1 className="text-2xl font-bold">Eco-Warrior</h1>
+            <p className="text-muted-foreground">@ecowarrior</p>
           </div>
+          <Button asChild variant="ghost" size="icon" className="rounded-full">
+            <Link href="/profile/edit">
+              <Pen className="h-5 w-5"/>
+              <span className="sr-only">Edit Profile</span>
+            </Link>
+          </Button>
+        </div>
 
-          <div className="mt-8 space-y-2">
-            {menuItems.map((item) => (
+        <Separator className="my-8" />
+
+        <div className="space-y-2">
+          {menuItems.map((item, index) => (
+            <div key={item.label}>
               <Link
-                key={item.label}
                 href={item.href}
-                className="flex items-center justify-between p-4 rounded-lg hover:bg-muted/50 transition-colors"
+                className="flex items-center justify-between p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
               >
                 <div className="flex items-center gap-4">
                   <item.icon className="h-6 w-6 text-muted-foreground" />
@@ -83,40 +82,42 @@ export default function ProfilePage() {
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
               </Link>
-            ))}
-          </div>
+               {index < menuItems.length -1 && <Separator />}
+            </div>
+          ))}
+        </div>
 
-          <div className="mt-8">
-            <AlertDialog open={isLogoutAlertOpen} onOpenChange={setIsLogoutAlertOpen}>
-              <AlertDialogTrigger asChild>
-                 <button className="flex w-full items-center justify-between p-4 rounded-lg hover:bg-muted/50 transition-colors text-destructive">
-                  <div className="flex items-center gap-4">
-                    <LogOut className="h-6 w-6" />
-                    <span className="font-medium">Logout</span>
-                  </div>
-                </button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    You will be returned to the login screen.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={handleLogout}
-                    className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
-                  >
-                    Logout
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </div>
-        </CardContent>
-      </Card>
+        <Separator className="my-8" />
+
+        <div>
+          <AlertDialog open={isLogoutAlertOpen} onOpenChange={setIsLogoutAlertOpen}>
+            <AlertDialogTrigger asChild>
+                <button className="flex w-full items-center justify-between p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors text-destructive">
+                <div className="flex items-center gap-4">
+                  <LogOut className="h-6 w-6" />
+                  <span className="font-medium">Logout</span>
+                </div>
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure you want to log out?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  You will be returned to the login screen.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={handleLogout}
+                  className="bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+                >
+                  Logout
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
     </div>
   );
 }

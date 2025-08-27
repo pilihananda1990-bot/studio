@@ -1,8 +1,8 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { BottomNav } from '@/components/app/bottom-nav';
-import { AppHeader } from '@/components/app/header';
 import { ThemeProvider } from '@/components/app/theme-provider';
 
 export const metadata: Metadata = {
@@ -35,7 +35,6 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <AppHeader />
           <main className="flex-1 overflow-y-auto pb-20">{children}</main>
           <BottomNav />
           <Toaster />

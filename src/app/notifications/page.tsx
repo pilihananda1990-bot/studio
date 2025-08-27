@@ -3,12 +3,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { notifications as initialNotifications } from '@/lib/data/notifications';
 import type { Notification } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
+import { Separator } from '@/components/ui/separator';
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
@@ -36,10 +36,10 @@ export default function NotificationsPage() {
 
       <div className="space-y-4">
         {notifications.length > 0 ? (
-          notifications.map((notification) => (
-            <Link href={notification.href} key={notification.id} onClick={() => markAsRead(notification.id)}>
-              <Card className={cn('hover:shadow-md transition-shadow', !notification.read && 'bg-primary/5 border-primary/20')}>
-                <CardContent className="p-4 flex items-start gap-4">
+          notifications.map((notification, index) => (
+            <div key={notification.id}>
+              <Link href={notification.href} onClick={() => markAsRead(notification.id)}>
+                <div className={cn('flex items-start gap-4 p-2 -ml-2 rounded-lg', !notification.read && 'font-semibold', 'hover:bg-muted/50')}>
                    {!notification.read && (
                     <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0"></div>
                   )}
@@ -47,15 +47,16 @@ export default function NotificationsPage() {
                      <notification.icon className={cn("h-6 w-6", !notification.read ? 'text-primary' : 'text-muted-foreground')} />
                   </div>
                   <div className="flex-grow">
-                    <p className="font-semibold">{notification.title}</p>
-                    <p className="text-sm text-muted-foreground">{notification.description}</p>
-                     <p className="text-xs text-muted-foreground mt-2">
+                    <p>{notification.title}</p>
+                    <p className={cn("text-sm", !notification.read ? "text-muted-foreground" : "text-muted-foreground/80")}>{notification.description}</p>
+                     <p className="text-xs text-muted-foreground/80 mt-2">
                        {formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true })}
                     </p>
                   </div>
-                </CardContent>
-              </Card>
-            </Link>
+                </div>
+              </Link>
+              {index < notifications.length - 1 && <Separator className="mt-4" />}
+            </div>
           ))
         ) : (
           <div className="text-center py-16">

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect } from 'react';
@@ -9,7 +10,7 @@ export default function CompletionPage() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/map');
+      router.push('/');
     }, 4000);
 
     return () => clearTimeout(timer);
@@ -23,7 +24,7 @@ export default function CompletionPage() {
           Pickup Scheduled!
         </h1>
         <p className="mt-4 max-w-md text-muted-foreground">
-          Thank you for recycling with EcoCollect! Your pickup is confirmed. You'll be redirected to the map screen shortly.
+          Thank you for recycling with EcoCollect! Your pickup is confirmed. You'll be redirected to the home screen shortly.
         </p>
       </div>
     </div>
