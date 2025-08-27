@@ -15,7 +15,8 @@ type Props = {
   params: { itemId: string };
 };
 
-export default function ItemDetailPage({ params: { itemId } }: Props) {
+export default function ItemDetailPage({ params }: Props) {
+  const { itemId } = params;
   const item = getItemById(itemId);
   const [weight, setWeight] = useState(5); // Default weight 5kg
 
