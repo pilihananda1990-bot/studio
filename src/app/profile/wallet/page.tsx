@@ -5,14 +5,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Star, Gift } from 'lucide-react';
+import { Star, Gift, ArrowLeft } from 'lucide-react';
 import { RedeemDialog } from '@/components/app/redeem-dialog';
 import { transactionHistory as initialHistory, userPoints as initialPoints } from '@/lib/data/wallet';
 import type { Transaction } from '@/lib/types';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { CompletionAnimation } from '@/components/app/completion-animation';
-import { PageHeader } from '@/components/app/page-header';
+import Link from 'next/link';
 
 export default function WalletPage() {
   const [isRedeemDialogOpen, setIsRedeemDialogOpen] = useState(false);
@@ -58,7 +58,6 @@ export default function WalletPage() {
 
   return (
     <>
-       <PageHeader title="My Wallet" backHref="/profile" />
       {showSuccessAnimation && (
         <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
            <div className="text-center">
@@ -73,6 +72,18 @@ export default function WalletPage() {
         </div>
       )}
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" size="icon" className="-ml-2">
+                    <Link href="/profile">
+                    <ArrowLeft />
+                    <span className="sr-only">Back</span>
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold">My Wallet</h1>
+            </div>
+        </div>
+
           <p className="text-muted-foreground mb-8">View your points balance and transaction history.</p>
 
           <div className="p-6 bg-primary/10 rounded-lg flex flex-col sm:flex-row items-center justify-between gap-4">

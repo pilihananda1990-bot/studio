@@ -12,9 +12,9 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Search, Mail, MessageCircle, Paperclip, Loader2 } from 'lucide-react';
+import { Search, Mail, MessageCircle, Paperclip, Loader2, ArrowLeft } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { PageHeader } from '@/components/app/page-header';
+import Link from 'next/link';
 
 const faqItems = [
   {
@@ -84,8 +84,18 @@ export default function HelpPage() {
 
   return (
     <div>
-      <PageHeader title="Help & Feedback" backHref="/profile" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" size="icon" className="-ml-2">
+                    <Link href="/profile">
+                    <ArrowLeft />
+                    <span className="sr-only">Back</span>
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold">Help & Feedback</h1>
+            </div>
+        </div>
         <div className="max-w-3xl mx-auto space-y-12">
           
           <section>

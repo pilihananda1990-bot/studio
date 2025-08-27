@@ -6,17 +6,28 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useTheme } from 'next-themes';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, ArrowLeft } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { PageHeader } from '@/components/app/page-header';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function SettingsPage() {
   const { theme, setTheme } = useTheme();
 
   return (
     <div>
-        <PageHeader title="Settings" backHref="/profile" />
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" size="icon" className="-ml-2">
+                    <Link href="/profile">
+                    <ArrowLeft />
+                    <span className="sr-only">Back</span>
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold">Settings</h1>
+            </div>
+        </div>
         <div className="grid gap-8 max-w-2xl mx-auto">
             <section>
             <h2 className="text-xl font-semibold mb-2">Notification Preferences</h2>

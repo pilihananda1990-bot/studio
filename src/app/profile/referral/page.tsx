@@ -6,10 +6,10 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Copy, Share2, CheckCircle, Clock } from 'lucide-react';
+import { Copy, Share2, CheckCircle, Clock, ArrowLeft } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { REFERRAL_CODE } from '@/lib/constants';
-import { PageHeader } from '@/components/app/page-header';
+import Link from 'next/link';
 
 const invitationHistory = [
   { name: 'John Doe', date: '2024-05-20', status: 'Successful' },
@@ -58,8 +58,18 @@ export default function ReferralPage() {
 
   return (
     <div>
-        <PageHeader title="Refer a Friend" backHref="/profile" />
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                    <Button asChild variant="ghost" size="icon" className="-ml-2">
+                        <Link href="/profile">
+                        <ArrowLeft />
+                        <span className="sr-only">Back</span>
+                        </Link>
+                    </Button>
+                    <h1 className="text-2xl font-bold">Refer a Friend</h1>
+                </div>
+            </div>
             <div className="text-center">
                 <h1 className="text-2xl font-bold">Invite Friends, Earn Points!</h1>
                 <p className="text-muted-foreground mt-1">Share your code with friends. You both get bonus points when they join.</p>

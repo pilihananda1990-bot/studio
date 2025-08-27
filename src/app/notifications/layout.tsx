@@ -1,7 +1,4 @@
 
-
-import { PageHeader } from '@/components/app/page-header';
-
 export default function NotificationLayout({
   children,
 }: {
@@ -9,7 +6,6 @@ export default function NotificationLayout({
 }) {
   return (
     <div>
-      <PageHeader title="Notifications" backHref="/" />
       {children}
     </div>
   );

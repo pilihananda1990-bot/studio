@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import {
   Select,
@@ -29,7 +29,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { getProvinces, getCities, getSubdistricts, getVillages } from '@/lib/data/locations';
 import type { City, Subdistrict, Village } from '@/lib/types';
-import { PageHeader } from '@/components/app/page-header';
+import Link from 'next/link';
 
 
 const profileFormSchema = z.object({
@@ -124,8 +124,19 @@ export default function EditProfilePage() {
 
   return (
     <>
-      <PageHeader title="Edit Profile" backHref="/profile" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" size="icon" className="-ml-2">
+                    <Link href="/profile">
+                    <ArrowLeft />
+                    <span className="sr-only">Back</span>
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold">Edit Profile</h1>
+            </div>
+        </div>
+
         <p className="text-muted-foreground mb-8">
           Update your personal information here. Click save when you're done.
         </p>

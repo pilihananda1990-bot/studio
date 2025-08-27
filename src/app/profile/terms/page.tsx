@@ -1,7 +1,9 @@
 
 
 import { Separator } from '@/components/ui/separator';
-import { PageHeader } from '@/components/app/page-header';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 const termsContent = [
   {
@@ -68,8 +70,18 @@ const termsContent = [
 export default function TermsPage() {
   return (
     <div>
-        <PageHeader title="Terms & Conditions" backHref="/profile" />
         <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+            <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-4">
+                    <Button asChild variant="ghost" size="icon" className="-ml-2">
+                        <Link href="/profile">
+                        <ArrowLeft />
+                        <span className="sr-only">Back</span>
+                        </Link>
+                    </Button>
+                    <h1 className="text-2xl font-bold">Terms & Conditions</h1>
+                </div>
+            </div>
             <div className="prose max-w-none dark:prose-invert">
             {termsContent.slice(1).map((item, index) => {
                 if (item.type === 'heading') {

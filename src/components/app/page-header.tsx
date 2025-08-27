@@ -15,18 +15,15 @@ export function PageHeader({ title, backHref }: PageHeaderProps) {
   return (
     <header className="bg-background border-b sticky top-0 z-10">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <div className="w-1/3 flex justify-start">
-          <Button asChild variant="ghost" size="icon" className="-ml-2">
-            <Link href={backHref}>
-              <ArrowLeft />
-              <span className="sr-only">Back</span>
-            </Link>
-          </Button>
-        </div>
-        <div className="w-1/3 text-center">
+        <div className="flex items-center gap-4">
+            <Button asChild variant="ghost" size="icon" className="-ml-2">
+                <Link href={backHref}>
+                <ArrowLeft />
+                <span className="sr-only">Back</span>
+                </Link>
+            </Button>
             <h1 className="text-lg font-semibold truncate">{title}</h1>
         </div>
-        <div className="w-1/3"></div>
       </div>
     </header>
   );

@@ -3,8 +3,9 @@
 'use client';
 
 import { Separator } from '@/components/ui/separator';
-import { Laptop, Smartphone, Monitor } from 'lucide-react';
-import { PageHeader } from '@/components/app/page-header';
+import { Laptop, Smartphone, Monitor, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const activityLogs = [
   {
@@ -33,8 +34,18 @@ const activityLogs = [
 export default function AccountActivityPage() {
   return (
     <div>
-      <PageHeader title="Account Activity" backHref="/profile/security" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+         <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" size="icon" className="-ml-2">
+                    <Link href="/profile/security">
+                    <ArrowLeft />
+                    <span className="sr-only">Back</span>
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold">Account Activity</h1>
+            </div>
+        </div>
         <div className="max-w-2xl mx-auto">
           <p className="text-muted-foreground mb-8">
             Review recent login activity and active sessions on your account.

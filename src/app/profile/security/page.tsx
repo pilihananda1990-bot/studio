@@ -6,10 +6,11 @@ import {
   ChevronRight,
   KeyRound,
   ListCollapse,
+  ArrowLeft,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
-import { PageHeader } from '@/components/app/page-header';
+import { Button } from '@/components/ui/button';
 
 const securityItems = [
   {
@@ -29,8 +30,18 @@ const securityItems = [
 export default function SecurityPage() {
   return (
     <div>
-      <PageHeader title="Security Settings" backHref="/profile" />
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
+        <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+                <Button asChild variant="ghost" size="icon" className="-ml-2">
+                    <Link href="/profile">
+                    <ArrowLeft />
+                    <span className="sr-only">Back</span>
+                    </Link>
+                </Button>
+                <h1 className="text-2xl font-bold">Security Settings</h1>
+            </div>
+        </div>
         <p className="text-muted-foreground mt-1">
           Manage your account's security settings and view recent activity.
         </p>
