@@ -15,7 +15,7 @@ export function PickupView() {
     plate: 'XYZ-1234',
     avatar: 'https://i.pravatar.cc/150?u=driver1',
     rating: 4.8,
-    vehicle: 'Toyota Camry - White',
+    vehicle: 'Honda Brio - White',
   };
 
   const order = {
@@ -54,58 +54,36 @@ export function PickupView() {
       
       <Separator />
 
-      <ScrollArea className="flex-shrink-0 h-48 md:h-56">
-         <div className="p-4 space-y-4">
-            <Card>
-                <CardContent className="pt-6">
-                    <div className="flex items-center space-x-4">
-                        <Avatar className="h-16 w-16">
-                            <AvatarImage src={driver.avatar} alt={driver.name} />
-                            <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                            <p className="font-bold text-lg">{driver.name}</p>
-                            <div className="flex items-center gap-1 text-muted-foreground">
-                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400"/> 
-                            <span>{driver.rating}</span>
-                            </div>
-                            <p className="text-sm text-muted-foreground">{driver.vehicle} &middot; {driver.plate}</p>
+      <div className="p-4 flex-shrink-0 bg-background">
+         <Card>
+            <CardContent className="pt-6">
+                <div className="flex items-center space-x-4">
+                    <Avatar className="h-16 w-16">
+                        <AvatarImage src={driver.avatar} alt={driver.name} />
+                        <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                        <p className="font-bold text-lg">{driver.name}</p>
+                        <div className="flex items-center gap-1 text-muted-foreground">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400"/> 
+                        <span>{driver.rating}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
-                                <MessageCircle />
-                                <span className="sr-only">Message Driver</span>
-                            </Button>
-                            <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
-                                <Phone />
-                                <span className="sr-only">Call Driver</span>
-                            </Button>
-                        </div>
+                        <p className="text-sm text-muted-foreground">{driver.vehicle} &middot; {driver.plate}</p>
                     </div>
-                </CardContent>
-            </Card>
-
-            <Card>
-                <CardContent className="pt-6">
-                    <div className="flex items-start gap-4">
-                        <MapPin className="w-5 h-5 text-primary mt-1"/>
-                        <div>
-                            <p className="font-semibold">Pickup</p>
-                            <p className="text-muted-foreground">{order.pickupAddress}</p>
-                        </div>
+                    <div className="flex items-center gap-2">
+                        <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+                            <MessageCircle />
+                            <span className="sr-only">Message Driver</span>
+                        </Button>
+                        <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
+                            <Phone />
+                            <span className="sr-only">Call Driver</span>
+                        </Button>
                     </div>
-                    <Separator className="my-4"/>
-                    <div className="flex items-start gap-4">
-                        <Flag className="w-5 h-5 text-muted-foreground mt-1"/>
-                        <div>
-                            <p className="font-semibold">Drop-off</p>
-                            <p className="text-muted-foreground">{order.dropoffAddress}</p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
-      </ScrollArea>
+                </div>
+            </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
