@@ -1,163 +1,141 @@
 
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { MessageCircle, Phone, Star, CheckCircle, Package } from 'lucide-react';
+import { MessageSquare, Phone, Send } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { RatingOverlay } from '@/components/app/rating-overlay';
 
 export function PickupView() {
-  const [isRatingOpen, setIsRatingOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(2); // Start at "Driver Assigned"
-
   const driver = {
-    name: 'John Smith',
-    plate: 'XYZ-1234',
+    name: 'Peter Markent',
     avatar: 'https://i.pravatar.cc/150?u=driver1',
-    rating: 4.8,
-    vehicle: 'Honda Brio - White',
   };
 
   const order = {
-    status: 'Driver on the way',
-    eta: '15 minutes',
     address: 'Gatot Subroto Street 8129',
+    pickupType: 'Warehouse Pickup',
+    eta: '12 min Estimated',
+    bookingNumber: 'AB321481251245612',
+    from: 'Minnesota, USA',
+    to: 'New York, USA',
+    created: '04 June 2025',
   };
 
-  const trackingSteps = [
-    { id: 1, title: 'Confirmed' },
-    { id: 2, title: 'Assigned' },
-    { id: 3, title: 'On The Way' },
-    { id: 4, title: 'Completed' },
+  const trackingHistory = [
+    {
+      status: 'Moving From O Tempora',
+      timestamp: 'June 6, 2025 02:00 AM',
+      isCompleted: true,
+    },
+    {
+      status: 'In Transit to Warehouse Masion',
+      timestamp: 'June 6, 2025 2:00 PM',
+      isCompleted: true,
+    },
+    {
+      status: 'Arrived at Destination',
+      timestamp: 'June 6, 2025 4:30 PM',
+      isCompleted: false,
+    },
   ];
 
-  const isPickupCompleted = currentStep >= trackingSteps.length;
-
-  // Simulate progress
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentStep((prev) => {
-        if (prev < trackingSteps.length) {
-          return prev + 1;
-        }
-        clearInterval(interval);
-        return prev;
-      });
-    }, 3000); // Advance every 3 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <div className="p-6">
-      {/* ETA and Address */}
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col h-full">
+      {/* Address Header */}
+      <div className="bg-blue-600 text-white p-4 flex items-center justify-between">
         <div>
-          <p className="text-sm text-muted-foreground">Estimated Arrival</p>
-          <p className="text-lg font-bold">{isPickupCompleted ? "Arrived" : order.eta}</p>
+          <h2 className="font-bold text-lg">{order.address}</h2>
+          <p className="text-sm opacity-90">{`${order.pickupType} • ${order.eta}`}</p>
         </div>
-        <div className="text-right">
-          <p className="text-sm text-muted-foreground">Your Location</p>
-          <p className="font-semibold">{order.address}</p>
-        </div>
-      </div>
-
-      <Separator className="my-6" />
-
-      {/* Driver Information */}
-      <div className="flex items-center space-x-4">
-        <Avatar className="h-16 w-16">
-          <AvatarImage src={driver.avatar} alt={driver.name} />
-          <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
-        </Avatar>
-        <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <p className="font-bold text-lg">{driver.name}</p>
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-              <span>{driver.rating}</span>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            {driver.vehicle} &middot; {driver.plate}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
-            <MessageCircle />
-            <span className="sr-only">Message Driver</span>
-          </Button>
-          <Button variant="outline" size="icon" className="rounded-full h-11 w-11">
-            <Phone />
-            <span className="sr-only">Call Driver</span>
-          </Button>
-        </div>
-      </div>
-
-      {/* Tracking Timeline */}
-      <div className="pt-8">
-        <div className="flex justify-between items-center">
-          {trackingSteps.map((step, index) => (
-            <React.Fragment key={step.id}>
-              <div className="flex flex-col items-center text-center">
-                <div
-                  className={cn(
-                    'h-6 w-6 rounded-full flex items-center justify-center border-2 z-10 transition-colors duration-300',
-                    index < currentStep ? 'bg-primary border-primary text-primary-foreground' : 'bg-muted border-border'
-                  )}
-                >
-                  {index < currentStep && <CheckCircle className="w-4 h-4" />}
-                </div>
-                <p
-                  className={cn(
-                    'text-xs mt-1 transition-colors duration-300',
-                      index < currentStep ? 'font-semibold text-primary' : 'text-muted-foreground'
-                  )}
-                >
-                  {step.title}
-                </p>
-              </div>
-              {index < trackingSteps.length - 1 && (
-                <div className={cn(
-                    'flex-1 h-0.5 -mt-4 mx-2',
-                    index < currentStep - 1 ? 'bg-primary' : 'bg-border'
-                  )} 
-                />
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-      
-      <Separator className="my-6" />
-
-      {/* Order Details */}
-      <div>
-        <h3 className="text-lg font-semibold mb-2">Order Details</h3>
-        <Button variant="outline" className="w-full justify-between">
-          <span>Review Order Items</span>
-          <Package />
+        <Button size="icon" className="rounded-full bg-white text-blue-600 hover:bg-gray-100 h-10 w-10">
+          <Send className="h-5 w-5" />
         </Button>
       </div>
 
-      {isPickupCompleted && (
-        <>
-          <Separator className="my-6" />
-          <div className="text-center space-y-2">
-            <h3 className="text-lg font-semibold">Pickup Complete!</h3>
-            <p className="text-muted-foreground">Thank you for helping the environment.</p>
-            <Button onClick={() => setIsRatingOpen(true)} className="mt-2">
-              <Star className="mr-2" />
-              Rate Driver
+      <div className="p-4 space-y-4 flex-1 overflow-y-auto">
+        {/* Driver Info */}
+        <div className="flex items-center space-x-3">
+          <Avatar className="h-12 w-12">
+            <AvatarImage src={driver.avatar} alt={driver.name} />
+            <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1">
+            <p className="font-semibold">{driver.name}</p>
+            <p className="text-sm text-gray-500">Driver</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon" className="rounded-lg border-gray-300">
+              <MessageSquare className="w-5 h-5 text-gray-600" />
+            </Button>
+            <Button variant="outline" size="icon" className="rounded-lg border-gray-300">
+              <Phone className="w-5 h-5 text-gray-600" />
             </Button>
           </div>
-        </>
-      )}
+        </div>
 
-      <RatingOverlay isOpen={isRatingOpen} onOpenChange={setIsRatingOpen} />
+        <Separator className="my-3" />
+
+        {/* Review Order */}
+        <div>
+          <h3 className="font-semibold mb-2">Review Order</h3>
+          <div className="rounded-lg border border-gray-200 p-3">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-sm text-gray-500">Booking Number</p>
+                <p className="font-bold text-base">{order.bookingNumber}</p>
+              </div>
+              <Button variant="link" className="text-blue-600 font-semibold h-auto p-0">
+                See Details
+              </Button>
+            </div>
+            <Separator className="my-3" />
+            <div className="flex justify-between items-start text-sm">
+              <div>
+                <p className="text-gray-500 mb-1">From</p>
+                <p className="font-semibold">{order.from}</p>
+              </div>
+              <div className="text-center">
+                 <p className="text-gray-500 mb-1">To</p>
+                 <p className="font-semibold">{order.to}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-gray-500 mb-1">Created</p>
+                <p className="font-semibold">{order.created}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tracking Order */}
+        <div>
+          <h3 className="font-semibold mb-3">Tracking Order</h3>
+          <div className="relative space-y-6 pl-1">
+            {/* Dashed line connecting the dots */}
+            <div className="absolute left-2.5 top-2.5 bottom-2.5 w-0.5 bg-gray-200" />
+
+            {trackingHistory.map((item, index) => (
+              <div key={index} className="relative flex items-start gap-4">
+                <div className="z-10 mt-1">
+                  <div className={cn(
+                      'w-5 h-5 rounded-full flex items-center justify-center',
+                      item.isCompleted ? 'bg-blue-600' : 'bg-gray-200'
+                    )}>
+                    <div className="w-2.5 h-2.5 rounded-full bg-white" />
+                  </div>
+                </div>
+                <div>
+                  <p className="font-semibold text-sm">{item.status}</p>
+                  <p className="text-xs text-gray-500">{item.timestamp}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
