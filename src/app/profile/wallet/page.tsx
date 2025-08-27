@@ -12,29 +12,45 @@ import { transactionHistory as initialHistory, userPoints as initialPoints } fro
 import type { Transaction } from '@/lib/types';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import { CompletionAnimation } from '@/components/app/completion-animation';
 
 export default function WalletPage() {
   const [isRedeemDialogOpen, setIsRedeemDialogOpen] = useState(false);
   const [userPoints, setUserPoints] = useState(initialPoints);
   const [transactionHistory, setTransactionHistory] = useState<Transaction[]>(initialHistory);
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
   const handleRedemption = (pointsToDeduct: number, itemName: string) => {
      if (userPoints >= pointsToDeduct) {
-      const newPoints = userPoints - pointsToDeduct;
-      setUserPoints(newPoints);
-
-      const newTransaction: Transaction = {
-        id: `txn-${Date.now()}`,
-        date: new Date().toISOString(),
-        description: `Redeemed: ${itemName}`,
-        points: -pointsToDeduct,
-      };
-      setTransactionHistory([newTransaction, ...transactionHistory]);
+      // Close dialogs first
+      setIsRedeemDialogOpen(false);
       
-      // Redirect to the success animation page
-      router.push('/profile/wallet/redeem-success');
+      // Show animation
+      setShowSuccessAnimation(true);
+      
+      // Update state after a delay to sync with animation
+      setTimeout(() => {
+        const newPoints = userPoints - pointsToDeduct;
+        setUserPoints(newPoints);
+
+        const newTransaction: Transaction = {
+          id: `txn-${Date.now()}`,
+          date: new Date().toISOString(),
+          description: `Redeemed: ${itemName}`,
+          points: -pointsToDeduct,
+        };
+        setTransactionHistory([newTransaction, ...transactionHistory]);
+        
+        setShowSuccessAnimation(false);
+        
+        toast({
+          title: 'Redemption Successful!',
+          description: 'Your points balance has been updated.',
+        });
+
+      }, 2000); // Match animation duration
 
     } else {
        toast({
@@ -48,6 +64,19 @@ export default function WalletPage() {
 
   return (
     <>
+      {showSuccessAnimation && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background/80 backdrop-blur-sm">
+           <div className="text-center">
+            <CompletionAnimation />
+            <h1 className="mt-8 text-3xl font-bold tracking-tighter sm:text-4xl text-primary">
+              Redemption Successful!
+            </h1>
+            <p className="mt-4 max-w-md text-muted-foreground">
+              Your points balance has been updated.
+            </p>
+          </div>
+        </div>
+      )}
       <div className="container mx-auto px-4 py-8 md:px-6 md:py-12">
         <Card>
           <CardHeader>
