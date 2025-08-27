@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -17,6 +18,7 @@ export default function WalletPage() {
   const [userPoints, setUserPoints] = useState(initialPoints);
   const [transactionHistory, setTransactionHistory] = useState<Transaction[]>(initialHistory);
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleRedemption = (pointsToDeduct: number, itemName: string) => {
      if (userPoints >= pointsToDeduct) {
@@ -31,10 +33,8 @@ export default function WalletPage() {
       };
       setTransactionHistory([newTransaction, ...transactionHistory]);
       
-      toast({
-        title: 'Redemption Successful!',
-        description: `You have successfully redeemed ${itemName}.`,
-      });
+      // Redirect to the success animation page
+      router.push('/profile/wallet/redeem-success');
 
     } else {
        toast({
