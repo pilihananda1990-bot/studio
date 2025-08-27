@@ -11,9 +11,11 @@ import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function RedeemPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const [selectedItem, setSelectedItem] = useState<RedemptionOption | null>(null);
   const [userPoints, setUserPoints] = useState(initialUserPoints);
 
@@ -32,13 +34,10 @@ export default function RedeemPage() {
   const handleConfirm = () => {
     if (selectedItem) {
       // Here you would typically call an API to confirm the redemption.
-      // For this example, we'll just show a success message.
-      toast({
-        title: 'Redemption Successful!',
-        description: `You have successfully redeemed ${selectedItem.name}.`,
-      });
+      // For this example, we'll just update the state and navigate.
       setUserPoints(userPoints - selectedItem.points);
       setSelectedItem(null);
+      router.push('/profile/wallet/redeem-success');
     }
   };
 
