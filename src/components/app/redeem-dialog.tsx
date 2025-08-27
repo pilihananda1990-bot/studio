@@ -3,13 +3,13 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Card, CardContent } from '@/components/ui/card';
-import { Star, ArrowLeft } from 'lucide-react';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Star } from 'lucide-react';
 import { redemptionCategories } from '@/lib/data/wallet';
 import type { RedemptionOption } from '@/lib/types';
 import { RedeemConfirmation } from './redeem-confirmation';
-import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
+import { ScrollArea } from '../ui/scroll-area';
 
 type RedeemDialogProps = {
   isOpen: boolean;
@@ -39,44 +39,45 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <Button variant="ghost" className="absolute left-4 top-4 px-2 text-muted-foreground" onClick={onClose}>
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Wallet
-            </Button>
-            <DialogTitle className="pt-12 text-center">Redeem Your Points</DialogTitle>
-            <DialogDescription className="text-center">
-              Choose from the options below to redeem your points. Your current balance is {userPoints.toLocaleString()} points.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-4 space-y-6 max-h-[60vh] overflow-y-auto pr-2">
-            {redemptionCategories.map((category) => (
-              <div key={category.id}>
-                <h3 className="text-lg font-semibold mb-2">{category.name}</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {category.items.map((item) => (
-                    <Card 
-                      key={item.id} 
-                      className="cursor-pointer hover:shadow-lg transition-shadow"
-                      onClick={() => handleSelect(item)}
-                    >
-                      <CardContent className="p-4 flex flex-col items-center justify-center text-center">
-                        <div className="relative h-12 w-12 mb-2">
-                           <Image src={item.icon} alt={item.name} fill className="object-contain" />
+        <DialogContent className="max-w-md p-0">
+           <div className="p-6">
+              <DialogTitle className="text-center text-2xl">Redeem Your Points</DialogTitle>
+              <DialogDescription className="text-center mt-2">
+                Your current balance is {userPoints.toLocaleString()} points. Choose from the options below.
+              </DialogDescription>
+            </div>
+            <Separator />
+            <ScrollArea className="max-h-[60vh]">
+              <div className="p-6 space-y-4">
+                {redemptionCategories.map((category) => (
+                  <div key={category.id}>
+                    <h3 className="text-lg font-semibold mb-3">{category.name}</h3>
+                    <div className="space-y-2">
+                      {category.items.map((item, index) => (
+                        <div key={item.id}>
+                           <div 
+                              className="flex items-center gap-4 p-2 -mx-2 rounded-lg cursor-pointer hover:bg-muted/50"
+                              onClick={() => handleSelect(item)}
+                            >
+                              <div className="relative h-12 w-12 rounded-md overflow-hidden bg-white flex items-center justify-center border">
+                                <Image src={item.icon} alt={item.name} width={32} height={32} className="object-contain" />
+                              </div>
+                              <div className="flex-grow">
+                                <p className="font-medium">{item.name}</p>
+                                <div className="flex items-center gap-1 mt-1 text-primary">
+                                  <Star className="w-4 h-4" />
+                                  <span className="font-bold">{item.points.toLocaleString()}</span>
+                                </div>
+                              </div>
+                          </div>
+                          {index < category.items.length - 1 && <Separator className="mt-2" />}
                         </div>
-                        <p className="font-medium text-sm">{item.name}</p>
-                        <div className="flex items-center gap-1 mt-1 text-primary">
-                           <Star className="w-4 h-4" />
-                           <span className="font-bold">{item.points.toLocaleString()}</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </ScrollArea>
         </DialogContent>
       </Dialog>
       
@@ -90,3 +91,4 @@ export function RedeemDialog({ isOpen, onClose, userPoints, onRedeem }: RedeemDi
     </>
   );
 }
+
