@@ -1,10 +1,11 @@
+
 'use client';
 
 import { useState, use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getItemById } from '@/lib/data';
+import { getItemById } from '@/lib/data/items';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Slider } from '@/components/ui/slider';

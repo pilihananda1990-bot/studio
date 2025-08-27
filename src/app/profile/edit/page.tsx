@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { getProvinces, getCities, getSubdistricts, getVillages } from '@/lib/data';
+import { getProvinces, getCities, getSubdistricts, getVillages } from '@/lib/data/locations';
 import type { City, Subdistrict, Village } from '@/lib/types';
 
 

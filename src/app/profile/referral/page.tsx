@@ -1,7 +1,6 @@
 
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,8 +8,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Copy, Share2, CheckCircle, Clock } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-
-const referralCode = 'ECO-FRIEND-2024';
+import { REFERRAL_CODE } from '@/lib/constants';
 
 const invitationHistory = [
   { name: 'John Doe', date: '2024-05-20', status: 'Successful' },
@@ -22,7 +20,7 @@ export default function ReferralPage() {
   const { toast } = useToast();
   
   const handleCopy = () => {
-    navigator.clipboard.writeText(referralCode);
+    navigator.clipboard.writeText(REFERRAL_CODE);
     toast({
       title: 'Copied!',
       description: 'Referral code copied to clipboard.',
@@ -40,7 +38,7 @@ export default function ReferralPage() {
   const handleShare = async () => {
     const shareData = {
       title: 'Join me on EcoCollect!',
-      text: `Join me on EcoCollect and let's make a difference! Use my referral code: ${referralCode}`,
+      text: `Join me on EcoCollect and let's make a difference! Use my referral code: ${REFERRAL_CODE}`,
       url: window.location.origin,
     };
     if (navigator.share) {
@@ -79,7 +77,7 @@ export default function ReferralPage() {
             <div className="flex items-center gap-2">
               <Input 
                 readOnly 
-                value={referralCode} 
+                value={REFERRAL_CODE} 
                 className="text-center font-bold text-lg tracking-wider h-12"
               />
               <Button size="icon" variant="outline" onClick={handleCopy} aria-label="Copy code">

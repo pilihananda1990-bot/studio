@@ -1,4 +1,5 @@
-import { categories } from '@/lib/data';
+
+import { categories } from '@/lib/data/categories';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight } from 'lucide-react';

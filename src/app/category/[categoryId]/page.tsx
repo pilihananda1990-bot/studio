@@ -1,7 +1,9 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getCategoryById, getItemsByCategoryId } from '@/lib/data';
+import { getCategoryById } from '@/lib/data/categories';
+import { getItemsByCategoryId } from '@/lib/data/items';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

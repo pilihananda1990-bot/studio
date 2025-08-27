@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { notifications } from '@/lib/data';
+import { notifications } from '@/lib/data/notifications';
 import { useState } from 'react';
 
 export function AppHeader() {

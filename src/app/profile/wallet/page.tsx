@@ -2,13 +2,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Star, Gift } from 'lucide-react';
 import { RedeemDialog } from '@/components/app/redeem-dialog';
-import { transactionHistory as initialHistory, userPoints as initialPoints } from '@/lib/data';
+import { transactionHistory as initialHistory, userPoints as initialPoints } from '@/lib/data/wallet';
 import type { Transaction } from '@/lib/types';
 import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
@@ -20,17 +19,12 @@ export default function WalletPage() {
   const [transactionHistory, setTransactionHistory] = useState<Transaction[]>(initialHistory);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const { toast } = useToast();
-  const router = useRouter();
 
   const handleRedemption = (pointsToDeduct: number, itemName: string) => {
      if (userPoints >= pointsToDeduct) {
-      // Close dialogs first
       setIsRedeemDialogOpen(false);
-      
-      // Show animation
       setShowSuccessAnimation(true);
       
-      // Update state after a delay to sync with animation
       setTimeout(() => {
         const newPoints = userPoints - pointsToDeduct;
         setUserPoints(newPoints);
@@ -50,7 +44,7 @@ export default function WalletPage() {
           description: 'Your points balance has been updated.',
         });
 
-      }, 2000); // Match animation duration
+      }, 2000);
 
     } else {
        toast({
@@ -60,7 +54,6 @@ export default function WalletPage() {
       });
     }
   };
-
 
   return (
     <>

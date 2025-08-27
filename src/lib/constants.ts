@@ -1,0 +1,2 @@
+
+export const REFERRAL_CODE = 'ECO-FRIEND-2024';
