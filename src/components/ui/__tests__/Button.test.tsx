@@ -4,7 +4,7 @@ import Button from '../Button';
 import { ThemeProvider } from '@/theme/ThemeProvider';
 
 // Wrapper component to provide theme context to the Button
-const ButtonWithTheme = (props) => (
+const ButtonWithTheme = (props: any) => (
   <ThemeProvider>
     <Button {...props} />
   </ThemeProvider>
@@ -34,14 +34,13 @@ describe('Button', () => {
   });
 
   it('shows an activity indicator when isLoading is true', () => {
-    const { queryByText, getByTestId } = render(<ButtonWithTheme title="Press Me" isLoading testID="touchable-button"/>);
+    const { queryByText, UNSAFE_getByType } = render(<ButtonWithTheme title="Press Me" isLoading />);
     
     // The title should not be visible
     expect(queryByText('Press Me')).toBeNull();
     
-    // The ActivityIndicator is rendered by default in React Native
-    const touchable = getByTestId('touchable-button');
-    const activityIndicator = touchable.props.children;
-    expect(activityIndicator.type.displayName).toBe('ActivityIndicator');
+    // Check if ActivityIndicator is present
+    const activityIndicator = UNSAFE_getByType('ActivityIndicator');
+    expect(activityIndicator).toBeTruthy();
   });
 });

@@ -37,9 +37,10 @@ const Header: React.FC<HeaderProps> = ({
           backgroundColor: colors.surface,
           borderBottomColor: colors.border,
           paddingTop: insets.top,
+          height: 56 + insets.top,
         },
       ]}>
-      <View style={styles.sideComponent}>
+      <View style={styles.sideComponentContainer}>
         {canGoBack && !leftComponent && (
           <TouchableOpacity onPress={handleBackPress} style={styles.touchable}>
             <Icon name="arrow-back-outline" size={24} color={colors.text} />
@@ -52,24 +53,26 @@ const Header: React.FC<HeaderProps> = ({
           {title}
         </Text>
       </View>
-      <View style={styles.sideComponent}>{rightComponent}</View>
+      <View style={[styles.sideComponentContainer, styles.rightComponent]}>{rightComponent}</View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: 56, // Standard header height
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: spacing.md,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  sideComponent: {
+  sideComponentContainer: {
     width: '20%',
-    alignItems: 'flex-start',
     justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  rightComponent: {
+    alignItems: 'flex-end',
   },
   titleContainer: {
     flex: 1,
@@ -83,18 +86,5 @@ const styles = StyleSheet.create({
     padding: spacing.xs,
   },
 });
-
-// Align right component correctly
-styles.sideComponent = {
-  ...styles.sideComponent,
-  alignItems: 'flex-end',
-  right: 0,
-};
-styles.sideComponent = {
-  ...styles.sideComponent,
-  alignItems: 'flex-start',
-  left: 0,
-};
-
 
 export default Header;

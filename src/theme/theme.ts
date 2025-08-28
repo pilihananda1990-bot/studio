@@ -52,7 +52,7 @@ const baseTheme = {
     android: {
       elevation: 3,
     },
-  }),
+  })!,
 };
 
 export const lightTheme = {
@@ -68,6 +68,7 @@ export const lightTheme = {
     destructive: palette.red,
     success: palette.green,
     shadow: palette.black,
+    ghost: 'transparent',
   },
 };
 
@@ -84,6 +85,7 @@ export const darkTheme = {
     destructive: palette.red,
     success: palette.green,
     shadow: palette.black,
+    ghost: 'transparent',
   },
 };
 

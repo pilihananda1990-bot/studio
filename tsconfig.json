@@ -7,19 +7,6 @@
         "src/*"
       ]
     },
-    "incremental": true,
-    "module": "esnext",
-    "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
-  },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+    "strict": true
+  }
 }
