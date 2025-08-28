@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
@@ -18,6 +18,8 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
   const item = getItemById(resolvedParams.id);
   
   const [weight, setWeight] = useState(1);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   if (!item) {
@@ -26,7 +28,6 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Allow empty string to clear the input, otherwise parse the float
     if (value === '') {
         setWeight(0);
     } else {
@@ -35,6 +36,21 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
             setWeight(parsedWeight);
         }
     }
+  };
+  
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const triggerFileUpload = () => {
+    fileInputRef.current?.click();
   };
 
   const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
@@ -75,9 +91,22 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
             
              <section className="bg-card p-4 rounded-lg border">
                 <div className="flex items-end gap-2">
-                    <Button variant="outline" size="icon" className="h-14 w-14 flex-shrink-0 rounded-lg">
-                        <Camera className="h-7 w-7" />
-                    </Button>
+                    <div className="flex-shrink-0">
+                         <Input 
+                            type="file" 
+                            accept="image/*" 
+                            ref={fileInputRef}
+                            onChange={handleImageUpload}
+                            className="hidden"
+                          />
+                          <Button variant="outline" size="icon" className="h-14 w-14 rounded-lg relative" onClick={triggerFileUpload}>
+                              {uploadedImage ? (
+                                <Image src={uploadedImage} alt="Uploaded item" fill className="object-cover rounded-lg" />
+                              ) : (
+                                <Camera className="h-7 w-7" />
+                              )}
+                          </Button>
+                    </div>
                     <div className="flex-grow">
                         <label htmlFor="weight-input" className="text-xs font-medium text-muted-foreground">Weight (kg)</label>
                         <Input
