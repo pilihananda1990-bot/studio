@@ -5,7 +5,7 @@ import { BottomNav } from '@/components/app/bottom-nav';
 import { ThemeProvider } from '@/components/app/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'Pet Adoption',
+  title: 'EcoCollect',
   description: 'Find your new best friend',
 };
 
