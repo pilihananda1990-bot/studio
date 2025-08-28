@@ -1,17 +1,31 @@
 
 'use client';
 
+import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Clock, MapPin, MessageSquare, Phone, ChevronRight } from 'lucide-react';
+import { Clock, MapPin, MessageSquare, Phone, ChevronRight, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { PickupView } from '@/components/app/pickup-view';
+import { cn } from '@/lib/utils';
+
 
 export function DriverCard() {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
-    <div className="p-4 bg-background/90 dark:bg-zinc-900/90 backdrop-blur-md">
-      <div className="space-y-4">
-        <div className="flex items-center gap-3">
+    <div className={cn(
+        "bg-background/90 dark:bg-zinc-900/90 backdrop-blur-md transition-all duration-300 ease-in-out rounded-t-2xl overflow-hidden",
+        isExpanded ? 'h-[80vh]' : 'h-auto'
+      )}>
+      
+      <div className="p-4 flex flex-col h-full">
+         <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex justify-center py-1">
+          <div className="w-10 h-1.5 bg-muted-foreground/30 rounded-full" />
+        </button>
+        
+        <div className="flex items-center gap-3 mt-2">
           <Avatar className="h-14 w-14 border-2 border-primary/50">
             <AvatarImage src="https://i.pravatar.cc/150?u=roger" />
             <AvatarFallback>RW</AvatarFallback>
@@ -30,19 +44,20 @@ export function DriverCard() {
           </div>
         </div>
 
-        <Separator />
+        <Separator className="my-4" />
+
+        {!isExpanded && (
+           <Button variant="secondary" className="w-full" onClick={() => setIsExpanded(true)}>
+             View Pickup Details
+             <ChevronUp className="ml-2 h-4 w-4" />
+          </Button>
+        )}
         
-        <div className="p-4 bg-muted/50 rounded-lg">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h4 className="font-semibold">Your driver is on the way!</h4>
-                    <p className="text-sm text-muted-foreground">Estimated arrival in 15 minutes.</p>
-                </div>
-                <Button variant="secondary" size="icon" className="rounded-full">
-                    <ChevronRight />
-                </Button>
-            </div>
-        </div>
+        {isExpanded && (
+          <div className="flex-1 overflow-y-auto -mx-4">
+            <PickupView />
+          </div>
+        )}
 
       </div>
     </div>

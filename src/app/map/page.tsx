@@ -31,8 +31,8 @@ export default function MapPage() {
     <div className="flex flex-col h-full w-full bg-muted/20">
       <PageHeader title="Track Pickup" />
 
-      <div className="flex-grow flex flex-col">
-        <div className="relative" style={{ height: '60vh' }}>
+      <div className="flex-grow flex flex-col relative">
+        <div className="fixed top-16 left-0 right-0 bottom-0">
             <Image
                 src="https://picsum.photos/seed/map-background/1080/1920"
                 alt="Map background"
@@ -42,15 +42,15 @@ export default function MapPage() {
             />
         </div>
         
-        <div className="flex-shrink-0 bg-background flex-grow">
+        <div className="relative z-10 mt-auto">
           {isLoading ? (
-            <div className="w-full p-6 text-center">
+            <div className="w-full p-6 text-center bg-background/90 backdrop-blur-sm rounded-t-2xl">
               <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
               <p className="mt-4 font-semibold text-lg">Finding a driver for you...</p>
               <p className="text-muted-foreground">Please wait while we assign a pickup team.</p>
             </div>
           ) : status === 'preparing' ? (
-             <div className="w-full p-6 text-center">
+             <div className="w-full p-6 text-center bg-background/90 backdrop-blur-sm rounded-t-2xl">
                 <p className="font-semibold text-lg">Preparing a driver</p>
                 <p className="text-muted-foreground">We're finding the best team for your pickup.</p>
             </div>
