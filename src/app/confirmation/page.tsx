@@ -18,17 +18,17 @@ function ConfirmationContent() {
   const router = useRouter();
   const itemId = searchParams.get('itemId');
   const weight = searchParams.get('weight');
+  const imageUrl = searchParams.get('imageUrl');
   
   const [isConfirming, setIsConfirming] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
+  
   const item = getItemById(itemId);
   
   if (!item || !weight) {
     return notFound();
   }
 
+  const displayImage = imageUrl ? decodeURIComponent(imageUrl) : item.image;
   const estimatedPoints = (item.pricePerKg * parseFloat(weight)).toFixed(2);
 
   const handleConfirm = async () => {
@@ -39,31 +39,16 @@ function ConfirmationContent() {
     router.push('/confirmation/success');
   }
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUploadedImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const triggerFileUpload = () => {
-    fileInputRef.current?.click();
-  };
-
   return (
     <div className="flex flex-col h-full">
       <PageHeader title="Confirm Pickup" />
 
-      <main className="flex-1 overflow-y-auto p-4 space-y-6 mb-4">
+      <main className="flex-1 overflow-y-auto p-4 space-y-6 mb-20">
         
         <section className="bg-card p-4 rounded-lg border">
             <div className="flex items-center gap-4">
                 <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                    <Image src={uploadedImage || item.image} alt={item.name} fill objectFit="cover" />
+                    <Image src={displayImage} alt={item.name} fill objectFit="cover" />
                 </div>
                 <div>
                     <p className="text-sm text-muted-foreground">{item.category}</p>
@@ -76,21 +61,6 @@ function ConfirmationContent() {
                 <p className="font-medium">Estimated Earnings</p>
                 <p className="text-xl font-bold text-primary">${estimatedPoints}</p>
             </div>
-        </section>
-
-        <section className="bg-card p-4 rounded-lg border">
-            <h3 className="font-bold mb-3">Upload Photo</h3>
-             <Input 
-                type="file" 
-                accept="image/*" 
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <Button variant="outline" className="w-full" onClick={triggerFileUpload}>
-                  <Camera className="mr-2"/> Upload Photo
-              </Button>
-              <p className="text-xs text-muted-foreground mt-2 text-center">Please upload a photo of the items you are recycling.</p>
         </section>
         
         <section className="bg-card p-4 rounded-lg border">
@@ -129,6 +99,9 @@ function ConfirmationContent() {
             />
         </section>
 
+      </main>
+      
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t">
         <Button size="lg" className="w-full" onClick={handleConfirm} disabled={isConfirming}>
             {isConfirming ? (
             <>
@@ -137,7 +110,7 @@ function ConfirmationContent() {
             </>
             ) : 'Confirm & Schedule Pickup'}
         </Button>
-      </main>
+      </div>
     </div>
   );
 }

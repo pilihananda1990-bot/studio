@@ -54,6 +54,8 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
   };
 
   const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
+  const scheduleLink = `/confirmation?itemId=${item.id}&weight=${weight}${uploadedImage ? `&imageUrl=${encodeURIComponent(uploadedImage)}` : ''}`;
+
 
   return (
     <div className="flex flex-col h-full">
@@ -124,7 +126,7 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
                     </div>
                 </div>
                  <Button asChild size="lg" className="w-full mt-4" disabled={!weight || weight <= 0}>
-                    <Link href={`/confirmation?itemId=${item.id}&weight=${weight}`}>Schedule Pickup</Link>
+                    <Link href={scheduleLink}>Schedule Pickup</Link>
                 </Button>
             </section>
             
