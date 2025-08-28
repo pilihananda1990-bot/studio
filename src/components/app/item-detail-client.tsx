@@ -4,17 +4,20 @@
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { Camera } from 'lucide-react';
+import { Camera, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { RecyclableItem } from '@/lib/types';
 import React from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export function ItemDetailClient({ item }: { item: RecyclableItem }) {
   const [weight, setWeight] = useState(1);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -31,10 +34,25 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      if (file.size > 4 * 1024 * 1024) { // 4MB limit
+        toast({
+          variant: 'destructive',
+          title: 'Image Too Large',
+          description: 'Please upload an image smaller than 4MB.',
+        });
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
         setUploadedImage(reader.result as string);
       };
+      reader.onerror = () => {
+        toast({
+          variant: 'destructive',
+          title: 'Error Reading File',
+          description: 'There was a problem uploading your image. Please try again.',
+        });
+      }
       reader.readAsDataURL(file);
     }
   };
@@ -45,15 +63,29 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
 
   const handleSchedulePickup = () => {
     if (!item || !weight || weight <= 0) return;
+    setIsSubmitting(true);
+    
+    try {
+      const pickupData = {
+        itemId: item.id,
+        weight: weight,
+        imageUrl: uploadedImage,
+      };
 
-    const pickupData = {
-      itemId: item.id,
-      weight: weight,
-      imageUrl: uploadedImage,
-    };
+      console.log("Saving pickup data to sessionStorage:", pickupData);
+      sessionStorage.setItem('pickupData', JSON.stringify(pickupData));
 
-    sessionStorage.setItem('pickupData', JSON.stringify(pickupData));
-    router.push('/confirmation');
+      console.log("Navigating to /confirmation");
+      router.push('/confirmation');
+    } catch (error) {
+       console.error("Failed to schedule pickup:", error);
+       toast({
+          variant: 'destructive',
+          title: 'An Unexpected Error Occurred',
+          description: 'Could not schedule pickup. Please try again later.',
+       });
+       setIsSubmitting(false);
+    }
   };
 
   const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
@@ -68,8 +100,15 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
                     ref={fileInputRef}
                     onChange={handleImageUpload}
                     className="hidden"
+                    aria-hidden="true"
                   />
-                  <Button variant="outline" size="icon" className="h-14 w-14 rounded-lg relative" onClick={triggerFileUpload}>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="h-14 w-14 rounded-lg relative" 
+                    onClick={triggerFileUpload}
+                    aria-label="Upload an image of your items"
+                  >
                       {uploadedImage ? (
                         <Image src={uploadedImage} alt="Uploaded item" fill className="object-cover rounded-lg" />
                       ) : (
@@ -86,6 +125,8 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
                     onChange={handleWeightChange}
                     className="mt-1 font-bold text-lg h-9"
                     placeholder="e.g., 5"
+                    step="0.1"
+                    min="0"
                 />
             </div>
             <div className="text-right flex-shrink-0">
@@ -93,8 +134,13 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
                 <p className="text-lg font-bold text-primary">${estimatedEarnings}</p>
             </div>
         </div>
-          <Button size="lg" className="w-full mt-4" disabled={weight <= 0} onClick={handleSchedulePickup}>
-            Schedule Pickup
+          <Button size="lg" className="w-full mt-4" disabled={isSubmitting || weight <= 0} onClick={handleSchedulePickup}>
+             {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Scheduling...
+              </>
+            ) : 'Schedule Pickup'}
         </Button>
     </section>
   );

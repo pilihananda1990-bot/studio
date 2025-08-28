@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { MapPin, Calendar, Edit2, Loader2, Camera } from 'lucide-react';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 interface PickupData {
   itemId: string;
@@ -21,56 +22,99 @@ interface PickupData {
 
 function ConfirmationContent() {
   const router = useRouter();
+  const { toast } = useToast();
   const [pickupData, setPickupData] = useState<PickupData | null>(null);
   const [item, setItem] = useState<RecyclableItem | undefined>(undefined);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const data = sessionStorage.getItem('pickupData');
-    if (data) {
-      const parsedData: PickupData = JSON.parse(data);
-      setPickupData(parsedData);
-      const foundItem = getItemById(parsedData.itemId);
-      setItem(foundItem);
-    } else {
-      // Handle case where data is not in session storage, maybe redirect
-      router.replace('/'); 
+    try {
+      const data = sessionStorage.getItem('pickupData');
+      if (data) {
+        const parsedData: PickupData = JSON.parse(data);
+        setPickupData(parsedData);
+        const foundItem = getItemById(parsedData.itemId);
+        if (foundItem) {
+          setItem(foundItem);
+        } else {
+          // Item not found, redirect with error
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Could not find the selected recyclable item.',
+          });
+          router.replace('/');
+        }
+      } else {
+        // Handle case where data is not in session storage
+        toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'No pickup data found. Please try again.',
+          });
+        router.replace('/'); 
+      }
+    } catch (error) {
+        console.error('Failed to load pickup data:', error);
+        toast({
+            variant: 'destructive',
+            title: 'An Unexpected Error Occurred',
+            description: 'There was a problem loading your pickup details. Please try again.',
+        });
+        router.replace('/');
+    } finally {
+        setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [router]);
+  }, [router, toast]);
 
   if (isLoading) {
     return <div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>;
   }
   
   if (!item || !pickupData) {
+    // This will be caught by the useEffect, but as a fallback:
     return notFound();
   }
 
   const { weight, imageUrl } = pickupData;
-  const displayImage = imageUrl ? imageUrl : item.image;
+  const displayImage = imageUrl || item.image;
   const estimatedPoints = (item.pricePerKg * weight).toFixed(2);
 
   const handleConfirm = async () => {
     setIsConfirming(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsConfirming(false);
-    sessionStorage.removeItem('pickupData');
-    router.push('/confirmation/success');
+    try {
+      console.log('Confirming pickup for:', { item, pickupData });
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Clear session storage on success
+      sessionStorage.removeItem('pickupData');
+      
+      console.log('Pickup confirmed successfully.');
+      router.push('/confirmation/success');
+
+    } catch (error) {
+      console.error('Failed to confirm pickup:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Confirmation Failed',
+        description: 'We could not schedule your pickup. Please try again.',
+      });
+      setIsConfirming(false);
+    }
   }
 
   return (
     <div className="flex flex-col h-full">
       <PageHeader title="Confirm Pickup" />
 
-      <main className="flex-1 overflow-y-auto p-4 space-y-6 mb-20">
+      <main className="flex-1 overflow-y-auto p-4 space-y-6">
         
         <section className="bg-card p-4 rounded-lg border">
             <div className="flex items-center gap-4">
                 <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                    <Image src={displayImage} alt={item.name} fill objectFit="cover" />
+                    <Image src={displayImage} alt={item.name} fill style={{objectFit: "cover"}} />
                 </div>
                 <div>
                     <p className="text-sm text-muted-foreground">{item.category}</p>
@@ -120,10 +164,7 @@ function ConfirmationContent() {
                 className="w-full h-24 p-2 border rounded-md bg-transparent focus:ring-primary focus:outline-none"
             />
         </section>
-
-      </main>
-      
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t">
+        
         <Button size="lg" className="w-full" onClick={handleConfirm} disabled={isConfirming}>
             {isConfirming ? (
             <>
@@ -132,7 +173,8 @@ function ConfirmationContent() {
             </>
             ) : 'Confirm & Schedule Pickup'}
         </Button>
-      </div>
+
+      </main>
     </div>
   );
 }
