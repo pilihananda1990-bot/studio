@@ -1,31 +1,52 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { DriverCard } from '@/components/app/driver-card';
 import { PageHeader } from '@/components/app/page-header';
+import { usePickup } from '@/context/pickup-context';
+import { DropOffView } from '@/components/app/dropoff-view';
 
 export default function MapPage() {
-  const [status, setStatus] = useState<'preparing' | 'confirmed'>('preparing');
-  const [isLoading, setIsLoading] = useState(true);
+  const { pickupStatus, driverDetails, assignDriver } = usePickup();
 
   useEffect(() => {
-    const initialTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    // Simulate finding and assigning a driver if a pickup is active
+    if (pickupStatus === 'searching') {
+      const timer = setTimeout(() => {
+        assignDriver({
+          name: 'Roger Walker',
+          role: 'Waste Pickup Team Member',
+          avatarUrl: 'https://i.pravatar.cc/150?u=roger',
+          rating: 4.8,
+          vehicle: 'Toyota Hilux - B 1234 ABC',
+        });
+      }, 3000); // Assign a driver after 3 seconds
 
-    const confirmationTimer = setTimeout(() => {
-      setStatus('confirmed');
-    }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [pickupStatus, assignDriver]);
 
-    return () => {
-      clearTimeout(initialTimer);
-      clearTimeout(confirmationTimer);
-    };
-  }, []);
+  const renderContent = () => {
+    switch (pickupStatus) {
+      case 'searching':
+        return (
+          <div className="w-full p-6 text-center bg-background/90 backdrop-blur-sm rounded-t-2xl">
+            <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
+            <p className="mt-4 font-semibold text-lg">Finding a driver for you...</p>
+            <p className="text-muted-foreground">Please wait while we assign a pickup team.</p>
+          </div>
+        );
+      case 'confirmed':
+        return <DriverCard />;
+      case 'completed':
+      case 'idle':
+      default:
+        return <DropOffView />;
+    }
+  };
 
   return (
     <div className="flex flex-col h-full w-full bg-muted/20">
@@ -43,20 +64,7 @@ export default function MapPage() {
         </div>
         
         <div className="relative z-10 mt-auto">
-          {isLoading ? (
-            <div className="w-full p-6 text-center bg-background/90 backdrop-blur-sm rounded-t-2xl">
-              <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
-              <p className="mt-4 font-semibold text-lg">Finding a driver for you...</p>
-              <p className="text-muted-foreground">Please wait while we assign a pickup team.</p>
-            </div>
-          ) : status === 'preparing' ? (
-             <div className="w-full p-6 text-center bg-background/90 backdrop-blur-sm rounded-t-2xl">
-                <p className="font-semibold text-lg">Preparing a driver</p>
-                <p className="text-muted-foreground">We're finding the best team for your pickup.</p>
-            </div>
-          ) : (
-            <DriverCard />
-          )}
+          {renderContent()}
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { BottomNav } from '@/components/app/bottom-nav';
 import { ThemeProvider } from '@/components/app/theme-provider';
+import { PickupProvider } from '@/context/pickup-context';
 
 export const metadata: Metadata = {
   title: 'EcoCollect',
@@ -36,9 +37,11 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <main className="flex-1 overflow-y-auto pb-24">{children}</main>
-          <BottomNav />
-          <Toaster />
+          <PickupProvider>
+            <main className="flex-1 overflow-y-auto pb-24">{children}</main>
+            <BottomNav />
+            <Toaster />
+          </PickupProvider>
         </ThemeProvider>
       </body>
     </html>

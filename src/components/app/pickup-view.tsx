@@ -3,24 +3,18 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, Star } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { RatingOverlay } from '@/components/app/rating-overlay';
+import { usePickup } from '@/context/pickup-context';
 
 export function PickupView() {
-  const order = {
-    address: 'Gatot Subroto Street 8129',
-    pickupType: 'Warehouse Pickup',
-    eta: '12 min Estimated',
-    bookingNumber: 'AB321481251245612',
-    from: 'Minnesota, USA',
-    to: 'New York, USA',
-    created: '04 June 2025',
-  };
-  
+  const { pickupDetails } = usePickup();
   const [isSuccess, setIsSuccess] = useState(false);
   const [isRatingOpen, setIsRatingOpen] = useState(false);
+
+  if (!pickupDetails) return null;
 
   const trackingHistory = [
     {
@@ -47,12 +41,12 @@ export function PickupView() {
         <div className="bg-muted/50 p-3 rounded-lg flex items-center justify-between text-sm">
             <div>
                 <p className="text-muted-foreground">Estimated Arrival</p>
-                <p className="font-bold">{order.eta}</p>
+                <p className="font-bold">{pickupDetails.eta} Estimated</p>
             </div>
             <Separator orientation="vertical" className="h-8" />
              <div>
                 <p className="text-muted-foreground">Your Location</p>
-                <p className="font-bold truncate">{order.address}</p>
+                <p className="font-bold truncate">{pickupDetails.address}</p>
             </div>
         </div>
 
@@ -61,7 +55,7 @@ export function PickupView() {
         <div className="p-3 bg-muted/50 rounded-lg">
              <h3 className="font-semibold mb-2">Order Details</h3>
              <Button variant="outline" className="w-full justify-between">
-                Review Order Items
+                Review Order: {pickupDetails.item.name}
                 <ChevronRight className="w-4 h-4" />
              </Button>
         </div>

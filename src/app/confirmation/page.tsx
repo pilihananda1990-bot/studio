@@ -13,6 +13,7 @@ import { MapPin, Calendar, Edit2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { usePickup } from '@/context/pickup-context';
 
 interface PickupData {
   itemId: string;
@@ -23,6 +24,7 @@ interface PickupData {
 function ConfirmationContent() {
   const router = useRouter();
   const { toast } = useToast();
+  const { startPickup } = usePickup();
   const [pickupData, setPickupData] = useState<PickupData | null>(null);
   const [item, setItem] = useState<RecyclableItem | undefined>(undefined);
   const [isConfirming, setIsConfirming] = useState(false);
@@ -38,7 +40,6 @@ function ConfirmationContent() {
         if (foundItem) {
           setItem(foundItem);
         } else {
-          // Item not found, redirect with error
           toast({
             variant: 'destructive',
             title: 'Error',
@@ -47,7 +48,6 @@ function ConfirmationContent() {
           router.replace('/');
         }
       } else {
-        // Handle case where data is not in session storage
         toast({
             variant: 'destructive',
             title: 'Error',
@@ -68,30 +68,23 @@ function ConfirmationContent() {
     }
   }, [router, toast]);
 
-  if (isLoading) {
-    return <div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>;
-  }
-  
-  if (!item || !pickupData) {
-    // This will be caught by the useEffect, but as a fallback:
-    return notFound();
-  }
-
-  const { weight, imageUrl } = pickupData;
-  const displayImage = imageUrl || item.image;
-  const estimatedPoints = (item.pricePerKg * weight).toFixed(2);
-
   const handleConfirm = async () => {
+    if (!item) return;
     setIsConfirming(true);
     try {
       console.log('Confirming pickup for:', { item, pickupData });
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Clear session storage on success
       sessionStorage.removeItem('pickupData');
       
-      console.log('Pickup confirmed successfully.');
+      startPickup({
+          id: `pickup-${Date.now()}`,
+          item: item,
+          address: 'Jl. Merdeka No. 1, Gambir, Jakarta Pusat, DKI Jakarta',
+          eta: '12 min'
+      });
+      
+      console.log('Pickup confirmed successfully and state updated.');
       const title = encodeURIComponent("Pickup Scheduled!");
       const message = encodeURIComponent("Your request has been confirmed. You will now be redirected to the tracking page.");
       const redirectUrl = encodeURIComponent("/map");
@@ -107,6 +100,18 @@ function ConfirmationContent() {
       setIsConfirming(false);
     }
   }
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
+  
+  if (!item || !pickupData) {
+    return notFound();
+  }
+
+  const { weight, imageUrl } = pickupData;
+  const displayImage = imageUrl || item.image;
+  const estimatedPoints = (item.pricePerKg * weight).toFixed(2);
 
   return (
     <div className="flex flex-col h-full">

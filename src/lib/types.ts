@@ -73,3 +73,21 @@ export type Village = {
   subdistrictId: string;
   name: string;
 };
+
+// Pickup Context Types
+export type PickupStatus = 'idle' | 'searching' | 'confirmed' | 'completed';
+
+export type DriverDetails = {
+    name: string;
+    role: string;
+    avatarUrl: string;
+    rating: number;
+    vehicle: string;
+};
+
+export type PickupDetails = {
+    id: string;
+    item: RecyclableItem;
+    address: string;
+    eta: string;
+};

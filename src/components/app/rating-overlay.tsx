@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Star, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import { usePickup } from '@/context/pickup-context';
 
 type RatingOverlayProps = {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export function RatingOverlay({ isOpen, onOpenChange }: RatingOverlayProps) {
   const [comment, setComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { completePickup } = usePickup();
 
   const handleSubmit = async () => {
     if (rating === 0) {
@@ -32,7 +34,6 @@ export function RatingOverlay({ isOpen, onOpenChange }: RatingOverlayProps) {
     }
     
     setIsSubmitting(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
     
     console.log({ rating, comment });
@@ -44,7 +45,8 @@ export function RatingOverlay({ isOpen, onOpenChange }: RatingOverlayProps) {
 
     setIsSubmitting(false);
     onOpenChange(false);
-    // Reset state after a short delay to allow the sheet to close
+    completePickup();
+    
     setTimeout(() => {
         setRating(0);
         setHoverRating(0);

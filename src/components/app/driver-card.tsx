@@ -4,15 +4,22 @@
 import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Clock, MapPin, MessageSquare, Phone, ChevronRight, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { MessageSquare, Phone, ChevronUp } from 'lucide-react';
 import { PickupView } from '@/components/app/pickup-view';
 import { cn } from '@/lib/utils';
+import { usePickup } from '@/context/pickup-context';
 
 
 export function DriverCard() {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { driverDetails } = usePickup();
+
+  if (!driverDetails) {
+    return null; // Or a loading/error state
+  }
+
+  const { name, role, avatarUrl } = driverDetails;
 
   return (
     <div className={cn(
@@ -27,12 +34,12 @@ export function DriverCard() {
         
         <div className="flex items-center gap-3 mt-2">
           <Avatar className="h-14 w-14 border-2 border-primary/50">
-            <AvatarImage src="https://i.pravatar.cc/150?u=roger" />
-            <AvatarFallback>RW</AvatarFallback>
+            <AvatarImage src={avatarUrl} />
+            <AvatarFallback>{name.substring(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
-            <h3 className="font-bold text-lg">Roger Walker</h3>
-            <p className="text-sm text-muted-foreground">Waste Pickup Team Member</p>
+            <h3 className="font-bold text-lg">{name}</h3>
+            <p className="text-sm text-muted-foreground">{role}</p>
           </div>
           <div className="flex items-center gap-2">
              <Button variant="outline" size="icon" className="rounded-full w-10 h-10">
