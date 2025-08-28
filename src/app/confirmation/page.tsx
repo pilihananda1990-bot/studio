@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { MapPin, Calendar, Edit2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
 
 function ConfirmationContent() {
   const searchParams = useSearchParams();
@@ -40,66 +41,64 @@ function ConfirmationContent() {
     <div className="flex flex-col h-full">
       <PageHeader title="Confirm Pickup" />
 
-      <main className="flex-1 overflow-y-auto">
-        <div className="container mx-auto px-4 py-6">
-          <div className="space-y-6">
-            
-            <section className="bg-card p-4 rounded-lg border">
-                <div className="flex items-center gap-4">
-                    <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                        <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" />
-                    </div>
-                    <div>
-                        <p className="text-sm text-muted-foreground">{item.category}</p>
-                        <h2 className="text-lg font-bold">{item.name}</h2>
-                        <p className="text-primary font-semibold">{weight} kg</p>
-                    </div>
-                </div>
-                <Separator className="my-4" />
-                <div className="flex justify-between items-center">
-                    <p className="font-medium">Estimated Earnings</p>
-                    <p className="text-xl font-bold text-primary">${estimatedPoints}</p>
-                </div>
-            </section>
-            
-            <section className="bg-card p-4 rounded-lg border">
-                 <h3 className="font-bold mb-3">Pickup Details</h3>
-                 <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                        <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                        <div>
-                            <p className="font-semibold">Pickup Address</p>
-                            <p className="text-muted-foreground text-sm">Jl. Merdeka No. 1, Gambir, Jakarta Pusat, DKI Jakarta</p>
-                        </div>
-                        <Button variant="ghost" size="icon" className="ml-auto flex-shrink-0">
-                            <Link href="/profile/edit">
-                                <Edit2 className="h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </div>
-                     <div className="flex items-start gap-3">
-                        <Calendar className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                        <div>
-                            <p className="font-semibold">Pickup Schedule</p>
-                            <p className="text-muted-foreground text-sm">Today, 2:00 PM - 4:00 PM</p>
-                        </div>
-                        <Button variant="ghost" size="icon" className="ml-auto flex-shrink-0">
-                            <Edit2 className="h-4 w-4" />
-                        </Button>
-                    </div>
-                 </div>
-            </section>
+      <main className="flex-1 overflow-y-auto pb-36">
+        <div className="p-4 space-y-6">
+          
+          <section className="bg-card p-4 rounded-lg border">
+              <div className="flex items-center gap-4">
+                  <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                      <Image src={item.image} alt={item.name} fill objectFit="cover" />
+                  </div>
+                  <div>
+                      <p className="text-sm text-muted-foreground">{item.category}</p>
+                      <h2 className="text-lg font-bold">{item.name}</h2>
+                      <p className="text-primary font-semibold">{weight} kg</p>
+                  </div>
+              </div>
+              <Separator className="my-4" />
+              <div className="flex justify-between items-center">
+                  <p className="font-medium">Estimated Earnings</p>
+                  <p className="text-xl font-bold text-primary">${estimatedPoints}</p>
+              </div>
+          </section>
+          
+          <section className="bg-card p-4 rounded-lg border">
+               <h3 className="font-bold mb-3">Pickup Details</h3>
+               <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                      <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                      <div>
+                          <p className="font-semibold">Pickup Address</p>
+                          <p className="text-muted-foreground text-sm">Jl. Merdeka No. 1, Gambir, Jakarta Pusat, DKI Jakarta</p>
+                      </div>
+                      <Button variant="ghost" size="icon" className="ml-auto flex-shrink-0">
+                          <Link href="/profile/edit">
+                              <Edit2 className="h-4 w-4" />
+                          </Link>
+                      </Button>
+                  </div>
+                   <div className="flex items-start gap-3">
+                      <Calendar className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                      <div>
+                          <p className="font-semibold">Pickup Schedule</p>
+                          <p className="text-muted-foreground text-sm">Today, 2:00 PM - 4:00 PM</p>
+                      </div>
+                      <Button variant="ghost" size="icon" className="ml-auto flex-shrink-0">
+                          <Edit2 className="h-4 w-4" />
+                      </Button>
+                  </div>
+               </div>
+          </section>
 
-             <section className="bg-card p-4 rounded-lg border">
-                 <h3 className="font-bold mb-3">Notes for Driver (Optional)</h3>
-                <textarea 
-                    placeholder="e.g., The items are behind the gate." 
-                    className="w-full h-24 p-2 border rounded-md bg-transparent focus:ring-primary focus:outline-none"
-                />
-            </section>
+           <section className="bg-card p-4 rounded-lg border">
+               <h3 className="font-bold mb-3">Notes for Driver (Optional)</h3>
+              <Textarea 
+                  placeholder="e.g., The items are behind the gate." 
+                  className="w-full h-24 p-2 border rounded-md bg-transparent focus:ring-primary focus:outline-none"
+              />
+          </section>
 
 
-          </div>
         </div>
       </main>
 
