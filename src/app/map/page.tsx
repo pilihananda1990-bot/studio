@@ -30,38 +30,36 @@ export default function MapPage() {
   }, []);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="flex flex-col h-full w-full bg-muted/20">
       <PageHeader title="Track Pickup" />
 
-      <div className="absolute inset-0">
-        <Image
-          src="https://picsum.photos/seed/map-background/1080/1920"
-          alt="Map background"
-          layout="fill"
-          objectFit="cover"
-          className="opacity-50 dark:opacity-30"
-          data-ai-hint="street map"
-        />
-      </div>
-
-      {status === 'confirmed' && (
-        <div className="absolute inset-0 z-10">
-           <Image
-            src="/images/route-line.svg"
-            alt="Route line"
+      <div className="flex-grow relative">
+        <div className="absolute inset-0">
+            <Image
+            src="https://picsum.photos/seed/map-background/1080/1920"
+            alt="Map background"
             layout="fill"
-            objectFit="contain"
-            className="opacity-80"
-          />
+            objectFit="cover"
+            data-ai-hint="street map"
+            />
+            {status === 'confirmed' && (
+                <Image
+                    src="/images/route-line.svg"
+                    alt="Route line"
+                    layout="fill"
+                    objectFit="contain"
+                    className="opacity-80"
+                />
+            )}
         </div>
-      )}
+      </div>
       
-      <div className="absolute inset-0 z-20 flex flex-col justify-end">
+      <div className="flex-shrink-0">
         {isLoading || status === 'preparing' ? (
-          <div className="w-full bg-background/80 p-6 text-center backdrop-blur-sm rounded-t-2xl">
+          <div className="w-full bg-background p-6 text-center rounded-t-2xl">
             <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />
-            <p className="mt-4 font-semibold text-lg">Preparing a driver...</p>
-            <p className="text-muted-foreground">Please wait while we assign a pickup team for you.</p>
+            <p className="mt-4 font-semibold text-lg">Finding a driver for you...</p>
+            <p className="text-muted-foreground">Please wait while we assign a pickup team.</p>
           </div>
         ) : (
           <DriverCard />

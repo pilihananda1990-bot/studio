@@ -9,8 +9,8 @@ import { Clock, MapPin, MessageSquare, Phone } from 'lucide-react';
 
 export function DriverCard() {
   return (
-    <Card className="m-4 rounded-2xl bg-background/80 dark:bg-card/80 backdrop-blur-md border-border/50">
-      <CardContent className="p-4 space-y-4">
+    <div className="p-4 bg-background/80 dark:bg-card/80 backdrop-blur-md rounded-t-2xl border-t">
+      <div className="space-y-4">
         <div className="flex items-center gap-3">
           <Avatar className="h-14 w-14 border-2 border-primary/50">
             <AvatarImage src="https://i.pravatar.cc/150?u=roger" />
@@ -53,7 +53,7 @@ export function DriverCard() {
             </div>
         </div>
 
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }
