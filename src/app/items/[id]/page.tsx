@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
 import { PageHeader } from '@/components/app/page-header';
 import { Separator } from '@/components/ui/separator';
-import { CheckCircle2, XCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, Camera } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
@@ -26,8 +26,14 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value === '' || (!isNaN(parseFloat(value)) && parseFloat(value) >= 0)) {
-      setWeight(parseFloat(value) || 0);
+    // Allow empty string to clear the input, otherwise parse the float
+    if (value === '') {
+        setWeight(0);
+    } else {
+        const parsedWeight = parseFloat(value);
+        if (!isNaN(parsedWeight) && parsedWeight >= 0) {
+            setWeight(parsedWeight);
+        }
     }
   };
 
@@ -67,28 +73,30 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
                 </p>
             </section>
             
-            <section className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 items-end">
-                <div>
-                  <label htmlFor="weight-input" className="text-sm font-medium text-muted-foreground">Estimated Weight (kg)</label>
-                  <Input
-                    id="weight-input"
-                    type="number"
-                    value={weight === 0 ? '' : weight}
-                    onChange={handleWeightChange}
-                    className="mt-1 font-bold text-lg"
-                    placeholder="e.g., 5"
-                  />
+             <section className="bg-card p-4 rounded-lg border">
+                <div className="flex items-end gap-2">
+                    <Button variant="outline" size="icon" className="h-14 w-14 flex-shrink-0 rounded-lg">
+                        <Camera className="h-7 w-7" />
+                    </Button>
+                    <div className="flex-grow">
+                        <label htmlFor="weight-input" className="text-xs font-medium text-muted-foreground">Weight (kg)</label>
+                        <Input
+                            id="weight-input"
+                            type="number"
+                            value={weight === 0 ? '' : weight}
+                            onChange={handleWeightChange}
+                            className="mt-1 font-bold text-lg h-9"
+                            placeholder="e.g., 5"
+                        />
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                        <p className="text-xs text-muted-foreground">Earnings</p>
+                        <p className="text-lg font-bold text-primary">${estimatedEarnings}</p>
+                    </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-sm text-muted-foreground">Estimated Earnings</p>
-                  <p className="text-xl font-bold text-primary">${estimatedEarnings}</p>
-                </div>
-              </div>
-              
-              <Button asChild size="lg" className="w-full" disabled={!weight || weight <= 0}>
-                <Link href={`/confirmation?itemId=${item.id}&weight=${weight}`}>Schedule Pickup</Link>
-              </Button>
+                 <Button asChild size="lg" className="w-full mt-4" disabled={!weight || weight <= 0}>
+                    <Link href={`/confirmation?itemId=${item.id}&weight=${weight}`}>Schedule Pickup</Link>
+                </Button>
             </section>
             
             <Separator />
