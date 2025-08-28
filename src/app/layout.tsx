@@ -1,4 +1,3 @@
-
 import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
@@ -6,8 +5,8 @@ import { BottomNav } from '@/components/app/bottom-nav';
 import { ThemeProvider } from '@/components/app/theme-provider';
 
 export const metadata: Metadata = {
-  title: 'EcoCollect',
-  description: 'Recycle with Ease',
+  title: 'Pet Adoption',
+  description: 'Find your new best friend',
 };
 
 export default function RootLayout({
@@ -17,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full" suppressHydrationWarning>
-      <head>
+       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -25,7 +24,7 @@ export default function RootLayout({
           crossOrigin=""
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -35,7 +34,7 @@ export default function RootLayout({
           defaultTheme="light"
           disableTransitionOnChange
         >
-          <main className="flex-1 overflow-y-auto pb-20">{children}</main>
+          <main className="flex-1 overflow-y-auto pb-24">{children}</main>
           <BottomNav />
           <Toaster />
         </ThemeProvider>
