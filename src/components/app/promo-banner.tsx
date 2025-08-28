@@ -58,7 +58,7 @@ export function PromoBanner() {
   }, [api]);
 
   return (
-    <div className="relative">
+    <div className="relative rounded-2xl shadow-sm bg-card p-1">
       <Carousel 
         setApi={setApi}
         plugins={[
@@ -74,17 +74,17 @@ export function PromoBanner() {
         <CarouselContent>
           {banners.map((banner, index) => (
             <CarouselItem key={index}>
-              <div className="relative rounded-2xl bg-gradient-to-r from-green-600 to-green-800 text-white p-6 overflow-hidden h-40 flex flex-col justify-center">
+              <div className="relative rounded-xl bg-gradient-to-r from-green-600 to-green-800 text-white p-4 overflow-hidden h-36 flex flex-col justify-center">
                 <div className="relative z-10 w-3/5">
-                  <h1 className="text-xl font-bold">{banner.title}</h1>
+                  <h1 className="text-lg font-bold">{banner.title}</h1>
                   <p className="text-xs mt-1">{banner.description}</p>
                   <Link href={banner.href} passHref>
-                    <Button className="mt-4 bg-primary rounded-full h-8 px-4 text-sm hover:bg-primary/90">
+                    <Button className="mt-3 bg-primary rounded-full h-8 px-4 text-xs hover:bg-primary/90">
                       {banner.cta}
                     </Button>
                   </Link>
                 </div>
-                <div className="absolute right-0 top-0 h-full w-2/5 opacity-40">
+                <div className="absolute right-0 top-0 h-full w-2/5 opacity-30">
                   <Image
                     src={banner.imageUrl}
                     alt={banner.title}

@@ -13,7 +13,7 @@ const features = [
 
 export function QuickAccessPanel() {
   return (
-    <section className="mt-8">
+    <section className="mt-6">
       <div className="flex gap-4 overflow-x-auto pb-2 -mx-4 px-4">
         {features.map((feature) => {
           const Icon = feature.icon;

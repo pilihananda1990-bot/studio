@@ -43,12 +43,12 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 container mx-auto px-4 mt-4">
+      <main className="flex-1 container mx-auto px-4">
         <PromoBanner />
         
         <QuickAccessPanel />
 
-        <section className="mt-8">
+        <section className="mt-6">
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold">Categories</h3>
                 <Link href="#" className="text-sm font-semibold text-primary">See All</Link>
@@ -71,7 +71,7 @@ export default function Home() {
             </div>
         </section>
         
-        <section className="mt-6 -mx-2">
+        <section className="mt-4 -mx-2">
             <div className="grid grid-cols-2 gap-4">
                 {filteredItems.map((item) => (
                      <Link href={`/items/${item.id}`} key={item.id} className="block">
