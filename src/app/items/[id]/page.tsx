@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
 import { PageHeader } from '@/components/app/page-header';
-import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { ItemInteraction } from '@/components/app/item-interaction';
