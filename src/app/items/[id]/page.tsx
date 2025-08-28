@@ -1,25 +1,43 @@
-import { notFound } from 'next/navigation';
+
+'use client';
+
+import { useState } from 'react';
+import { notFound, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
 import { PageHeader } from '@/components/app/page-header';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle2, XCircle } from 'lucide-react';
-import { ItemInteraction } from '@/components/app/item-interaction';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import Link from 'next/link';
 import React from 'react';
 
 export default function ItemDetailPage({ params }: { params: { id: string } }) {
   const resolvedParams = React.use(params);
   const item = getItemById(resolvedParams.id);
+  
+  const [weight, setWeight] = useState(1);
+  const router = useRouter();
 
   if (!item) {
     notFound();
   }
 
+  const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value === '' || (!isNaN(parseFloat(value)) && parseFloat(value) >= 0)) {
+      setWeight(parseFloat(value) || 0);
+    }
+  };
+
+  const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
+
   return (
     <div className="flex flex-col h-full">
       <PageHeader title={item.name} />
       
-      <main className="flex-1 overflow-y-auto pb-36">
+      <main className="flex-1 overflow-y-auto pb-8">
         <div className="relative h-60 w-full">
           <Image
             src={item.image}
@@ -47,6 +65,30 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
                 <p className="mt-4 text-center text-sm font-semibold text-primary p-3 bg-primary/10 rounded-lg">
                     Clean your items to get the best price!
                 </p>
+            </section>
+            
+            <section className="space-y-4">
+              <div className="grid grid-cols-2 gap-4 items-end">
+                <div>
+                  <label htmlFor="weight-input" className="text-sm font-medium text-muted-foreground">Estimated Weight (kg)</label>
+                  <Input
+                    id="weight-input"
+                    type="number"
+                    value={weight === 0 ? '' : weight}
+                    onChange={handleWeightChange}
+                    className="mt-1 font-bold text-lg"
+                    placeholder="e.g., 5"
+                  />
+                </div>
+                <div className="text-right">
+                  <p className="text-sm text-muted-foreground">Estimated Earnings</p>
+                  <p className="text-xl font-bold text-primary">${estimatedEarnings}</p>
+                </div>
+              </div>
+              
+              <Button asChild size="lg" className="w-full" disabled={!weight || weight <= 0}>
+                <Link href={`/confirmation?itemId=${item.id}&weight=${weight}`}>Schedule Pickup</Link>
+              </Button>
             </section>
             
             <Separator />
@@ -98,8 +140,6 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
           </div>
         </div>
       </main>
-
-      <ItemInteraction item={item} />
     </div>
   );
 }
