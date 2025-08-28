@@ -1,6 +1,3 @@
-
-'use client';
-
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
@@ -8,9 +5,11 @@ import { PageHeader } from '@/components/app/page-header';
 import { Separator } from '@/components/ui/separator';
 import { CheckCircle2, XCircle } from 'lucide-react';
 import { ItemInteraction } from '@/components/app/item-interaction';
+import React from 'react';
 
 export default function ItemDetailPage({ params }: { params: { id: string } }) {
-  const item = getItemById(params.id);
+  const resolvedParams = React.use(params);
+  const item = getItemById(resolvedParams.id);
 
   if (!item) {
     notFound();
@@ -25,8 +24,8 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
           <Image
             src={item.image}
             alt={item.name}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
             data-ai-hint={`${item.category} recycling`}
           />
         </div>
