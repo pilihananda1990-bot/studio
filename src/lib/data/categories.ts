@@ -1,12 +1,14 @@
 
-import type { PetCategory } from "@/lib/types";
+import { Leaf, Newspaper, Wine, Trash2, GlassWater } from "lucide-react";
+import type { Category } from "@/lib/types";
 
-export const categories: PetCategory[] = [
-  { id: "all", name: "All", icon: "🐾" },
-  { id: "cat", name: "Cat", icon: "😸" },
-  { id: "turtle", name: "Turtle", icon: "🐢" },
-  { id: "dog", name: "Dog", icon: "🐶" },
-  { id: "bird", name: "Bird", icon: "🐦" },
+export const categories: Category[] = [
+  { id: "all", name: "All", icon: Trash2 },
+  { id: "paper", name: "Paper", icon: Newspaper },
+  { id: "plastic", name: "Plastic", icon: GlassWater },
+  { id: "metal", name: "Metal", icon: Trash2 },
+  { id: "glass", name: "Glass", icon: Wine },
+  { id: "organic", name: "Organic", icon: Leaf },
 ];
 
 export const getCategoryById = (id: string | undefined) => categories.find(c => c.id === id);

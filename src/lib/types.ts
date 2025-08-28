@@ -1,36 +1,19 @@
 
 import { LucideIcon } from "lucide-react";
 
-export type PetCategory = {
-  id: string;
-  name: string;
-  icon: string; 
-};
-
-export type Pet = {
-  id: string;
-  name: string;
-  sex: 'Male' | 'Female';
-  age: string;
-  image: string;
-  category: string;
-  backgroundColor: string;
-};
-
-
-export type RecyclableItem = {
-    id: string;
-    name: string;
-    description: string;
-    image: string;
-    pricePerKg: number;
-    category: string;
-}
-
 export type Category = {
     id: string;
     name: string;
     icon: LucideIcon;
+};
+
+export type RecyclableItem = {
+  id: string;
+  name: string;
+  pricePerKg: number;
+  image: string;
+  category: string;
+  description: string;
 };
 
 export type Notification = {
