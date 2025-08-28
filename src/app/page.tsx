@@ -48,7 +48,7 @@ export default function Home() {
         
         <QuickAccessPanel />
 
-        <section className="mt-6">
+        <section className="mt-4">
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold">Categories</h3>
                 <Link href="#" className="text-sm font-semibold text-primary">See All</Link>
@@ -57,14 +57,14 @@ export default function Home() {
                 {categories.map((category) => {
                     const Icon = category.icon;
                     return (
-                        <div key={category.id} className="flex flex-col items-center gap-2 flex-shrink-0" onClick={() => setActiveCategory(category.name)}>
+                        <div key={category.id} className="flex flex-col items-center gap-1.5 flex-shrink-0" onClick={() => setActiveCategory(category.name)}>
                             <div className={cn(
-                                "h-16 w-16 rounded-full flex items-center justify-center transition-all cursor-pointer",
+                                "h-14 w-14 rounded-full flex items-center justify-center transition-all cursor-pointer",
                                 activeCategory === category.name ? 'bg-primary/20 border-2 border-primary' : 'bg-secondary'
                             )}>
-                                <Icon className="h-8 w-8 text-primary" />
+                                <Icon className="h-6 w-6 text-primary" />
                             </div>
-                            <p className="text-sm font-semibold">{category.name}</p>
+                            <p className="text-xs font-semibold">{category.name}</p>
                         </div>
                     );
                 })}
