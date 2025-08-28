@@ -11,6 +11,7 @@ import { categories } from '@/lib/data/categories';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { PromoBanner } from '@/components/app/promo-banner';
+import { QuickAccessPanel } from '@/components/app/quick-access-panel';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -44,6 +45,8 @@ export default function Home() {
 
       <main className="flex-1 container mx-auto px-4 mt-4">
         <PromoBanner />
+        
+        <QuickAccessPanel />
 
         <section className="mt-8">
             <div className="flex justify-between items-center">
