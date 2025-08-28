@@ -1,41 +1,63 @@
 
 'use client';
 
-import { Suspense, useRef, useState } from 'react';
-import { useSearchParams, useRouter, notFound } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useRouter, notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
+import type { RecyclableItem } from '@/lib/types';
 import { PageHeader } from '@/components/app/page-header';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { MapPin, Calendar, Edit2, Loader2, Camera } from 'lucide-react';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
+
+interface PickupData {
+  itemId: string;
+  weight: number;
+  imageUrl: string | null;
+}
 
 function ConfirmationContent() {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const itemId = searchParams.get('itemId');
-  const weight = searchParams.get('weight');
-  const imageUrl = searchParams.get('imageUrl');
-  
+  const [pickupData, setPickupData] = useState<PickupData | null>(null);
+  const [item, setItem] = useState<RecyclableItem | undefined>(undefined);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const data = sessionStorage.getItem('pickupData');
+    if (data) {
+      const parsedData: PickupData = JSON.parse(data);
+      setPickupData(parsedData);
+      const foundItem = getItemById(parsedData.itemId);
+      setItem(foundItem);
+    } else {
+      // Handle case where data is not in session storage, maybe redirect
+      router.replace('/'); 
+    }
+    setIsLoading(false);
+  }, [router]);
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+  }
   
-  const item = getItemById(itemId);
-  
-  if (!item || !weight) {
+  if (!item || !pickupData) {
     return notFound();
   }
 
-  const displayImage = imageUrl ? decodeURIComponent(imageUrl) : item.image;
-  const estimatedPoints = (item.pricePerKg * parseFloat(weight)).toFixed(2);
+  const { weight, imageUrl } = pickupData;
+  const displayImage = imageUrl ? imageUrl : item.image;
+  const estimatedPoints = (item.pricePerKg * weight).toFixed(2);
 
   const handleConfirm = async () => {
     setIsConfirming(true);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsConfirming(false);
+    sessionStorage.removeItem('pickupData');
     router.push('/confirmation/success');
   }
 
@@ -118,7 +140,7 @@ function ConfirmationContent() {
 
 export default function ConfirmationPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
             <ConfirmationContent />
         </Suspense>
     )

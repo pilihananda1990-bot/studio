@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { getItemById } from '@/lib/data/recyclables';
@@ -14,8 +14,7 @@ import Link from 'next/link';
 import React from 'react';
 
 export default function ItemDetailPage({ params }: { params: { id: string } }) {
-  const resolvedParams = React.use(params);
-  const item = getItemById(resolvedParams.id);
+  const item = getItemById(params.id);
   
   const [weight, setWeight] = useState(1);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
@@ -53,9 +52,21 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
     fileInputRef.current?.click();
   };
 
-  const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
-  const scheduleLink = `/confirmation?itemId=${item.id}&weight=${weight}${uploadedImage ? `&imageUrl=${encodeURIComponent(uploadedImage)}` : ''}`;
+  const handleSchedulePickup = () => {
+    if (!item || !weight || weight <= 0) return;
 
+    const pickupData = {
+      itemId: item.id,
+      weight: weight,
+      imageUrl: uploadedImage,
+    };
+
+    sessionStorage.setItem('pickupData', JSON.stringify(pickupData));
+    router.push('/confirmation');
+  };
+
+
+  const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
 
   return (
     <div className="flex flex-col h-full">
@@ -125,8 +136,8 @@ export default function ItemDetailPage({ params }: { params: { id: string } }) {
                         <p className="text-lg font-bold text-primary">${estimatedEarnings}</p>
                     </div>
                 </div>
-                 <Button asChild size="lg" className="w-full mt-4" disabled={!weight || weight <= 0}>
-                    <Link href={scheduleLink}>Schedule Pickup</Link>
+                 <Button size="lg" className="w-full mt-4" disabled={!weight || weight <= 0} onClick={handleSchedulePickup}>
+                    Schedule Pickup
                 </Button>
             </section>
             
