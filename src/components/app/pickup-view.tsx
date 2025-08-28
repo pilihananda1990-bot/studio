@@ -11,8 +11,8 @@ import { RatingOverlay } from '@/components/app/rating-overlay';
 
 export function PickupView() {
   const driver = {
-    name: 'Peter Markent',
-    avatar: 'https://i.pravatar.cc/150?u=driver1',
+    name: 'Roger Walker',
+    avatar: 'https://i.pravatar.cc/150?u=roger',
     rating: 4.8,
     car: 'Honda Brio - White',
     plate: 'B 1234 XYZ'
