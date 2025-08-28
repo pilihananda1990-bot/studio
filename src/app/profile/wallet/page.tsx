@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Star, Gift, ArrowLeft } from 'lucide-react';
+import { Star, Gift, ArrowLeft, Loader2 } from 'lucide-react';
 import { transactionHistory as initialHistory, userPoints as initialPoints } from '@/lib/data/wallet';
 import type { Transaction } from '@/lib/types';
 import { format } from 'date-fns';
@@ -18,7 +18,13 @@ export default function WalletPage() {
   const [userPoints, setUserPoints] = useState(initialPoints);
   const [transactionHistory, setTransactionHistory] = useState<Transaction[]>(initialHistory);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    // This ensures the component is mounted on the client, preventing hydration mismatch.
+    setIsClient(true);
+  }, []);
 
   const handleRedemption = (pointsToDeduct: number, itemName: string) => {
      if (userPoints >= pointsToDeduct) {
@@ -98,7 +104,11 @@ export default function WalletPage() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Transaction History</h3>
             <div className="space-y-4">
-              {transactionHistory.length > 0 ? (
+              {!isClient ? (
+                <div className="flex items-center justify-center p-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                </div>
+              ) : transactionHistory.length > 0 ? (
                 transactionHistory.map((transaction) => (
                   <div key={transaction.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
                     <div>
