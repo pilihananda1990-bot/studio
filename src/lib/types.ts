@@ -4,16 +4,19 @@ import { LucideIcon } from "lucide-react";
 export type Category = {
     id: string;
     name: string;
-    icon?: LucideIcon;
 };
 
 export type RecyclableItem = {
-  id: string;
-  name: string;
-  pricePerKg: number;
-  image: string;
-  category: string;
-  description: string;
+  id:string;
+  name:string;
+  pricePerKg:number;
+  dirtyPricePerKg: number;
+  image:string;
+  category:string;
+  description:string;
+  preparation: string[];
+  accepted: string[];
+  prohibited: string[];
 };
 
 export type Notification = {

@@ -55,11 +55,17 @@ export default function Home() {
             </div>
              <div className="mt-4 flex gap-2 overflow-x-auto pb-2 -mx-4 px-4">
                 {categories.map((category) => {
+                    const isActive = activeCategory === category.name;
                     return (
                         <div key={category.id} 
-                             className="flex flex-shrink-0 items-center justify-center p-4 h-12 rounded-xl shadow-sm bg-muted/50 cursor-pointer"
+                             className={cn(
+                                "flex flex-shrink-0 items-center justify-center px-4 h-10 rounded-full shadow-sm cursor-pointer border",
+                                isActive 
+                                    ? "bg-primary text-primary-foreground border-primary" 
+                                    : "bg-card text-card-foreground hover:bg-muted"
+                             )}
                              onClick={() => setActiveCategory(category.name)}>
-                            <p className="text-sm font-semibold text-foreground text-center">{category.name}</p>
+                            <p className="text-sm font-semibold text-center">{category.name}</p>
                         </div>
                     );
                 })}
@@ -76,7 +82,7 @@ export default function Home() {
                             </div>
                             <div className="p-3">
                                 <h4 className="font-bold text-lg truncate">{item.name}</h4>
-                                <p className="text-sm text-primary font-semibold mt-1">{item.pricePerKg}/kg</p>
+                                <p className="text-sm text-primary font-semibold mt-1">${item.pricePerKg.toFixed(2)}/kg</p>
                             </div>
                         </div>
                     </Link>

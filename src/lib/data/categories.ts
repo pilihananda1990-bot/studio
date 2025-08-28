@@ -1,5 +1,4 @@
 
-import { Leaf, Newspaper, Wine, Trash2, GlassWater } from "lucide-react";
 import type { Category } from "@/lib/types";
 
 export const categories: Category[] = [
