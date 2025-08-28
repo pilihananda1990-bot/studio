@@ -10,6 +10,7 @@ import { recyclableItems } from '@/lib/data/recyclables';
 import { categories } from '@/lib/data/categories';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { PromoBanner } from '@/components/app/promo-banner';
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -42,27 +43,7 @@ export default function Home() {
       </header>
 
       <main className="flex-1 container mx-auto px-4 mt-4">
-        <section className="relative rounded-2xl bg-gradient-to-r from-green-600 to-green-800 text-white p-6 overflow-hidden">
-            <div className="relative z-10">
-                <h1 className="text-2xl font-bold">Recycle & Earn Points</h1>
-                <p className="text-sm mt-1">Get rewarded for saving the planet.</p>
-                <Link href="#" passHref>
-                  <Button className="mt-4 bg-primary rounded-full h-10 px-5 text-base hover:bg-primary/90">
-                      Learn More
-                  </Button>
-                </Link>
-            </div>
-            <div className="absolute right-0 bottom-0 opacity-50">
-                 <Image 
-                    src="https://picsum.photos/seed/recycle-promo/200/200"
-                    width={160}
-                    height={160}
-                    alt="Recycling illustration"
-                    className="object-contain"
-                    data-ai-hint="recycling environment"
-                />
-            </div>
-        </section>
+        <PromoBanner />
 
         <section className="mt-8">
             <div className="flex justify-between items-center">
@@ -109,4 +90,3 @@ export default function Home() {
     </div>
   );
 }
-
