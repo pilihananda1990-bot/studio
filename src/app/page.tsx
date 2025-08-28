@@ -53,11 +53,11 @@ export default function Home() {
                 <h3 className="text-xl font-bold">Categories</h3>
                 <Link href="#" className="text-sm font-semibold text-primary">See All</Link>
             </div>
-             <div className="mt-4 flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+             <div className="mt-4 flex gap-2 overflow-x-auto pb-2 -mx-4 px-4">
                 {categories.map((category) => {
                     return (
                         <div key={category.id} 
-                             className="flex flex-shrink-0 items-center justify-center p-4 h-16 w-24 rounded-xl shadow-sm bg-muted/50 cursor-pointer"
+                             className="flex flex-shrink-0 items-center justify-center p-4 h-12 rounded-xl shadow-sm bg-muted/50 cursor-pointer"
                              onClick={() => setActiveCategory(category.name)}>
                             <p className="text-sm font-semibold text-foreground text-center">{category.name}</p>
                         </div>

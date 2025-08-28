@@ -14,12 +14,12 @@ const features = [
 export function QuickAccessPanel() {
   return (
     <section className="mt-4">
-      <div className="flex justify-start gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+      <div className="flex justify-start gap-2 overflow-x-auto pb-2 -mx-4 px-4">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
             <Link href={feature.href} key={feature.label} className="flex-shrink-0">
-              <div className="w-24 h-24 bg-card rounded-xl shadow-sm flex flex-col items-center justify-center gap-2">
+              <div className="w-20 h-20 bg-card rounded-xl shadow-sm flex flex-col items-center justify-center gap-1">
                 <div className="h-10 w-10 bg-secondary rounded-full flex items-center justify-center">
                   <Icon className="h-5 w-5 text-primary" />
                 </div>
