@@ -14,7 +14,7 @@ const features = [
 export function QuickAccessPanel() {
   return (
     <section className="mt-4">
-      <div className="flex justify-between gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+      <div className="flex justify-between gap-1 overflow-x-auto pb-2 -mx-4 px-4">
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
