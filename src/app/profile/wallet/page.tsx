@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Star, Gift, ArrowLeft } from 'lucide-react';
@@ -18,10 +18,27 @@ export default function WalletPage() {
   const [userPoints, setUserPoints] = useState(initialPoints);
   const [transactionHistory, setTransactionHistory] = useState<Transaction[]>(initialHistory);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+  const [currentTime, setCurrentTime] = useState('');
   const { toast } = useToast();
 
-  // This function would be updated if redemption happens on a separate page
-  // For now, it's kept for potential future use or if the flow changes.
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true,
+      });
+      setCurrentTime(formattedTime);
+    };
+
+    updateTime();
+    const intervalId = setInterval(updateTime, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   const handleRedemption = (pointsToDeduct: number, itemName: string) => {
      if (userPoints >= pointsToDeduct) {
       setShowSuccessAnimation(true);
@@ -75,6 +92,12 @@ export default function WalletPage() {
                     </Link>
                 </Button>
                 <h1 className="text-2xl font-bold">My Wallet</h1>
+            </div>
+            <div className="text-right">
+                <p className="font-mono text-sm font-medium">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                 <p className="text-sm text-muted-foreground font-mono">
+                    {currentTime || 'Loading...'}
+                </p>
             </div>
         </div>
 
