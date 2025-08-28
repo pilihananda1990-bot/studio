@@ -2,22 +2,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Phone, Send, ChevronRight, Star } from 'lucide-react';
+import { ChevronRight, Star } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { RatingOverlay } from '@/components/app/rating-overlay';
 
 export function PickupView() {
-  const driver = {
-    name: 'Roger Walker',
-    avatar: 'https://i.pravatar.cc/150?u=roger',
-    rating: 4.8,
-    car: 'Honda Brio - White',
-    plate: 'B 1234 XYZ'
-  };
-
   const order = {
     address: 'Gatot Subroto Street 8129',
     pickupType: 'Warehouse Pickup',
@@ -52,35 +43,6 @@ export function PickupView() {
   return (
     <>
       <div className="p-4 space-y-4">
-        {/* Driver Info Card */}
-        <div className="p-3 bg-muted/50 rounded-lg">
-           <div className="flex items-center space-x-3">
-              <Avatar className="h-12 w-12">
-                <AvatarImage src={driver.avatar} alt={driver.name} />
-                <AvatarFallback>{driver.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <p className="font-semibold">{driver.name}</p>
-                <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span>{driver.rating}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="icon" className="rounded-full border-gray-300">
-                  <MessageSquare className="w-5 h-5 text-gray-600" />
-                </Button>
-                <Button variant="outline" size="icon" className="rounded-full border-gray-300">
-                  <Phone className="w-5 h-5 text-gray-600" />
-                </Button>
-              </div>
-            </div>
-            <Separator className="my-3" />
-            <div className="text-sm text-center font-medium">
-                {driver.car} &bull; {driver.plate}
-            </div>
-        </div>
-
         {/* Estimated Arrival Bar */}
         <div className="bg-muted/50 p-3 rounded-lg flex items-center justify-between text-sm">
             <div>
