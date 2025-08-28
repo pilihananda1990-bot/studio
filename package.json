@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },
