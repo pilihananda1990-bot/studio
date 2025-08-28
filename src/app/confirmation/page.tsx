@@ -93,8 +93,8 @@ function ConfirmationContent() {
       
       console.log('Pickup confirmed successfully.');
       const title = encodeURIComponent("Pickup Scheduled!");
-      const message = encodeURIComponent("Your request has been confirmed. The driver is on their way.");
-      const redirectUrl = encodeURIComponent("/");
+      const message = encodeURIComponent("Your request has been confirmed. You will now be redirected to the tracking page.");
+      const redirectUrl = encodeURIComponent("/map");
       router.push(`/success?title=${title}&message=${message}&redirectUrl=${redirectUrl}`);
 
     } catch (error) {
