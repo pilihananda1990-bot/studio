@@ -53,16 +53,21 @@ export default function Home() {
                 <h3 className="text-xl font-bold">Categories</h3>
                 <Link href="#" className="text-sm font-semibold text-primary">See All</Link>
             </div>
-            <div className="mt-4 flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
+            <div className="mt-4 grid grid-cols-5 gap-3">
                 {categories.map((category) => {
                     const Icon = category.icon;
                     return (
-                        <div key={category.id} className="flex flex-col items-center gap-1.5 flex-shrink-0" onClick={() => setActiveCategory(category.name)}>
+                        <div key={category.id} 
+                             className="flex flex-col items-center gap-2 cursor-pointer"
+                             onClick={() => setActiveCategory(category.name)}>
                             <div className={cn(
-                                "h-14 w-14 rounded-full flex items-center justify-center transition-all cursor-pointer",
-                                activeCategory === category.name ? 'bg-primary/20 border-2 border-primary' : 'bg-secondary'
+                                "h-14 w-14 rounded-xl flex items-center justify-center transition-all bg-card shadow-sm border",
+                                activeCategory === category.name ? 'border-primary' : 'border-transparent'
                             )}>
-                                <Icon className="h-6 w-6 text-primary" />
+                                <Icon className={cn(
+                                    "h-7 w-7",
+                                    activeCategory === category.name ? 'text-primary' : 'text-muted-foreground'
+                                )} />
                             </div>
                             <p className="text-xs font-semibold">{category.name}</p>
                         </div>
