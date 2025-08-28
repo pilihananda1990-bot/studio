@@ -37,7 +37,10 @@ export default function RedeemPage() {
       // For this example, we'll just update the state and navigate.
       setUserPoints(userPoints - selectedItem.points);
       setSelectedItem(null);
-      router.push('/profile/wallet/redeem-success');
+      const title = encodeURIComponent("Redemption Successful!");
+      const message = encodeURIComponent("Your points balance has been updated.");
+      const redirectUrl = encodeURIComponent("/profile/wallet");
+      router.push(`/success?title=${title}&message=${message}&redirectUrl=${redirectUrl}`);
     }
   };
 

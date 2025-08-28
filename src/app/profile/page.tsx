@@ -45,9 +45,10 @@ export default function ProfilePage() {
       <div className="space-y-2">
         {menuItems.map((item, index) => (
           <div key={item.label}>
-            <Link
+             <Link
               href={item.href}
               className="flex items-center justify-between p-4 -mx-4 rounded-lg hover:bg-muted/50 transition-colors"
+              prefetch={true}
             >
               <div className="flex items-center gap-4">
                 <item.icon className="h-6 w-6 text-muted-foreground" />
@@ -69,4 +70,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-

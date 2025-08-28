@@ -9,7 +9,7 @@ import type { RecyclableItem } from '@/lib/types';
 import { PageHeader } from '@/components/app/page-header';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { MapPin, Calendar, Edit2, Loader2, Camera } from 'lucide-react';
+import { MapPin, Calendar, Edit2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -92,7 +92,10 @@ function ConfirmationContent() {
       sessionStorage.removeItem('pickupData');
       
       console.log('Pickup confirmed successfully.');
-      router.push('/confirmation/success');
+      const title = encodeURIComponent("Pickup Scheduled!");
+      const message = encodeURIComponent("Your request has been confirmed. The driver is on their way.");
+      const redirectUrl = encodeURIComponent("/");
+      router.push(`/success?title=${title}&message=${message}&redirectUrl=${redirectUrl}`);
 
     } catch (error) {
       console.error('Failed to confirm pickup:', error);
@@ -114,7 +117,7 @@ function ConfirmationContent() {
         <section className="bg-card p-4 rounded-lg border">
             <div className="flex items-center gap-4">
                 <div className="relative h-20 w-20 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                    <Image src={displayImage} alt={item.name} fill style={{objectFit: "cover"}} />
+                    {displayImage && <Image src={displayImage} alt={item.name} fill style={{objectFit: "cover"}} />}
                 </div>
                 <div>
                     <p className="text-sm text-muted-foreground">{item.category}</p>
