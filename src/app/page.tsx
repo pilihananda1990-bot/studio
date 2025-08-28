@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Bell, Search } from 'lucide-react';
+import { Bell } from 'lucide-react';
 import { pets as allPets } from '@/lib/data/pets';
 import { categories } from '@/lib/data/categories';
 import { cn } from '@/lib/utils';
@@ -34,9 +34,6 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" className="rounded-full h-11 w-11 border-gray-200">
-              <Search className="h-5 w-5" />
-            </Button>
             <Button variant="outline" size="icon" className="rounded-full h-11 w-11 border-gray-200 relative">
               <Bell className="h-5 w-5" />
               <span className="absolute top-1 right-2 h-2.5 w-2.5 rounded-full bg-primary ring-2 ring-background"></span>
@@ -92,15 +89,15 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-4">
                 {filteredPets.map((pet) => (
                     <Link href="#" key={pet.id} className="block">
-                        <div className="rounded-2xl overflow-hidden relative">
-                            <div className="relative h-48 w-full" style={{ backgroundColor: pet.backgroundColor }}>
+                        <div className="rounded-2xl overflow-hidden bg-card border">
+                            <div className="relative h-40 w-full">
                                 <Image src={pet.image} alt={pet.name} layout="fill" objectFit="cover" data-ai-hint={`${pet.category} portrait`} />
                             </div>
-                            <div className="absolute bottom-0 left-0 right-0 p-3 bg-black/20 text-white">
-                                <h4 className="font-bold text-lg">{pet.name}</h4>
-                                <div className="flex gap-2 mt-1">
-                                    <div className="text-xs font-semibold bg-white/30 rounded-full px-3 py-1">{pet.sex}</div>
-                                    <div className="text-xs font-semibold bg-white/30 rounded-full px-3 py-1">{pet.age}</div>
+                            <div className="p-3">
+                                <h4 className="font-bold text-lg truncate">{pet.name}</h4>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <div className="text-xs font-semibold bg-primary/10 text-primary rounded-full px-3 py-1">{pet.sex}</div>
+                                    <div className="text-xs font-semibold bg-secondary text-secondary-foreground rounded-full px-3 py-1">{pet.age}</div>
                                 </div>
                             </div>
                         </div>
