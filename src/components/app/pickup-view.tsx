@@ -52,19 +52,6 @@ export function PickupView() {
   return (
     <>
       <div className="p-4 space-y-4">
-        {/* Estimated Arrival Bar */}
-        <div className="bg-muted/50 p-3 rounded-lg flex items-center justify-between text-sm">
-            <div>
-                <p className="text-muted-foreground">Estimated Arrival</p>
-                <p className="font-bold">{order.eta}</p>
-            </div>
-            <Separator orientation="vertical" className="h-8" />
-             <div>
-                <p className="text-muted-foreground">Your Location</p>
-                <p className="font-bold truncate">{order.address}</p>
-            </div>
-        </div>
-
         {/* Driver Info Card */}
         <div className="p-3 bg-muted/50 rounded-lg">
            <div className="flex items-center space-x-3">
@@ -93,6 +80,20 @@ export function PickupView() {
                 {driver.car} &bull; {driver.plate}
             </div>
         </div>
+
+        {/* Estimated Arrival Bar */}
+        <div className="bg-muted/50 p-3 rounded-lg flex items-center justify-between text-sm">
+            <div>
+                <p className="text-muted-foreground">Estimated Arrival</p>
+                <p className="font-bold">{order.eta}</p>
+            </div>
+            <Separator orientation="vertical" className="h-8" />
+             <div>
+                <p className="text-muted-foreground">Your Location</p>
+                <p className="font-bold truncate">{order.address}</p>
+            </div>
+        </div>
+
 
         {/* Order Details Card */}
         <div className="p-3 bg-muted/50 rounded-lg">
