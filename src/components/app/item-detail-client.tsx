@@ -93,7 +93,7 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
                 <p className="text-lg font-bold text-primary">${estimatedEarnings}</p>
             </div>
         </div>
-          <Button size="lg" className="w-full mt-4" disabled={!weight || weight <= 0} onClick={handleSchedulePickup}>
+          <Button size="lg" className="w-full mt-4" disabled={weight <= 0} onClick={handleSchedulePickup}>
             Schedule Pickup
         </Button>
     </section>
