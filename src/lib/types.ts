@@ -4,7 +4,7 @@ import { LucideIcon } from "lucide-react";
 export type Category = {
     id: string;
     name: string;
-    icon: LucideIcon;
+    icon?: LucideIcon;
 };
 
 export type RecyclableItem = {
