@@ -27,25 +27,25 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 34 100% 47%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 3.7% 15.9%;
+    --background: 240 5% 12%; /* Dark Gray, not pure black */
+    --foreground: 0 0% 95%; /* Light Gray, not pure white */
+    --card: 240 4% 16%;
+    --card-foreground: 0 0% 95%;
+    --popover: 240 5% 12%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 34 100% 55%; /* Slightly brighter for contrast */
+    --primary-foreground: 240 10% 3.9%;
+    --secondary: 240 4% 20%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
+    --muted: 240 4% 20%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 240 3.7% 15.9%;
+    --accent: 240 4% 20%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 63% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 34 100% 47%;
+    --border: 240 4% 25%;
+    --input: 240 4% 25%;
+    --ring: 34 100% 55%;
   }
 }
 
@@ -65,9 +65,9 @@
   border-radius: 50%;
   display: block;
   stroke-width: 4;
-  stroke: #4CAF50; /* Vibrant success green */
+  stroke: white; /* Checkmark itself is white */
   stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px #4CAF50;
+  box-shadow: inset 0px 0px 0px #4CAF50; /* Green fill */
   animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
   position:relative;
   margin: 0 auto;
@@ -78,7 +78,7 @@
   stroke-dashoffset: 166;
   stroke-width: 4;
   stroke-miterlimit: 10;
-  stroke: #4CAF50;
+  stroke: #4CAF50; /* Circle outline is green */
   fill: none;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }

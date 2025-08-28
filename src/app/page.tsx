@@ -78,7 +78,7 @@ export default function Home() {
                      <Link href={`/items/${item.id}`} key={item.id} className="block">
                         <div className="rounded-2xl overflow-hidden bg-card border">
                             <div className="relative h-40 w-full">
-                                <Image src={item.image} alt={item.name} layout="fill" objectFit="cover" data-ai-hint={`${item.category} recycling`} />
+                                <Image src={item.image} alt={item.name} fill style={{objectFit: 'cover'}} data-ai-hint={`${item.category} recycling`} />
                             </div>
                             <div className="p-3">
                                 <h4 className="font-bold text-lg truncate">{item.name}</h4>

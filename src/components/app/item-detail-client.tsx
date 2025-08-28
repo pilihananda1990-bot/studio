@@ -91,8 +91,8 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
   const estimatedEarnings = (item.pricePerKg * weight).toFixed(2);
 
   return (
-    <section className="bg-card p-4 rounded-lg border">
-        <div className="flex items-end gap-2">
+    <section>
+        <div className="flex items-center justify-between gap-2 p-2 rounded-lg border bg-card">
             <div className="flex-shrink-0">
                   <Input 
                     type="file" 
@@ -116,30 +116,30 @@ export function ItemDetailClient({ item }: { item: RecyclableItem }) {
                       )}
                   </Button>
             </div>
-            <div className="flex-grow">
+            <div className="flex-grow text-center">
                 <label htmlFor="weight-input" className="text-xs font-medium text-muted-foreground">Weight (kg)</label>
                 <Input
                     id="weight-input"
                     type="number"
                     value={weight === 0 ? '' : weight}
                     onChange={handleWeightChange}
-                    className="mt-1 font-bold text-lg h-9"
-                    placeholder="e.g., 5"
+                    className="mt-1 font-bold text-lg h-9 w-full text-center"
+                    placeholder="0"
                     step="0.1"
                     min="0"
                 />
             </div>
-            <div className="text-right flex-shrink-0">
+            <div className="text-center">
                 <p className="text-xs text-muted-foreground">Earnings</p>
                 <p className="text-lg font-bold text-primary">${estimatedEarnings}</p>
             </div>
         </div>
-          <Button size="lg" className="w-full mt-4" disabled={isSubmitting || weight <= 0} onClick={handleSchedulePickup}>
-             {isSubmitting ? (
-              <>
+        <Button size="lg" className="w-full mt-4" disabled={isSubmitting || weight <= 0} onClick={handleSchedulePickup}>
+            {isSubmitting ? (
+            <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Scheduling...
-              </>
+            </>
             ) : 'Schedule Pickup'}
         </Button>
     </section>
