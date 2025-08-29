@@ -1,21 +1,26 @@
-# EcoCollect - React Native Mobile App
+# EcoCollect - Expo Mobile App
 
-This is a mobile-native React Native + TypeScript app. It contains NO web/HTML/CSS code. Test it on a physical device or an emulator/simulator.
+This is a mobile-native application built with **React Native and the Expo Managed Workflow**. It contains NO web/HTML/CSS code and is designed to run on Android and iOS devices via the Expo Go app.
 
-This project is a mobile-only application for Android and iOS, built to provide a seamless, high-performance user experience for waste collection and recycling.
+This project provides a seamless, high-performance user experience for waste collection and recycling, built on a modern, easy-to-maintain foundation.
 
 ### Why this stack?
 
-- **React Native & TypeScript**: For building a cross-platform mobile application with a single codebase while ensuring type safety and code quality.
+- **React Native & Expo**: For building a cross-platform mobile application with a single TypeScript codebase while leveraging the simplified build process and development workflow of Expo.
 - **React Navigation**: The community standard for navigation, providing a native look and feel for stack and tab-based routing on both Android and iOS.
-- **React Native Maps**: For true native map components, offering the best performance and device integration (e.g., gestures, GPS) compared to web-based map solutions.
-- **StyleSheet & Design System**: To create a consistent, maintainable, and performant UI that adheres to mobile design principles, avoiding the pitfalls of web-based styling.
+- **React Native Maps**: For true native map components, offering the best performance and device integration compared to web-based map solutions.
+- **Component-Based Design System**: To create a consistent, maintainable, and performant UI that adheres to mobile design principles.
 
 ---
 
 ## 1. Installation
 
-First, ensure you have a React Native development environment set up. Follow the official guide for **React Native CLI Quickstart** (not Expo CLI): [React Native Environment Setup](https://reactnative.dev/docs/environment-setup)
+First, ensure you have Node.js and the Expo CLI installed. It is also highly recommended to install the **Expo Go** app on your physical Android or iOS device for the best testing experience.
+
+```bash
+# Install Expo CLI globally
+npm install -g expo-cli
+```
 
 Then, install the project dependencies:
 
@@ -25,83 +30,75 @@ npm install
 yarn install
 ```
 
-For iOS, you also need to install the Pods:
-```bash
-npx pod-install
-```
-
 ---
 
 ## 2. Configuration
 
-### Google Maps API Key
+### Google Maps API Key (Optional for basic use)
 
-This project uses `react-native-maps` with the Google Maps provider. You must obtain an API key and configure it for both Android and iOS.
+This project uses `react-native-maps`. For basic map display in development, an API key might not be required. However, for production builds and to enable all map features (like directions), you must obtain an API key.
 
 1.  Go to the [Google Cloud Console](https://console.cloud.google.com/).
 2.  Create a new project or select an existing one.
 3.  Enable the **Maps SDK for Android** and **Maps SDK for iOS**.
 4.  Go to "Credentials," create a new API key, and restrict it to your app's bundle ID (Android) and bundle identifier (iOS).
 
-#### Android Setup
+#### App Configuration
 
-Add your API key to `android/app/src/main/AndroidManifest.xml`:
+To add the API keys to your Expo project, you will need to configure `app.json` (or `app.config.js`):
 
-```xml
-<manifest ...>
-  <application ...>
-    ...
-    <meta-data
-      android:name="com.google.android.geo.API_KEY"
-      android:value="YOUR_GOOGLE_MAPS_API_KEY"/>
-    ...
-  </application>
-</manifest>
-```
-
-#### iOS Setup
-
-Add your API key to `ios/EcoCollect/AppDelegate.mm` (or `AppDelegate.swift`):
-
-```objc
-#import <GoogleMaps/GoogleMaps.h>
-
-...
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+```json
 {
-  ...
-  [GMSServices provideAPIKey:@"YOUR_GOOGLE_MAPS_API_KEY"]; // Add this line
-  ...
-  return YES;
+  "expo": {
+    "android": {
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_ANDROID_GOOGLE_MAPS_API_KEY"
+        }
+      }
+    },
+    "ios": {
+      "config": {
+        "googleMapsApiKey": "YOUR_IOS_GOOGLE_MAPS_API_KEY"
+      }
+    }
+  }
 }
 ```
+
+**Note**: After adding API keys, you may need a custom development build. See the [Expo Docs](https://docs.expo.dev/guides/setup-native-project/) for more info.
 
 ---
 
 ## 3. Running the Application
 
-### Run on Android Emulator/Device
+This project is designed to run with the Expo Go app.
+
+### Start the Development Server
 
 ```bash
-npm run android
+npm start
 # or
-yarn android
+yarn start
 ```
 
-### Run on iOS Simulator/Device
+This will start the Expo development server and display a QR code in your terminal.
 
-```bash
-npm run ios
-# or
-yarn ios
-```
+### Run on Android Device/Emulator
+
+1.  Ensure you have the **Expo Go** app installed on your Android device or emulator.
+2.  Scan the QR code from the terminal using the Expo Go app.
+
+### Run on iOS Device/Simulator
+
+1.  Ensure you have the **Expo Go** app installed on your iOS device.
+2.  Scan the QR code from the terminal using your device's Camera app.
+3.  To run on a simulator, press `i` in the terminal after starting the server.
 
 ---
 
 ## 4. Scripts
 
-- `npm start`: Starts the Metro bundler.
-- `npm run lint`: Runs the ESLint linter to check for code style issues.
-- `npm run typecheck`: Runs the TypeScript compiler to check for type errors.
-- `npm run test`: Runs the Jest test suite.
+- `npm start`: Starts the Expo development server.
+- `npm run android`: Starts the server and attempts to launch the app on a connected Android device/emulator.
+- `npm run ios`: Starts the server and attempts to launch the app on an iOS simulator.

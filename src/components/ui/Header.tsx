@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/theme/ThemeProvider';
 import { spacing, fontSize } from '@/theme/theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({
       <View style={styles.sideComponentContainer}>
         {canGoBack && !leftComponent && (
           <TouchableOpacity onPress={handleBackPress} style={styles.touchable}>
-            <Icon name="arrow-back-outline" size={24} color={colors.text} />
+            <Ionicons name="arrow-back-outline" size={24} color={colors.text} />
           </TouchableOpacity>
         )}
         {leftComponent}

@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import Header from '@/components/ui/Header';
 import Avatar from '@/components/ui/Avatar';
 import Button from '@/components/ui/Button';
@@ -19,7 +19,8 @@ const menuItems = [
   { icon: 'wallet-outline', label: 'My Wallet' },
   { icon: 'settings-outline', label: 'Settings' },
   { icon: 'help-circle-outline', label: 'Help & Feedback' },
-];
+] as const;
+
 
 const ProfileScreen = () => {
   const { colors, isDarkMode, toggleTheme } = useTheme();
@@ -46,18 +47,18 @@ const ProfileScreen = () => {
             <TouchableOpacity
               key={index}
               style={[styles.menuItem, { borderBottomColor: colors.border }]}>
-              <Icon name={item.icon} size={24} color={colors.text} />
+              <Ionicons name={item.icon} size={24} color={colors.text} />
               <Text style={[styles.menuLabel, { color: colors.text }]}>
                 {item.label}
               </Text>
-              <Icon name="chevron-forward-outline" size={22} color={colors.muted} />
+              <Ionicons name="chevron-forward-outline" size={22} color={colors.muted} />
             </TouchableOpacity>
           ))}
            <TouchableOpacity
               style={[styles.menuItem, { borderBottomColor: colors.border }]}
               onPress={toggleTheme}
             >
-              <Icon name={isDarkMode ? 'sunny-outline' : 'moon-outline'} size={24} color={colors.text} />
+              <Ionicons name={isDarkMode ? 'sunny-outline' : 'moon-outline'} size={24} color={colors.text} />
               <Text style={[styles.menuLabel, { color: colors.text }]}>
                 {isDarkMode ? 'Light Mode' : 'Dark Mode'}
               </Text>

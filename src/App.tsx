@@ -1,14 +1,16 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigator from '@/navigation/RootNavigator';
 import { ThemeProvider, useTheme } from '@/theme/ThemeProvider';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const AppContent = () => {
   const { isDarkMode } = useTheme();
   return (
     <NavigationContainer>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar style={isDarkMode ? 'light' : 'dark'} />
       <RootNavigator />
     </NavigationContainer>
   );
@@ -16,9 +18,11 @@ const AppContent = () => {
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 };
 
