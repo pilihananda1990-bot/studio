@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { useTheme } from '@/theme/ThemeProvider';
 import Button from '@/components/ui/Button';
 import { RootStackParamList } from '@/types/navigation';
@@ -8,11 +9,25 @@ import { spacing, fontSize } from '@/theme/theme';
 import Card from '@/components/ui/Card';
 
 type ItemDetailScreenRouteProp = RouteProp<RootStackParamList, 'ItemDetail'>;
+type ItemDetailNavigationProp = StackNavigationProp<RootStackParamList, 'ItemDetail'>;
+
 
 const ItemDetailScreen = () => {
   const { colors } = useTheme();
   const route = useRoute<ItemDetailScreenRouteProp>();
+  const navigation = useNavigation<ItemDetailNavigationProp>();
   const { item } = route.params;
+
+  const [isScheduling, setIsScheduling] = useState(false);
+
+  const handleSchedulePickup = () => {
+    setIsScheduling(true);
+    // Simulate an API call
+    setTimeout(() => {
+      setIsScheduling(false);
+      navigation.replace('Success');
+    }, 2000);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
@@ -43,7 +58,12 @@ const ItemDetailScreen = () => {
             </Text>
           </Card>
           
-          <Button title="Schedule Pickup" style={styles.button} />
+          <Button 
+            title="Schedule Pickup" 
+            style={styles.button}
+            onPress={handleSchedulePickup}
+            isLoading={isScheduling}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

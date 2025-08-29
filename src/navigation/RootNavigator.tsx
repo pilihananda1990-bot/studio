@@ -7,6 +7,7 @@ import HomeScreen from '@/screens/HomeScreen';
 import MapScreen from '@/screens/MapScreen';
 import ProfileScreen from '@/screens/ProfileScreen';
 import ItemDetailScreen from '@/screens/ItemDetailScreen';
+import SuccessScreen from '@/screens/SuccessScreen'; // Import SuccessScreen
 import Header from '@/components/ui/Header';
 import { useTheme } from '@/theme/ThemeProvider';
 import { RootStackParamList, TabParamList } from '@/types/navigation';
@@ -81,6 +82,11 @@ const RootNavigator = () => {
         options={{
             header: (props) => <CustomHeader {...props} />
         }}
+      />
+      <Stack.Screen
+        name="Success"
+        component={SuccessScreen}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
