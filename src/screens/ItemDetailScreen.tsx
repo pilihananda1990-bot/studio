@@ -16,7 +16,6 @@ const ItemDetailScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <Header title={item.name} canGoBack />
       <ScrollView>
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={styles.contentContainer}>
