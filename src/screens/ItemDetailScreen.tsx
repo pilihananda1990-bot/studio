@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Image } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { useTheme } from '@/theme/ThemeProvider';
-import Header from '@/components/ui/Header';
 import Button from '@/components/ui/Button';
 import { RootStackParamList } from '@/types/navigation';
 import { spacing, fontSize } from '@/theme/theme';
@@ -52,7 +51,6 @@ const styles = StyleSheet.create({
   },
   itemCategory: {
       fontSize: fontSize.label,
-      color: 'grey',
       marginBottom: spacing.md,
   },
   priceContainer: {
@@ -75,7 +73,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: fontSize.body,
     lineHeight: 22,
-    color: 'grey',
   },
   button: {
       marginTop: spacing.xl,

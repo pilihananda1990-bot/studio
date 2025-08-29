@@ -1,12 +1,13 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackHeaderProps } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from '@/screens/HomeScreen';
 import MapScreen from '@/screens/MapScreen';
 import ProfileScreen from '@/screens/ProfileScreen';
 import ItemDetailScreen from '@/screens/ItemDetailScreen';
+import Header from '@/components/ui/Header';
 import { useTheme } from '@/theme/ThemeProvider';
 import { RootStackParamList, TabParamList } from '@/types/navigation';
 
@@ -46,6 +47,14 @@ const MainTabs = () => {
   );
 };
 
+const CustomHeader = (props: StackHeaderProps) => {
+    const { route } = props;
+    const params = route.params as { item?: { name: string } };
+    const title = params?.item?.name || props.options.title || 'Details';
+    return <Header {...props} title={title} canGoBack />;
+};
+
+
 const RootNavigator = () => {
   const { colors } = useTheme();
   return (
@@ -69,7 +78,9 @@ const RootNavigator = () => {
       <Stack.Screen
         name="ItemDetail"
         component={ItemDetailScreen}
-        options={({ route }) => ({ title: route.params.item.name, header: (props) => <Header {...props} title={route.params.item.name} canGoBack /> })}
+        options={{
+            header: (props) => <CustomHeader {...props} />
+        }}
       />
     </Stack.Navigator>
   );
