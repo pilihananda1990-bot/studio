@@ -5,6 +5,7 @@ import { useTheme } from '@/theme/ThemeProvider';
 import Button from '@/components/ui/Button';
 import { RootStackParamList } from '@/types/navigation';
 import { spacing, fontSize } from '@/theme/theme';
+import Card from '@/components/ui/Card';
 
 type ItemDetailScreenRouteProp = RouteProp<RootStackParamList, 'ItemDetail'>;
 
@@ -22,13 +23,25 @@ const ItemDetailScreen = () => {
           <Text style={[styles.itemCategory, { color: colors.muted }]}>{item.category}</Text>
           
           <View style={styles.priceContainer}>
-             <Text style={[styles.priceLabel, { color: colors.primary }]}>Price per kg:</Text>
+             <Text style={[styles.priceLabel, { color: colors.primary }]}>Est. Price per kg:</Text>
              <Text style={[styles.priceValue, { color: colors.primary }]}>${item.pricePerKg.toFixed(2)}</Text>
           </View>
           
-          <Text style={[styles.description, { color: colors.text }]}>
-            {item.description || 'Detailed description about how to recycle this item properly will be here.'}
-          </Text>
+          <Card style={{backgroundColor: colors.surface, marginVertical: spacing.lg}}>
+            <Text style={[styles.cardTitle, { color: colors.text }]}>Description</Text>
+            <Text style={[styles.description, { color: colors.text }]}>
+              {item.description || 'Detailed description about this item will be here.'}
+            </Text>
+          </Card>
+
+           <Card style={{backgroundColor: colors.surface}}>
+            <Text style={[styles.cardTitle, { color: colors.text }]}>How to Recycle</Text>
+            <Text style={[styles.description, { color: colors.text }]}>
+             - Ensure the item is clean and dry.{"\n"}
+             - Remove any non-recyclable parts (like plastic wrap on cardboard).{"\n"}
+             - Flatten items like boxes and cans to save space.
+            </Text>
+          </Card>
           
           <Button title="Schedule Pickup" style={styles.button} />
         </View>
@@ -60,6 +73,7 @@ const styles = StyleSheet.create({
       padding: spacing.md,
       borderRadius: 8,
       marginVertical: spacing.lg,
+      justifyContent: 'space-between',
   },
   priceLabel: {
       fontSize: fontSize.label,
@@ -68,7 +82,11 @@ const styles = StyleSheet.create({
   priceValue: {
       fontSize: fontSize.h2,
       fontWeight: 'bold',
-      marginLeft: spacing.sm,
+  },
+  cardTitle: {
+    fontSize: fontSize.h3,
+    fontWeight: 'bold',
+    marginBottom: spacing.sm,
   },
   description: {
     fontSize: fontSize.body,
@@ -76,6 +94,7 @@ const styles = StyleSheet.create({
   },
   button: {
       marginTop: spacing.xl,
+      marginBottom: spacing.lg,
   }
 });
 

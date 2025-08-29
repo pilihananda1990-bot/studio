@@ -19,17 +19,27 @@ const MapScreen = () => {
     {
       latlng: { latitude: 37.78825, longitude: -122.4324 },
       title: 'Recycling Center A',
-      description: 'Open 9am - 5pm',
+      description: 'Open 9am - 5pm. Accepts paper, plastic, glass.',
     },
     {
       latlng: { latitude: 37.7749, longitude: -122.4194 },
       title: 'Eco Savers Point B',
-      description: '24/7 Drop-off',
+      description: '24/7 Drop-off for metal and e-waste.',
+    },
+    {
+      latlng: { latitude: 37.801, longitude: -122.45 },
+      title: 'Green World Hub',
+      description: 'Accepts all non-hazardous materials.',
+    },
+      {
+      latlng: { latitude: 37.76, longitude: -122.44 },
+      title: 'City Recycle Bay',
+      description: 'Official city partner. Closed on Sundays.',
     },
   ];
 
   const onMarkerPress = (title: string) => {
-    Alert.alert('Marker Pressed', `You pressed on ${title}`);
+    Alert.alert('Location Selected', `Navigating to ${title}`);
   };
 
   return (
@@ -47,6 +57,7 @@ const MapScreen = () => {
             <Marker
               key={index}
               coordinate={marker.latlng}
+              pinColor={colors.primary}
               onPress={() => onMarkerPress(marker.title)}>
               <Callout tooltip>
                 <View style={[styles.calloutView, { backgroundColor: colors.surface }]}>
@@ -72,11 +83,14 @@ const styles = StyleSheet.create({
   calloutView: {
     padding: spacing.md,
     borderRadius: 8,
-    width: 150,
+    width: 200,
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.1)'
   },
   calloutTitle: {
     fontSize: fontSize.body,
     fontWeight: 'bold',
+    marginBottom: spacing.xs,
   },
   calloutDescription: {
     fontSize: fontSize.caption,

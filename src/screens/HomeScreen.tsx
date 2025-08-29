@@ -18,8 +18,8 @@ import { RootStackParamList } from '@/types/navigation';
 import Card from '@/components/ui/Card';
 import Avatar from '@/components/ui/Avatar';
 
-// Mock Data
-const categories = ['All', 'Paper', 'Plastic', 'Metal', 'Glass'];
+// Mock Data yang lebih kaya
+const categories = ['All', 'Paper', 'Plastic', 'Metal', 'Glass', 'E-waste'];
 const recyclableItems: RecyclableItem[] = [
   {
     id: '1',
@@ -27,6 +27,7 @@ const recyclableItems: RecyclableItem[] = [
     category: 'Plastic',
     pricePerKg: 1.5,
     image: 'https://picsum.photos/seed/pet-bottles/300/200',
+    description: 'Botol PET (Polyethylene terephthalate) adalah salah satu jenis plastik yang paling umum didaur ulang. Pastikan botol dalam keadaan kosong dan bersih sebelum disetor.'
   },
   {
     id: '2',
@@ -34,6 +35,7 @@ const recyclableItems: RecyclableItem[] = [
     category: 'Paper',
     pricePerKg: 0.8,
     image: 'https://picsum.photos/seed/cardboard/300/200',
+    description: 'Kardus bekas kemasan, kotak, dan lainnya. Pastikan untuk melipatnya agar tidak memakan banyak tempat. Hindari kardus yang terkontaminasi minyak atau sisa makanan.'
   },
   {
     id: '3',
@@ -41,6 +43,31 @@ const recyclableItems: RecyclableItem[] = [
     category: 'Metal',
     pricePerKg: 12.0,
     image: 'https://picsum.photos/seed/aluminum-cans/300/200',
+    description: 'Kaleng minuman aluminium memiliki nilai daur ulang yang tinggi. Proses daur ulangnya menghemat hingga 95% energi dibandingkan membuat dari bahan mentah.'
+  },
+    {
+    id: '4',
+    name: 'Glass Jars',
+    category: 'Glass',
+    pricePerKg: 0.5,
+    image: 'https://picsum.photos/seed/glass-jars/300/200',
+    description: 'Toples dan botol kaca dapat didaur ulang tanpa batas tanpa kehilangan kualitas. Pisahkan berdasarkan warna (bening, coklat, hijau) jika memungkinkan.'
+  },
+  {
+    id: '5',
+    name: 'Old Newspapers',
+    category: 'Paper',
+    pricePerKg: 0.7,
+    image: 'https://picsum.photos/seed/newspapers/300/200',
+    description: 'Koran dan majalah bekas. Pastikan kertas dalam keadaan kering dan tidak kotor.'
+  },
+  {
+    id: '6',
+    name: 'Used Batteries',
+    category: 'E-waste',
+    pricePerKg: 2.0,
+    image: 'https://picsum.photos/seed/batteries/300/200',
+    description: 'Baterai bekas termasuk limbah B3 (Bahan Berbahaya dan Beracun) dan harus ditangani secara khusus. Jangan dicampur dengan sampah lain.'
   },
 ];
 
@@ -72,6 +99,9 @@ const HomeScreen = () => {
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={[styles.greeting, { color: colors.text }]}>
           Welcome back, Jobayer!
+        </Text>
+        <Text style={[styles.subtitle, { color: colors.muted }]}>
+          Let's make our planet cleaner, one item at a time.
         </Text>
 
         <View style={styles.categoriesContainer}>
@@ -132,6 +162,9 @@ const styles = StyleSheet.create({
   greeting: {
     fontSize: fontSize.h2,
     fontWeight: 'bold',
+  },
+  subtitle: {
+    fontSize: fontSize.body,
     marginBottom: spacing.lg,
   },
   categoriesContainer: {

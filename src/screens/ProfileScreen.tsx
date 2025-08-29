@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Alert
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Header from '@/components/ui/Header';
@@ -15,10 +16,11 @@ import { useTheme } from '@/theme/ThemeProvider';
 import { spacing, fontSize, radii } from '@/theme/theme';
 
 const menuItems = [
-  { icon: 'person-outline', label: 'Edit Profile' },
-  { icon: 'wallet-outline', label: 'My Wallet' },
-  { icon: 'settings-outline', label: 'Settings' },
-  { icon: 'help-circle-outline', label: 'Help & Feedback' },
+  { icon: 'person-outline', label: 'Edit Profile', action: () => Alert.alert('Navigation', 'Navigating to Edit Profile screen.') },
+  { icon: 'wallet-outline', label: 'My Wallet', action: () => Alert.alert('Navigation', 'Navigating to My Wallet screen.') },
+  { icon: 'time-outline', label: 'Pickup History', action: () => Alert.alert('Navigation', 'Navigating to Pickup History screen.') },
+  { icon: 'settings-outline', label: 'Settings', action: () => Alert.alert('Navigation', 'Navigating to Settings screen.') },
+  { icon: 'help-circle-outline', label: 'Help & Feedback', action: () => Alert.alert('Navigation', 'Navigating to Help & Feedback screen.') },
 ] as const;
 
 
@@ -46,7 +48,9 @@ const ProfileScreen = () => {
           {menuItems.map((item, index) => (
             <TouchableOpacity
               key={index}
-              style={[styles.menuItem, { borderBottomColor: colors.border }]}>
+              style={[styles.menuItem, { borderBottomColor: colors.border }]}
+              onPress={item.action}
+              >
               <Ionicons name={item.icon} size={24} color={colors.text} />
               <Text style={[styles.menuLabel, { color: colors.text }]}>
                 {item.label}
@@ -68,7 +72,7 @@ const ProfileScreen = () => {
         <Button
           title="Log Out"
           variant="destructive"
-          onPress={() => {}}
+          onPress={() => Alert.alert('Log Out', 'You have been logged out.')}
           style={{ marginTop: spacing.lg }}
         />
       </ScrollView>
